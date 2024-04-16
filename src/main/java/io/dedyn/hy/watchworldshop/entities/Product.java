@@ -64,11 +64,6 @@ public class Product {
     private Brand brand;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
-
-    @NotNull
     @Column(name = "enabled", nullable = false)
     private Boolean enabled = false;
 
@@ -91,5 +86,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private Set<ProductImage> productImages = new LinkedHashSet<>();
+
+    @ManyToMany(mappedBy = "products")
+    private Set<Category> categories = new LinkedHashSet<>();
 
 }

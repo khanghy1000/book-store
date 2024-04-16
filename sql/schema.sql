@@ -1,29 +1,3 @@
-CREATE TABLE users (
-    id                BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    first_name        VARCHAR(255)            NOT NULL,
-    last_name         VARCHAR(255)            NOT NULL,
-    email             VARCHAR(255)            NOT NULL,
-    password          VARCHAR(68)             NOT NULL,
-    image             VARCHAR(255)            NOT NULL,
-    enabled           BOOLEAN   DEFAULT FALSE NOT NULL,
-    created_at        TIMESTAMP DEFAULT NOW() NOT NULL,
-    verification_code VARCHAR(64)
-);
-
-CREATE TABLE roles (
-    id   SMALLINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name VARCHAR(20) NOT NULL
-);
-
-CREATE TABLE users_roles (
-    user_id BIGINT,
-    role_id SMALLINT,
-
-    FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (role_id) REFERENCES roles (id),
-    PRIMARY KEY (user_id, role_id)
-);
-
 CREATE TABLE administrative_regions (
     id           INTEGER      NOT NULL,
     "name"       VARCHAR(255) NOT NULL,
@@ -104,6 +78,33 @@ ALTER TABLE wards
 CREATE INDEX idx_wards_district ON wards (district_code);
 CREATE INDEX idx_wards_unit ON wards (administrative_unit_id);
 
+
+CREATE TABLE users (
+    id                BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    first_name        VARCHAR(255)            NOT NULL,
+    last_name         VARCHAR(255)            NOT NULL,
+    email             VARCHAR(255)            NOT NULL,
+    password          VARCHAR(68)             NOT NULL,
+    image             VARCHAR(255)            NOT NULL,
+    enabled           BOOLEAN   DEFAULT FALSE NOT NULL,
+    created_at        TIMESTAMP DEFAULT NOW() NOT NULL,
+    verification_code VARCHAR(64)
+);
+
+CREATE TABLE roles (
+    id   SMALLINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE users_roles (
+    user_id BIGINT,
+    role_id SMALLINT,
+
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (role_id) REFERENCES roles (id),
+    PRIMARY KEY (user_id, role_id)
+);
+
 CREATE TABLE categories (
     id   INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR(255) UNIQUE NOT NULL,
@@ -129,13 +130,20 @@ CREATE TABLE products (
     discount_percent  FLOAT   DEFAULT 0     NOT NULL,
     shipping_fee      FLOAT,
     brand_id          INT                   NOT NULL,
-    category_id       INT                   NOT NULL,
     enabled           BOOLEAN DEFAULT FALSE NOT NULL,
     created_at        TIMESTAMP             NOT NULL,
     updated_at        TIMESTAMP             NOT NULL,
 
-    FOREIGN KEY (brand_id) REFERENCES brands (id),
-    FOREIGN KEY (category_id) REFERENCES categories (id)
+    FOREIGN KEY (brand_id) REFERENCES brands (id)
+);
+
+CREATE TABLE products_categories (
+    product_id  BIGINT NOT NULL,
+    category_id INT    NOT NULL,
+
+    FOREIGN KEY (product_id) REFERENCES products (id),
+    FOREIGN KEY (category_id) REFERENCES categories (id),
+    PRIMARY KEY (product_id, category_id)
 );
 
 CREATE TABLE product_images (

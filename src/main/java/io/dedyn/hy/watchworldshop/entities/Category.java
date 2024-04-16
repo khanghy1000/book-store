@@ -29,7 +29,10 @@ public class Category {
     @Column(name = "slug", nullable = false)
     private String slug;
 
-    @OneToMany(mappedBy = "category")
+    @ManyToMany
+    @JoinTable(name = "products_categories",
+        joinColumns = @JoinColumn(name = "category_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> products = new LinkedHashSet<>();
 
 }
