@@ -30,9 +30,4 @@ public class OrderDetail {
     @NotNull
     @Column(name = "unit_price", nullable = false)
     private Double unitPrice;
-
-    @NotNull
-    @Column(name = "shipping_cost", nullable = false)
-    private Double shippingCost;
-
 }

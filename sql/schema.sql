@@ -190,28 +190,29 @@ CREATE TABLE cart_items (
 CREATE TYPE STATUS AS ENUM ('ORDERED', 'SHIPPING', 'DELIVERED', 'CANCELLED');
 
 CREATE TABLE orders (
-    id           BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    customer_id  BIGINT       NOT NULL,
-    order_time   TIMESTAMP    NOT NULL,
-    status       STATUS       NOT NULL,
-    first_name   VARCHAR(255) NOT NULL,
-    last_name    VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(15)  NOT NULL,
-    address_line VARCHAR(255) NOT NULL,
-    ward         VARCHAR(255) NOT NULL,
-    district     VARCHAR(255) NOT NULL,
-    province     VARCHAR(255) NOT NULL,
-    deliver_time TIMESTAMP,
+    id            BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    customer_id   BIGINT       NOT NULL,
+    order_time    TIMESTAMP    NOT NULL,
+    shipping_cost FLOAT        NOT NULL,
+    total         FLOAT        NOT NULL,
+    status        STATUS       NOT NULL,
+    first_name    VARCHAR(255) NOT NULL,
+    last_name     VARCHAR(255) NOT NULL,
+    phone_number  VARCHAR(15)  NOT NULL,
+    address_line  VARCHAR(255) NOT NULL,
+    ward          VARCHAR(255) NOT NULL,
+    district      VARCHAR(255) NOT NULL,
+    province      VARCHAR(255) NOT NULL,
+    deliver_time  TIMESTAMP,
 
     FOREIGN KEY (customer_id) REFERENCES users (id)
 );
 
 CREATE TABLE order_details (
-    order_id      BIGINT   NOT NULL,
-    product_id    BIGINT   NOT NULL,
-    quantity      SMALLINT NOT NULL,
-    unit_price    FLOAT    NOT NULL,
-    shipping_cost FLOAT    NOT NULL,
+    order_id   BIGINT   NOT NULL,
+    product_id BIGINT   NOT NULL,
+    quantity   SMALLINT NOT NULL,
+    unit_price FLOAT    NOT NULL,
 
     FOREIGN KEY (order_id) REFERENCES orders (id),
     FOREIGN KEY (product_id) REFERENCES products (id),

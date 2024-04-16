@@ -30,6 +30,14 @@ public class Order {
     private Instant orderTime;
 
     @NotNull
+    @Column(name = "shipping_cost", nullable = false)
+    private Double shippingCost;
+
+    @NotNull
+    @Column(name = "total", nullable = false)
+    private Double total;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status;
