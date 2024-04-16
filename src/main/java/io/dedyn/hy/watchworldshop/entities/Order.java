@@ -2,6 +2,7 @@ package io.dedyn.hy.watchworldshop.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,9 +39,9 @@ public class Order {
     private Double total;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Pattern(regexp = "^(Đã đặt|Đang giao|Đã giao|Đã huỷ)$")
     @Column(name = "status", nullable = false)
-    private Status status;
+    private String status;
 
     @Size(max = 255)
     @NotNull

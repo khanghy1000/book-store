@@ -195,7 +195,7 @@ CREATE TABLE cart_items (
     PRIMARY KEY (customer_id, product_id)
 );
 
-CREATE TYPE STATUS AS ENUM ('ORDERED', 'SHIPPING', 'DELIVERED', 'CANCELLED');
+CREATE TYPE STATUS AS ENUM ('Đã đặt', 'Đang giao', 'Đã giao', 'Đã huỷ');
 
 CREATE TABLE orders (
     id            BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
