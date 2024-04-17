@@ -1,6 +1,7 @@
 package io.dedyn.hy.watchworldshop.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -19,13 +20,13 @@ public class Category {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Size(max = 255)
+    @NotBlank(message = "Không được để trống")
+    @Size(message = "Phải có ít nhất 10 ký tự và tối đa 255 ký tự", min = 10, max = 255)
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
     @Size(max = 255)
-    @NotNull
     @Column(name = "slug", nullable = false)
     private String slug;
 

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Loại Đồng Hồ')}">
+</head>
+<body class="flex flex-col">
+<div class="flex flex-row flex-1">
+    <div th:replace="~{management/fragments :: sidebar}"></div>
+    <div class="flex-1">
+        <div th:replace="~{fragments :: navbar}"></div>
+        <div class="p-5">
+            <div class="max-w-fit mx-auto my-5">
+                <h1 class="text-3xl font-semibold">Loại đồng hồ</h1>
+            </div>
+            <div th:if="${message}" role="alert" class="alert my-5">
+                <i class="fa-solid fa-circle-info"></i>
+                <span th:text="${message}"></span>
+            </div>
+            <a th:href="@{/management/categories/create}" class="btn btn-primary my-5">
+                <i class="fa-solid fa-plus"></i>
+                Thêm
+            </a>
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <!-- head -->
+                    <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tên loại</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- row -->
+                    <tr class="hover" th:each="category : ${categories}">
+                        <th th:text="${category.id}"></th>
+                        <td th:text="${category.name}"></td>
+                        <td class="flex flex-row gap-5 justify-end">
+                            <a th:href="@{'/management/categories/edit/' + ${category.id}}" class="tooltip" data-tip="Sửa">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a th:href="@{'/management/categories/delete/' + ${category.id}}"
+                               class="tooltip text-error" data-tip="Xóa"
+                               th:data-name="${category.name}">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteButtons = document.querySelectorAll('a[data-name]');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function (e) {
+            const name = this.getAttribute('data-name');
+            if (!confirm(`Bạn có chắc chắn muốn xóa loại đồng hồ "${name}" không?`)) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+</body>
+</html>

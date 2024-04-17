@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Tạo loại đồng hồ mới')}"></head>
+<body class="flex flex-col">
+<div class="flex flex-row flex-1">
+    <div th:replace="~{management/fragments :: sidebar}"></div>
+    <div class="flex-1">
+        <div th:replace="~{fragments :: navbar}"></div>
+        <form th:action="@{'/management/categories/' + ${category.id == null ? 'create' : 'edit'}}" th:method="post" th:object="${category}" class="max-w-2xl mx-auto p-5 shadow-md rounded mt-10">
+            <h1 class="text-3xl font-semibold text-center" th:text="${category.id == null ? 'Thêm loại đồng hồ mới' : 'Chỉnh sửa loại đồng hồ (mã: ' + category.id + ')'}"></h1>
+            <input type="hidden" name="id" th:field="*{id}">
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Tên loại</span>
+                </div>
+                <input type="text" placeholder="Tên loại" minlength="10" maxlength="255" required class="input input-bordered w-full" th:field="*{name}"/>
+                <div class="label">
+                    <span class="label-text-alt text-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                </div>
+            </label>
+            <button class="btn btn-primary block w-full mt-5" th:text="${category.id == null ? 'Thêm' : 'Sửa'}"></button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
