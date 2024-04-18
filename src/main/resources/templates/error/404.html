@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Lỗi')}">
+</head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<div class="flex flex-col items-center justify-center mt-20 gap-5">
+    <div class="text-5xl text-center font-bold text-primary">404</div>
+    <div class="text-2xl text-center font-semibold">Không tìm thấy trang</div>
+    <a th:href="@{/}" class="btn btn-primary">Về trang chủ</a>
+</div>
+</body>
+</html>
