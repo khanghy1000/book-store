@@ -85,7 +85,7 @@ CREATE TABLE users (
     last_name         VARCHAR(255)            NOT NULL,
     email             VARCHAR(255)            NOT NULL,
     password          VARCHAR(68)             NOT NULL,
-    image             VARCHAR(255)            NOT NULL,
+    image             VARCHAR(255),
     enabled           BOOLEAN   DEFAULT FALSE NOT NULL,
     created_at        TIMESTAMP DEFAULT NOW() NOT NULL,
     verification_code VARCHAR(64)
@@ -115,14 +115,14 @@ CREATE TABLE brands (
     id   INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR(255) UNIQUE NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
-    logo VARCHAR(255)        NOT NULL
+    logo VARCHAR(255)
 );
 
 CREATE TABLE products (
     id                BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name              VARCHAR(255) UNIQUE   NOT NULL,
     slug              VARCHAR(255) UNIQUE   NOT NULL,
-    main_image        VARCHAR(255)          NOT NULL,
+    main_image        VARCHAR(255),
     short_description VARCHAR               NOT NULL,
     full_description  TEXT                  NOT NULL,
     in_stock          SMALLINT              NOT NULL,
