@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @Transactional
@@ -33,7 +32,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public void delete(Integer id) {
+    public void deleteById(Integer id) {
         categoryRepository.deleteById(id);
     }
 

@@ -1,9 +1,7 @@
 package io.dedyn.hy.watchworldshop.services;
 
 import io.dedyn.hy.watchworldshop.entities.Brand;
-import io.dedyn.hy.watchworldshop.entities.Category;
 import io.dedyn.hy.watchworldshop.repositories.BrandRepository;
-import io.dedyn.hy.watchworldshop.repositories.CategoryRepository;
 import io.dedyn.hy.watchworldshop.utils.SlugifyUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class BrandService {
         return brandRepository.save(brand);
     }
 
-    public void delete(Integer id) {
+    public void deleteById(Integer id) {
         brandRepository.deleteById(id);
     }
 

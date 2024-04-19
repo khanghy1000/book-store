@@ -73,7 +73,7 @@ public class CategoryManagementController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
-        categoryService.delete(id);
+        categoryService.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "Xóa loại đồng hồ thành công");
         return "redirect:/management/categories";
     }
