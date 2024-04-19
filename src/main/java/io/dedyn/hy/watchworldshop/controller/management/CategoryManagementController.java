@@ -29,7 +29,6 @@ public class CategoryManagementController {
     public String index(Model model) {
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
-        model.addAttribute("route", "categories");
         return "management/categories/index";
     }
 
