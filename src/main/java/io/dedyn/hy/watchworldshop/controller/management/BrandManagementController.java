@@ -28,14 +28,14 @@ public class BrandManagementController {
     }
 
 
-    @RequestMapping("")
+    @GetMapping("")
     public String index(Model model) {
         List<Brand> brands = brandService.findAll();
         model.addAttribute("brands", brands);
         return "management/brands/index";
     }
 
-    @RequestMapping("/create")
+    @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("brand", new Brand());
         return "management/brands/brand_form";
@@ -69,7 +69,7 @@ public class BrandManagementController {
         return "redirect:/management/brands";
     }
 
-    @RequestMapping("/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model) {
         Brand brand = brandService.findById(id);
         model.addAttribute("brand", brand);
@@ -102,7 +102,7 @@ public class BrandManagementController {
         return "redirect:/management/brands";
     }
 
-    @RequestMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) throws IOException {
         FileUploadUtil.removeAllFiles("file_upload/brands/" + id);
         brandService.delete(id);

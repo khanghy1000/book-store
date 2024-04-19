@@ -35,14 +35,19 @@
                         <th th:text="${category.id}"></th>
                         <td th:text="${category.name}"></td>
                         <td class="flex flex-row gap-5 justify-end">
-                            <a th:href="@{'/management/categories/edit/' + ${category.id}}" class="tooltip" data-tip="Sửa">
+                            <a th:href="@{'/management/categories/edit/' + ${category.id}}" class="tooltip"
+                               data-tip="Sửa">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a th:href="@{'/management/categories/delete/' + ${category.id}}"
-                               class="tooltip text-error" data-tip="Xóa"
-                               th:data-name="${category.name}">
-                                <i class="fa-solid fa-trash"></i>
-                            </a>
+                            <form th:action="@{'/management/categories/delete/' + ${category.id}}"
+                                  th:method="post"
+                                  class="tooltip text-error"
+                                  data-tip="Xóa"
+                                  th:data-name="${category.name}">
+                                <button>
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     </tbody>
@@ -53,9 +58,9 @@
 </div>
 
 <script>
-    const deleteButtons = document.querySelectorAll('a[data-name]');
+    const deleteButtons = document.querySelectorAll('form[data-name]');
     deleteButtons.forEach(button => {
-        button.addEventListener('click', function (e) {
+        button.addEventListener('submit', function (e) {
             const name = this.getAttribute('data-name');
             if (!confirm(`Bạn có chắc chắn muốn xóa loại đồng hồ "${name}" không?`)) {
                 e.preventDefault();
