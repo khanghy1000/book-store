@@ -125,7 +125,7 @@ CREATE TABLE products (
     main_image        VARCHAR(255),
     short_description VARCHAR,
     full_description  TEXT,
-    in_stock          SMALLINT              NOT NULL,
+    quantity          INT                   NOT NULL,
     price             FLOAT                 NOT NULL,
     discount_percent  FLOAT   DEFAULT 0     NOT NULL,
     shipping_fee      FLOAT                 NOT NULL,
