@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Thêm hãng đồng hồ mới')}"></head>
+<body class="flex flex-col">
+<div class="flex flex-row flex-1">
+    <div th:replace="~{management/fragments :: sidebar}"></div>
+    <div class="flex-1">
+        <div th:replace="~{fragments :: navbar}"></div>
+        <form th:action="@{'/management/brands/' + ${brand.id == null ? 'create' : 'edit'}}" th:method="post"
+              th:object="${brand}" class="max-w-2xl mx-auto p-5 shadow-md rounded mt-10" enctype="multipart/form-data">
+            <h1 class="text-3xl font-semibold text-center"
+                th:text="${brand.id == null ? 'Thêm hãng đồng hồ mới' : 'Chỉnh sửa hãng đồng hồ (mã: ' + brand.id + ')'}"></h1>
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{logo}">
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Tên hãng</span>
+                </div>
+                <input type="text" placeholder="Tên hãng" minlength="3" maxlength="255" required
+                       class="input input-bordered w-full" th:field="*{name}"/>
+                <div class="label">
+                    <span class="label-text-alt text-error" th:if="${#fields.hasErrors('name')}"
+                          th:errors="*{name}"></span>
+                </div>
+            </label>
+
+            <label>
+                <div class="label">
+                    <span class="label-text">Logo hãng</span>
+                </div>
+                <button class="btn btn-primary" type="button" id="btn-logo-file">
+                    <i class="fa-solid fa-image"></i>
+                    Chọn logo
+                </button>
+                <input type="file" name="logo-file" id="logo-file" hidden accept="image/jpeg, image/png"/>
+                <div class="label">
+                    <span class="label-text-alt text-error" th:if="${#fields.hasErrors('logo')}"
+                          th:errors="*{logo}"></span>
+                </div>
+
+                <div id="logo-preview" class="flex flex-row justify-center">
+                    <img th:src="@{${brand.logoUrl}}" alt="" class="object-contain">
+                </div>
+
+            </label>
+            <button class="btn btn-primary block w-full mt-5" th:text="${brand.id == null ? 'Thêm' : 'Sửa'}"></button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const btnLogoFile = document.getElementById('btn-logo-file');
+    const logoFileInput = document.getElementById('logo-file');
+    const logoPreview = document.getElementById('logo-preview');
+
+    btnLogoFile.addEventListener('click', () => {
+        logoFileInput.click();
+    });
+
+    logoFileInput.addEventListener('change', () => {
+        const file = logoFileInput.files[0];
+
+        if (file) {
+            logoPreview.innerHTML = `<img src=${URL.createObjectURL(file)} alt="" class="object-contain">`;
+        }
+    });
+</script>
+</body>
+</html>

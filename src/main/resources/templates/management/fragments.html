@@ -9,7 +9,8 @@
     <li>
         <p>Đồng hồ</p>
         <ul>
-            <li><a th:href="@{/management/brands}">Hãng đồng hồ</a></li>
+            <li><a th:href="@{/management/brands}"
+                   th:class="${currentPage == 'brands' ? 'active' : ''}">Hãng đồng hồ</a></li>
             <li><a th:href="@{/management/categories}"
                    th:class="${currentPage == 'categories' ? 'active' : ''}">Loại đồng hồ</a></li>
             <li><a th:href="@{/management/products}">Đồng hồ</a></li>
