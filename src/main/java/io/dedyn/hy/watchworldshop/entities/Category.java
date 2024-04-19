@@ -26,7 +26,6 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Size(max = 255)
     @Column(name = "slug", nullable = false)
     private String slug;
 
