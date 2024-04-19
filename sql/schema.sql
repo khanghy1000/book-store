@@ -128,7 +128,7 @@ CREATE TABLE products (
     in_stock          SMALLINT              NOT NULL,
     price             FLOAT                 NOT NULL,
     discount_percent  FLOAT   DEFAULT 0     NOT NULL,
-    shipping_fee      FLOAT,
+    shipping_fee      FLOAT                 NOT NULL,
     brand_id          INT                   NOT NULL,
     enabled           BOOLEAN DEFAULT FALSE NOT NULL,
     created_at        TIMESTAMP             NOT NULL,
