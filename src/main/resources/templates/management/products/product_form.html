@@ -18,9 +18,10 @@
 
                 <div th:replace="~{management/products/image_form :: images}"></div>
 
-                <div th:replace="~{management/products/detail_form :: details}"></div>
+                <div th:replace="~{management/products/spec_form :: specs}"></div>
             </div>
 
+            <button class="btn btn-primary block w-full mt-5" th:text="${product.id == null ? 'Thêm' : 'Sửa'}"></button>
         </form>
     </div>
 </div>

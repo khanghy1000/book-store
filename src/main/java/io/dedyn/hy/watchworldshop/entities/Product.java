@@ -91,7 +91,7 @@ public class Product {
     private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "product")
-    private Set<ProductDetail> productDetails = new LinkedHashSet<>();
+    private Set<ProductSpec> productSpecs = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "product")
     private Set<ProductImage> productImages = new LinkedHashSet<>();

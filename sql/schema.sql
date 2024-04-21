@@ -154,7 +154,7 @@ CREATE TABLE product_images (
     FOREIGN KEY (product_id) REFERENCES products (id)
 );
 
-CREATE TABLE product_details (
+CREATE TABLE product_specs (
     id         BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name       VARCHAR(150) NOT NULL,
     value      VARCHAR(255) NOT NULL,
