@@ -37,7 +37,7 @@ public class Brand {
 
     @Transient
     public String getLogoUrl() {
-        if (logo == null || id == null) return "/placeholder.png";
+        if (logo == null || id == null) return "/assets/placeholder.png";
         return "/brands/" + id + "/" + logo;
     }
 
