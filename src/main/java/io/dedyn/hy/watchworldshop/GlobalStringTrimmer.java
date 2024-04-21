@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
 
 @ControllerAdvice
-public class GlobalControllerAdvice {
+public class GlobalStringTrimmer {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
