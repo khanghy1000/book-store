@@ -5,6 +5,16 @@
 
 @layer base {
     body {
-        @apply w-screen min-h-screen m-0;
+        margin: 0;
+        padding: 0;
+        max-height: 100vh;
+        max-height: 100svh;
+        max-width: 100vw;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 }
