@@ -1,15 +1,22 @@
 package io.dedyn.hy.watchworldshop.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -20,41 +27,41 @@ public class Product {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Size(max = 255)
+    @NotBlank(message = "Không được để trống")
+    @Size(message = "Phải có ít nhất 3 ký tự và tối đa 255 ký tự", min = 3, max = 255)
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Size(max = 255)
-    @NotNull
     @Column(name = "slug", nullable = false)
     private String slug;
 
-    @Size(max = 255)
-    @NotNull
     @Column(name = "main_image", nullable = false)
     private String mainImage;
 
-    @NotNull
     @Column(name = "short_description", nullable = false, length = Integer.MAX_VALUE)
     private String shortDescription;
 
-    @NotNull
     @Column(name = "full_description", nullable = false, length = Integer.MAX_VALUE)
     private String fullDescription;
 
+    @Min(message = "Phải lớn hơn hoặc bằng 0", value = 0)
     @NotNull
-    @Column(name = "in_stock", nullable = false)
-    private Short inStock;
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
 
+    @Min(message = "Phải lớn hơn hoặc bằng 0", value = 0)
     @NotNull
     @Column(name = "price", nullable = false)
     private Double price;
 
+    @Min(message = "Phải lớn hơn hoặc bằng 0", value = 0)
     @NotNull
     @Column(name = "discount_percent", nullable = false)
     private Double discountPercent;
 
+    @Min(message = "Phải lớn hơn hoặc bằng 0", value = 0)
+    @NotNull
     @Column(name = "shipping_fee")
     private Double shippingFee;
 
@@ -67,13 +74,15 @@ public class Product {
     @Column(name = "enabled", nullable = false)
     private Boolean enabled = false;
 
-    @NotNull
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private Date createdAt;
 
-    @NotNull
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
+    private Date updatedAt;
 
     @OneToMany(mappedBy = "product")
     private Set<CartItem> cartItems = new LinkedHashSet<>();
@@ -89,5 +98,11 @@ public class Product {
 
     @ManyToMany(mappedBy = "products")
     private Set<Category> categories = new LinkedHashSet<>();
+
+    @Transient
+    public String getMainImageUrl() {
+        if (mainImage == null || id == null) return "/placeholder.png";
+        return "/brands/" + id + "/" + mainImage;
+    }
 
 }

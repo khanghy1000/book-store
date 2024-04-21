@@ -13,7 +13,8 @@
                    th:class="${currentPage == 'brands' ? 'active' : ''}">Hãng đồng hồ</a></li>
             <li><a th:href="@{/management/categories}"
                    th:class="${currentPage == 'categories' ? 'active' : ''}">Loại đồng hồ</a></li>
-            <li><a th:href="@{/management/products}">Đồng hồ</a></li>
+            <li><a th:href="@{/management/products}"
+                   th:class="${currentPage == 'products' ? 'active' : ''}">Đồng hồ</a></li>
         </ul>
     </li>
 </ul>
