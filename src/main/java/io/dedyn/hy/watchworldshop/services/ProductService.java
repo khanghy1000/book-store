@@ -29,6 +29,7 @@ public class ProductService {
     }
 
     public Product save(Product product) {
+        product.setSlug(SlugifyUtil.slugify(product.getName()));
         return productRepository.save(product);
     }
 
