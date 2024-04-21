@@ -54,13 +54,14 @@
                         </td>
                         <td>
                             <div class="flex flex-row gap-5 justify-end">
-                                <a th:href="@{'/management/categories/edit/' + ${product.id}}" class="tooltip"
+                                <a th:href="@{'/management/products/edit/' + ${product.id}}" class="tooltip"
                                    data-tip="Sửa">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <form th:href="@{'/management/categories/delete/' + ${product.id}}"
-                                      class="tooltip text-error" data-tip="Xóa"
-                                      method="post"
+                                <form th:action="@{'/management/products/delete/' + ${product.id}}"
+                                      class="tooltip text-error"
+                                      data-tip="Xóa"
+                                      th:method="post"
                                       th:data-name="${product.name}">
                                     <button>
                                         <i class="fa-solid fa-trash"></i>
