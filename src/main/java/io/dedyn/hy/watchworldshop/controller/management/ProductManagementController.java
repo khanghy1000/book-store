@@ -85,7 +85,7 @@ public class ProductManagementController {
         return "redirect:/management/products";
     }
 
-    @RequestMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) throws IOException {
         productService.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "Xóa đồng hồ thành công");
