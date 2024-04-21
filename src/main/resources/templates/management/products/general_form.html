@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+
+<!--/*@thymesVar id="product" type="io.dedyn.hy.watchworldshop.entities.Product"*/-->
+    <th:block th:fragment="general" th:object="${product}">
+
+        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tổng quát" checked/>
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Tên đồng hồ <span class="text-error">*</span></span>
+                </div>
+                <input type="text" placeholder="Tên đồng hồ" minlength="3" maxlength="255" required
+                       class="input input-bordered w-full" th:field="*{name}"/>
+                <div class="label">
+                        <span class="label-text-alt text-error" th:if="${#fields.hasErrors('name')}"
+                              th:errors="*{name}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Hãng <span class="text-error">*</span></span>
+                </div>
+                <select th:field="*{brand}" class="select select-bordered">
+                    <th:block th:each="brand : ${brands}">
+                        <option th:value="${brand.id}" th:text="${brand.name}"></option>
+                    </th:block>
+                </select>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('brand')}"
+                                  th:errors="*{brand}"></span>
+                </div>
+            </label>
+
+            <div class="form-control">
+                <label class="label cursor-pointer flex flex-row justify-start gap-5 my-3">
+                    <span class="label-text">Niên yết </span>
+                    <input type="checkbox" th:field="*{enabled}" class="checkbox checkbox-primary"/>
+                </label>
+            </div>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Số lượng <span class="text-error">*</span></span>
+                </div>
+                <input type="number" min="0" placeholder="Số lượng" required class="input input-bordered w-full"
+                       th:field="*{quantity}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('quantity')}"
+                                  th:errors="*{quantity}"></span>
+                </div>
+            </label>
+
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Giá (VNĐ) <span class="text-error">*</span></span>
+                </div>
+                <input type="number" min="0" placeholder="Giá" required class="input input-bordered w-full"
+                       th:field="*{price}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('price')}"
+                                  th:errors="*{price}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Giảm giá (%) <span class="text-error">*</span></span>
+                </div>
+                <input type="number" min="0" placeholder="Giảm giá" required class="input input-bordered w-full"
+                       th:field="*{discountPercent}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('discountPercent')}"
+                                  th:errors="*{discountPercent}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Tiền ship (VNĐ) <span class="text-error">*</span></span>
+                </div>
+                <input type="number" min="0" placeholder="Tiền ship" required class="input input-bordered w-full"
+                       th:field="*{shippingFee}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('shippingFee')}"
+                                  th:errors="*{shippingFee}"></span>
+                </div>
+            </label>
+
+        </div>
+    </th:block>
+
+
+</body>
+</html>
