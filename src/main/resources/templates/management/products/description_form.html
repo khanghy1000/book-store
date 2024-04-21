@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="product" type="io.dedyn.hy.watchworldshop.entities.Product"*/-->
+<th:block th:fragment="description" th:object="${product}">
+    <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Mô tả"/>
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+
+        <label class="form-control w-full">
+            <div class="label font-semibold">
+                <span class="label-text">Mô tả tóm tắt</span>
+            </div>
+            <textarea id="short-description" th:field="*{shortDescription}"></textarea>
+            <div class="label">
+                        <span class="label-text-alt text-error" th:if="${#fields.hasErrors('shortDescription')}"
+                              th:errors="*{shortDescription}"></span>
+            </div>
+        </label>
+
+        <label class="form-control w-full">
+            <div class="label font-semibold">
+                <span class="label-text">Mô tả đầy đủ</span>
+            </div>
+            <textarea id="full-description" th:field="*{fullDescription}"></textarea>
+            <div class="label">
+                        <span class="label-text-alt text-error" th:if="${#fields.hasErrors('fullDescription')}"
+                              th:errors="*{fullDescription}"></span>
+            </div>
+        </label>
+    </div>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea#short-description',
+            promotion: false,
+            resize: false,
+            language: 'vi',
+            height: 250,
+            plugins: 'lists',
+            menubar: false,
+            toolbar: 'undo redo | bold italic | bullist numlist'
+        });
+
+        tinymce.init({
+            selector: 'textarea#full-description',
+            promotion: false,
+            resize: false,
+            language: 'vi',
+            plugins: 'lists | image',
+            // menubar: false,
+            toolbar: 'undo redo | styles | bold italic | bullist numlist | image'
+        });
+    </script>
+</th:block>
+
+</body>
+</html>
