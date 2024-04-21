@@ -101,8 +101,8 @@ public class Product {
 
     @Transient
     public String getMainImageUrl() {
-        if (mainImage == null || id == null) return "/placeholder.png";
-        return "/brands/" + id + "/" + mainImage;
+        if (mainImage == null || id == null) return "/assets/placeholder.png";
+        return "/products/" + id + "/" + mainImage;
     }
 
 }
