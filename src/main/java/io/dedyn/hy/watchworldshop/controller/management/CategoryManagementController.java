@@ -36,7 +36,9 @@ public class CategoryManagementController {
     }
 
     @PostMapping("/create")
-    public String create(@Valid Category category, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String create(@Valid Category category,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
         category.setId(null);
         boolean isUniqueName = categoryService.isUniqueName(category);
         if (!isUniqueName) {
@@ -58,7 +60,9 @@ public class CategoryManagementController {
     }
 
     @PostMapping("/edit")
-    public String edit(@Valid Category category, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String edit(@Valid Category category,
+                       BindingResult bindingResult,
+                       RedirectAttributes redirectAttributes) {
         boolean isUniqueName = categoryService.isUniqueName(category);
         if (!isUniqueName) {
             bindingResult.rejectValue("name", "error.category", "Tên loại đồng hồ đã tồn tại");
@@ -72,7 +76,8 @@ public class CategoryManagementController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+    public String delete(@PathVariable("id") Integer id,
+                         RedirectAttributes redirectAttributes) {
         categoryService.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "Xóa loại đồng hồ thành công");
         return "redirect:/management/categories";

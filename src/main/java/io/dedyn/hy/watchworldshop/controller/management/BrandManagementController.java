@@ -42,7 +42,10 @@ public class BrandManagementController {
     }
 
     @PostMapping("/create")
-    public String create(@Valid Brand brand, BindingResult bindingResult, RedirectAttributes redirectAttributes, @RequestParam("logo-file") MultipartFile logoFile) throws IOException {
+    public String create(@Valid Brand brand,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes,
+                         @RequestParam("logo-file") MultipartFile logoFile) throws IOException {
         brand.setId(null);
         boolean isUniqueName = brandService.isUniqueName(brand);
         if (!isUniqueName) {
@@ -77,7 +80,10 @@ public class BrandManagementController {
     }
 
     @PostMapping("/edit")
-    public String edit(@Valid Brand brand, BindingResult bindingResult, RedirectAttributes redirectAttributes, @RequestParam("logo-file") MultipartFile logoFile) throws IOException {
+    public String edit(@Valid Brand brand,
+                       BindingResult bindingResult,
+                       RedirectAttributes redirectAttributes,
+                       @RequestParam("logo-file") MultipartFile logoFile) throws IOException {
         boolean isUniqueName = brandService.isUniqueName(brand);
         if (!isUniqueName) {
             bindingResult.rejectValue("name", "error.category", "Tên hãng đồng hồ đã tồn tại");
@@ -103,7 +109,8 @@ public class BrandManagementController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) throws IOException {
+    public String delete(@PathVariable("id") Integer id,
+                         RedirectAttributes redirectAttributes) throws IOException {
         FileUploadUtil.deleteDirectory("file_upload/brands/" + id);
         brandService.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "Xóa hãng đồng hồ thành công");

@@ -6,8 +6,6 @@ import io.dedyn.hy.watchworldshop.services.BrandService;
 import io.dedyn.hy.watchworldshop.services.ProductService;
 import io.dedyn.hy.watchworldshop.utils.FileUploadUtil;
 import jakarta.validation.Valid;
-import org.apache.logging.log4j.spi.LoggerRegistry;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
