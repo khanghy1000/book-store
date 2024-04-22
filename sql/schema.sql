@@ -148,7 +148,7 @@ CREATE TABLE products_categories (
 
 CREATE TABLE product_images (
     id         BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    path       VARCHAR(255) NOT NULL,
+    file_name  VARCHAR(255) NOT NULL,
     product_id BIGINT       NOT NULL,
 
     FOREIGN KEY (product_id) REFERENCES products (id)

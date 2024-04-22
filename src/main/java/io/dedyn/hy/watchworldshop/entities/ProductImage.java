@@ -3,9 +3,11 @@ package io.dedyn.hy.watchworldshop.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -18,8 +20,8 @@ public class ProductImage {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "path", nullable = false)
-    private String path;
+    @Column(name = "file_name", nullable = false)
+    private String fileName;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
