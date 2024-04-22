@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="product" type="io.dedyn.hy.watchworldshop.entities.Product"*/-->
+<th:block th:fragment="images" th:object="${product}">
+    <input type="radio" name="my_tabs_2" role="tab" class="tab whitespace-nowrap" aria-label="Hình ảnh"/>
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+
+        <label>
+            <div class="label">
+                <span class="label-text">Hình chính</span>
+            </div>
+            <button class="btn btn-primary" type="button" id="btn-main-image">
+                <i class="fa-solid fa-image"></i>
+                Chọn hình
+            </button>
+            <input type="file" name="main-image" id="main-image" hidden accept="image/jpeg, image/png"/>
+            <div class="label">
+                    <span class="label-text-alt text-error" th:if="${#fields.hasErrors('mainImage')}"
+                          th:errors="*{mainImage}"></span>
+            </div>
+
+        </label>
+        <div id="main-image-preview">
+            <img th:src="@{${product.mainImageUrl}}" alt="" class="object-contain w-[200px] h-[200px]">
+        </div>
+
+        <label>
+            <div class="label">
+                <span class="label-text">Hình</span>
+            </div>
+            <button class="btn btn-primary" type="button" id="btn-images">
+                <i class="fa-solid fa-image"></i>
+                Chọn hình
+            </button>
+            <input type="file" name="images" id="images" hidden accept="image/jpeg, image/png" multiple/>
+            <div class="label">
+                    <span class="label-text-alt text-error" th:if="${#fields.hasErrors('mainImage')}"
+                          th:errors="*{mainImage}"></span>
+            </div>
+
+        </label>
+        <div id="images-preview" class="flex flex-row overflow-x-auto">
+            <th:block th:each="image : ${product.productImages}">
+                <div class="flex-none relative mr-5" th:data-image-id="${image.id}">
+                    <input type="hidden" name="savedImageIds" th:value="${image.id}">
+                    <input type="hidden" name="savedImageFileNames" th:value="${image.fileName}">
+                    <img th:src="@{${image.url}}" alt="image" class="relative object-contain w-[200px] h-[200px]">
+                    <span class="absolute top-0 right-0 cursor-pointer" th:data-image-id="${image.id}">
+                            <span class="fa-stack text-xs">
+                                <i class="fa-solid fa-circle fa-stack-2x text-error"></i>
+                                <i class="fa-solid fa-xmark fa-stack-1x text-white"></i>
+                            </span>
+                    </span>
+                </div>
+            </th:block>
+            <span id="new" class="flex flex-row gap-5 ">
+
+            </span>
+        </div>
+    </div>
+
+    <script>
+        const btnMainImageFile = document.getElementById('btn-main-image');
+        const mainFileInput = document.getElementById('main-image');
+        const logoPreview = document.getElementById('main-image-preview');
+
+        const btnImagesFile = document.getElementById('btn-images');
+        const imagesFileInput = document.getElementById('images');
+        const newImagesPreview = document.querySelector('#images-preview>span#new');
+
+        const deleteSavedImageButtons = document.querySelectorAll('span[data-image-id]');
+
+        const images = []
+
+        btnMainImageFile.addEventListener('click', () => {
+            mainFileInput.click();
+        });
+
+        mainFileInput.addEventListener('change', () => {
+            const file = mainFileInput.files[0];
+
+            if (file) {
+                logoPreview.innerHTML = `<img src=${URL.createObjectURL(file)} alt="" class="object-contain w-[250px] h-[250px]">`;
+            }
+        });
+
+        btnImagesFile.addEventListener('click', () => {
+            imagesFileInput.click();
+        });
+
+        imagesFileInput.addEventListener('change', () => {
+            const files = imagesFileInput.files;
+
+            for (let i = 0; i < files.length; i++) {
+                if (images.every(image => image.name !== files[i].name)) {
+                    images.push(files[i]);
+                }
+            }
+            filesToFilesInput();
+            displayImages();
+        });
+
+        function filesToFilesInput() {
+            const dataTransfer = new DataTransfer();
+            for (let i = 0; i < images.length; i++) {
+                dataTransfer.items.add(images[i])
+            }
+            imagesFileInput.files = dataTransfer.files
+        }
+
+        function displayImages() {
+            let imagesHtml = '';
+            images.forEach((image, index) => {
+                imagesHtml += `<div class="flex-none relative">
+                               <img src="${URL.createObjectURL(image)}" alt="image" class="relative object-contain w-[200px] h-[200px]">
+                               <span class="absolute top-0 right-0 cursor-pointer" onclick="deleteImage(${index})">
+                                    <span class="fa-stack text-xs">
+                                        <i class="fa-solid fa-circle fa-stack-2x text-error"></i>
+                                        <i class="fa-solid fa-xmark fa-stack-1x text-white"></i>
+                                    </span>
+                               </span>
+                               </div>`
+            });
+            newImagesPreview.innerHTML = imagesHtml;
+        }
+
+        function deleteImage(index) {
+            images.splice(index, 1);
+            filesToFilesInput();
+            displayImages();
+        }
+
+        deleteSavedImageButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const imageId = button.getAttribute('data-image-id');
+                const imageDiv = document.querySelector(`div[data-image-id="${imageId}"]`);
+                imageDiv.remove();
+            });
+        });
+
+    </script>
+</th:block>
+
+</body>
+</html>

@@ -8,8 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -76,11 +76,13 @@ public class Product {
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
 
@@ -93,7 +95,8 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<ProductSpec> productSpecs = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("id ASC")
     private Set<ProductImage> productImages = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "products")
@@ -103,6 +106,19 @@ public class Product {
     public String getMainImageUrl() {
         if (mainImage == null || id == null) return "/assets/placeholder.png";
         return "/products/" + id + "/" + mainImage;
+    }
+
+    public void addImage(String fileName) {
+        productImages.add(new ProductImage(null, fileName, this));
+    }
+
+    public Boolean containsImage(String fileName) {
+        for (ProductImage productImage : productImages) {
+            if (productImage.getFileName().equals(fileName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

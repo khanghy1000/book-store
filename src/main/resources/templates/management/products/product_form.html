@@ -7,18 +7,22 @@
     <div class="flex-1">
         <div th:replace="~{fragments :: navbar}"></div>
         <form th:action="@{'/management/products/' + ${product.id == null ? 'create' : 'edit'}}" th:method="post"
-              th:object="${product}" class="p-5 shadow-md rounded mt-10 max-w-4xl mx-auto" enctype="multipart/form-data">
-            <h1 class="text-3xl font-semibold text-center"
+              th:object="${product}" class="p-5 shadow-md rounded mt-10 max-w-4xl mx-auto"
+              enctype="multipart/form-data">
+            <h1 class="text-3xl font-semibold text-center mb-4"
                 th:text="${product.id == null ? 'Thêm đồng hồ mới' : 'Chỉnh sửa đồng hồ (mã: ' + product.id + ')'}"></h1>
 
-            <div role="tablist" class="tabs tabs-lifted">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{createdAt}">
+            <input type="hidden" th:field="*{mainImage}">
+
+            <div role="tablist" class="tabs tabs-lifted ">
+
                 <div th:replace="~{management/products/general_form :: general}"></div>
-
                 <div th:replace="~{management/products/description_form :: description}"></div>
-
                 <div th:replace="~{management/products/image_form :: images}"></div>
-
                 <div th:replace="~{management/products/spec_form :: specs}"></div>
+
             </div>
 
             <button class="btn btn-primary block w-full mt-5" th:text="${product.id == null ? 'Thêm' : 'Sửa'}"></button>

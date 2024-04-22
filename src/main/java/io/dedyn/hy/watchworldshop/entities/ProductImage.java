@@ -28,4 +28,17 @@ public class ProductImage {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Override
+    public String toString() {
+        return "ProductImage{" +
+            "id=" + id +
+            ", fileName='" + fileName + '\'' +
+            ", product=" + product +
+            '}';
+    }
+
+    @Transient
+    public String getUrl() {
+        return "/products/" + product.getId() + "/images/" + fileName;
+    }
 }
