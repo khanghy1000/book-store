@@ -41,4 +41,16 @@ public class FileUploadUtil {
             }
         }
     }
+
+    public static void deleteDirectory(String dir) throws IOException {
+        Path dirPath = Paths.get(dir);
+        if (Files.exists(dirPath)) {
+            try {
+                removeAllFiles(dir);
+                Files.delete(dirPath);
+            } catch (IOException e) {
+                throw new IOException("Could not list files in directory: " + dir);
+            }
+        }
+    }
 }
