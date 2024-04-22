@@ -104,7 +104,7 @@ public class BrandManagementController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) throws IOException {
-        FileUploadUtil.removeAllFiles("file_upload/brands/" + id);
+        FileUploadUtil.deleteDirectory("file_upload/brands/" + id);
         brandService.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "Xóa hãng đồng hồ thành công");
         return "redirect:/management/brands";
