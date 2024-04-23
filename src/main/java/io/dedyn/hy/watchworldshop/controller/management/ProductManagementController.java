@@ -56,6 +56,9 @@ public class ProductManagementController {
     public String create(@Valid Product product,
                          @RequestParam("main-image") MultipartFile mainImage,
                          @RequestParam("images") MultipartFile[] images,
+                         @RequestParam(name = "specIds", required = false) Long[] specIds,
+                         @RequestParam(name = "specNames", required = false) String[] specNames,
+                         @RequestParam(name = "specValues", required = false) String[] specValues,
                          Model model,
                          BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) throws IOException {
@@ -70,6 +73,7 @@ public class ProductManagementController {
         }
 
         setNewImages(product, mainImage, images);
+        setSpecs(product, specIds, specNames, specValues);
         product = productService.save(product);
         saveImages(product, mainImage, images);
 
@@ -91,6 +95,9 @@ public class ProductManagementController {
                        @RequestParam("images") MultipartFile[] images,
                        @RequestParam(name = "savedImageIds", required = false) Long[] savedImageIds,
                        @RequestParam(name = "savedImageFileNames", required = false) String[] savedImageFileNames,
+                       @RequestParam(name = "specIds", required = false) Long[] specIds,
+                       @RequestParam(name = "specNames", required = false) String[] specNames,
+                       @RequestParam(name = "specValues", required = false) String[] specValues,
                        Model model,
                        BindingResult bindingResult,
                        RedirectAttributes redirectAttributes) throws IOException {
@@ -105,6 +112,7 @@ public class ProductManagementController {
 
         setExistingImages(product, savedImageIds, savedImageFileNames);
         setNewImages(product, mainImage, images);
+        setSpecs(product, specIds, specNames, specValues);
         product = productService.save(product);
         saveImages(product, mainImage, images);
         deleteOrphanImages(product);
@@ -193,6 +201,19 @@ public class ProductManagementController {
 
         } catch (IOException e) {
             System.out.println("Could not list directory: " + dir);
+        }
+    }
+
+    private void setSpecs(Product product, Long[] specIds, String[] specNames, String[] specValues) {
+        if (specNames == null || specValues == null) return;
+
+        for (int i = 0; i < specNames.length; i++) {
+            if (specNames[i].isEmpty() && specValues[i].isEmpty()) continue;
+            if (specIds[i] != null && specIds[i] != 0) {
+                product.addSpec(specIds[i], specNames[i], specValues[i]);
+            } else {
+                product.addSpec(null, specNames[i], specValues[i]);
+            }
         }
     }
 }

@@ -92,7 +92,8 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("id ASC")
     private Set<ProductSpec> productSpecs = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -119,6 +120,10 @@ public class Product {
             }
         }
         return false;
+    }
+
+    public void addSpec(Long id, String name, String value) {
+        productSpecs.add(new ProductSpec(id, name, value, this));
     }
 
 }
