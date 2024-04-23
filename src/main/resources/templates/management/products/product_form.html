@@ -29,5 +29,11 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.querySelector('form').addEventListener('invalid', (e) => {
+        document.querySelector('input[aria-label="Tổng quát"]').click();
+    }, true);
+</script>
 </body>
 </html>
