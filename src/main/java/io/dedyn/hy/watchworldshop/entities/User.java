@@ -1,6 +1,7 @@
 package io.dedyn.hy.watchworldshop.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -24,22 +25,25 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotBlank(message = "Không được để trống")
     @Size(max = 255)
     @NotNull
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @NotBlank(message = "Không được để trống")
     @Size(max = 255)
     @NotNull
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @NotBlank(message = "Không được để trống")
     @Size(max = 255)
     @NotNull
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Size(max = 68)
+    @Size(message = "Tổi thiểu 5 ký tự", min = 5, max = 255)
     @NotNull
     @Column(name = "password", nullable = false, length = 68)
     private String password;

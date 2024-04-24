@@ -19,7 +19,7 @@
                 <div class="label">
                     <span class="label-text">Họ đệm</span>
                 </div>
-                <input type="text" placeholder="Họ đệm" minlength="3" maxlength="255" required
+                <input type="text" placeholder="Họ đệm" maxlength="255" required
                        class="input input-bordered w-full" th:field="*{lastName}"/>
                 <div class="label">
                     <span class="label-text-alt text-error" th:if="${#fields.hasErrors('lastName')}"
@@ -31,7 +31,7 @@
                 <div class="label">
                     <span class="label-text">Tên</span>
                 </div>
-                <input type="text" placeholder="Tên" minlength="3" maxlength="255" required
+                <input type="text" placeholder="Tên" maxlength="255" required
                        class="input input-bordered w-full" th:field="*{firstName}"/>
                 <div class="label">
                     <span class="label-text-alt text-error" th:if="${#fields.hasErrors('firstName')}"
@@ -43,7 +43,7 @@
                 <div class="label">
                     <span class="label-text">Email</span>
                 </div>
-                <input type="email" placeholder="Email" minlength="3" maxlength="255" required
+                <input type="email" placeholder="Email" maxlength="255" required
                        class="input input-bordered w-full" th:field="*{email}"/>
                 <div class="label">
                     <span class="label-text-alt text-error" th:if="${#fields.hasErrors('email')}"
@@ -55,7 +55,7 @@
                 <div class="label">
                     <span class="label-text">Mật khẩu</span>
                 </div>
-                <input type="password" placeholder="Mật khẩu" minlength="3" maxlength="255" required
+                <input type="password" placeholder="Mật khẩu" minlength="5" maxlength="255" required
                        class="input input-bordered w-full" th:field="*{password}"/>
                 <div class="label">
                     <span class="label-text-alt text-error" th:if="${#fields.hasErrors('password')}"
