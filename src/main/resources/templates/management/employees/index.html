@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Nhân viên')}">
+</head>
+<body class="flex flex-col">
+<div class="flex flex-row flex-1">
+    <div th:replace="~{management/fragments :: sidebar}"></div>
+    <div class="flex-1">
+        <div th:replace="~{fragments :: navbar}"></div>
+        <div class="p-5">
+            <div class="max-w-fit mx-auto my-5">
+                <h1 class="text-3xl font-semibold">Nhân viên</h1>
+            </div>
+            <div th:if="${message}" role="alert" class="alert my-5">
+                <i class="fa-solid fa-circle-info"></i>
+                <span th:text="${message}"></span>
+            </div>
+            <a th:href="@{/management/employees/create}" class="btn btn-primary my-5">
+                <i class="fa-solid fa-plus"></i>
+                Thêm
+            </a>
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <!-- head -->
+                    <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Ảnh đại diện</th>
+                        <th>Họ đệm</th>
+                        <th>Tên</th>
+                        <th>Vai trò</th>
+                        <th>Kích hoạt</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- row -->
+                    <tr class="hover" th:each="employee : ${employees}">
+                        <th th:text="${employee.id}"></th>
+                        <td class="h-[70px] w-[100px]">
+                            <img th:src="@{${employee.imageUrl}}" alt="" class="object-contain">
+                        </td>
+                        <td th:text="${employee.lastName}"></td>
+                        <td th:text="${employee.firstName}"></td>
+
+                        <td th:text="${employee.roles}"></td>
+                        <td th:if="${employee.enabled == true}">
+                            <span class="fa-stack text-xs">
+                                <i class="fa-solid fa-square fa-stack-2x text-primary"></i>
+                                <i class="fa-solid fa-check fa-stack-1x text-white"></i>
+                            </span>
+                        </td>
+                        <td th:if="${employee.enabled != true}">
+                            <span class="fa-stack text-xs">
+                                <i class="fa-regular fa-square fa-stack-2x"></i>
+                            </span>
+                        </td>
+                        <td>
+                            <div class="flex flex-row gap-5 justify-end">
+                                <a th:href="@{'/management/employees/edit/' + ${employee.id}}" class="tooltip" data-tip="Sửa">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <form th:action="@{'/management/employees/delete/' + ${employee.id}}"
+                                      th:method="post"
+                                      class="tooltip text-error"
+                                      data-tip="Xóa"
+                                      th:data-name="${employee.fullName}">
+                                    <button>
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteButtons = document.querySelectorAll('form[data-name]');
+    deleteButtons.forEach(button => {
+        button.addEventListener('submit', function (e) {
+            const name = this.getAttribute('data-name');
+            if (!confirm(`Bạn có chắc chắn muốn xóa nhân viên "${name}" không?`)) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+</body>
+</html>

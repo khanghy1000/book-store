@@ -3,13 +3,17 @@ package io.dedyn.hy.watchworldshop.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -41,7 +45,6 @@ public class User {
     private String password;
 
     @Size(max = 255)
-    @NotNull
     @Column(name = "image", nullable = false)
     private String image;
 
@@ -49,9 +52,11 @@ public class User {
     @Column(name = "enabled", nullable = false)
     private Boolean enabled = false;
 
-    @NotNull
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private Date createdAt;
 
     @Size(max = 64)
     @Column(name = "verification_code", length = 64)
@@ -66,7 +71,22 @@ public class User {
     @OneToMany(mappedBy = "customer")
     private Set<ShippingInfo> shippingInfos = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
+    @JoinTable(name = "users_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new LinkedHashSet<>();
+
+    @Transient
+    public String getFullName() {
+        return lastName + " " + firstName;
+    }
+
+    @Transient
+    public String getImageUrl() {
+        if (image == null || id == null) return "/assets/placeholder.png";
+
+        return "/users/" + id + "/" + image;
+    }
 
 }

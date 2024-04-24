@@ -23,10 +23,11 @@ public class Role {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "users_roles",
-        joinColumns = @JoinColumn(name = "role_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users = new LinkedHashSet<>();
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

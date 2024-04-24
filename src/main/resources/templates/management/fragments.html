@@ -3,7 +3,7 @@
 <body>
 <ul th:fragment="sidebar" class="menu bg-base-100 w-72 rounded-none items-stretch">
     <li class="menu-title text-xl">Quản lý</li>
-    <li><a th:href="@{/management/employees}">Nhân viên</a></li>
+    <li><a th:href="@{/management/employees}" th:class="${currentPage == 'employees' ? 'active' : ''}">Nhân viên</a></li>
     <li><a th:href="@{/management/customers}">Khách hàng</a></li>
     <li><a th:href="@{/management/orders}">Đơn đặt hàng</a></li>
     <li>
