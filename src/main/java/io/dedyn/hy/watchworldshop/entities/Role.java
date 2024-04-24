@@ -23,7 +23,7 @@ public class Role {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @OneToMany(mappedBy = "role")
     private Set<User> users = new LinkedHashSet<>();
 
     @Override

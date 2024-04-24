@@ -75,11 +75,10 @@ public class User {
     @OneToMany(mappedBy = "customer")
     private Set<ShippingInfo> shippingInfos = new LinkedHashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "users_roles",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new LinkedHashSet<>();
+    @NotNull
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
     @Transient
     public String getFullName() {

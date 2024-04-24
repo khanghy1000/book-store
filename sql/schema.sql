@@ -78,6 +78,10 @@ ALTER TABLE wards
 CREATE INDEX idx_wards_district ON wards (district_code);
 CREATE INDEX idx_wards_unit ON wards (administrative_unit_id);
 
+CREATE TABLE roles (
+    id   SMALLINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(20) NOT NULL
+);
 
 CREATE TABLE users (
     id                BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -85,24 +89,13 @@ CREATE TABLE users (
     last_name         VARCHAR(255)            NOT NULL,
     email             VARCHAR(255) UNIQUE     NOT NULL,
     password          VARCHAR(68)             NOT NULL,
+    role_id           SMALLINT                NOT NULL,
     image             VARCHAR(255),
     enabled           BOOLEAN   DEFAULT FALSE NOT NULL,
     created_at        TIMESTAMP DEFAULT NOW() NOT NULL,
-    verification_code VARCHAR(64)
-);
+    verification_code VARCHAR(64),
 
-CREATE TABLE roles (
-    id   SMALLINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name VARCHAR(20) NOT NULL
-);
-
-CREATE TABLE users_roles (
-    user_id BIGINT,
-    role_id SMALLINT,
-
-    FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (role_id) REFERENCES roles (id),
-    PRIMARY KEY (user_id, role_id)
+    FOREIGN KEY (role_id) REFERENCES roles (id)
 );
 
 CREATE TABLE categories (

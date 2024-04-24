@@ -9,12 +9,12 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findFirstByEmail(String email);
 
-    @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name = ?1")
+    @Query("SELECT u FROM User u JOIN u.role r WHERE r.name = ?1")
     List<User> findAllByRoleName(String roleName);
 
-    @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name = 'Bán hàng' OR r.name = 'Admin'")
+    @Query("SELECT u FROM User u JOIN u.role r WHERE r.name = 'Bán hàng' OR r.name = 'Admin'")
     List<User> findAllEmployee();
 
-    @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name = 'Khách hàng'")
+    @Query("SELECT u FROM User u JOIN u.role r WHERE r.name = 'Khách hàng'")
     List<User> findAllCustomer();
 }
