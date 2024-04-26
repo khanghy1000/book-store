@@ -38,13 +38,13 @@ public class IndexController {
 
     @RequestMapping("/login")
     public String login() {
-        return "login";
+        return "auth/login";
     }
 
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("user", new User());
-        return "register";
+        return "auth/register";
     }
 
     @PostMapping("/register")
@@ -64,7 +64,7 @@ public class IndexController {
 
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getAllErrors());
-            return "register";
+            return "auth/register";
         }
 
 
@@ -85,7 +85,7 @@ public class IndexController {
 
     @GetMapping("/register-success")
     public String registerSuccess() {
-        return "register-success";
+        return "auth/register-success";
     }
 
     @GetMapping("/verify")
@@ -93,9 +93,9 @@ public class IndexController {
                           @RequestParam("code") String code ) {
         boolean verified = userService.verify(userId, code);
         if (verified) {
-            return "verify-success";
+            return "auth/verify-success";
         } else {
-            return "verify-fail";
+            return "auth/verify-fail";
         }
     }
 }
