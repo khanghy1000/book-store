@@ -10,9 +10,15 @@
 <form th:action="@{'/login'}" th:method="post" class="max-w-2xl mx-auto p-5 shadow-md rounded mt-10">
     <h1 class="text-3xl font-semibold text-center">Đăng nhập</h1>
 
-    <div th:if="${param.error}" role="alert" class="alert alert-error my-5">
+    <div th:if="${param.error != null && param.error[0] == 'disabled'}" role="alert" class="alert alert-error my-5">
         <i class="fa-solid fa-circle-info"></i>
-        <span th:text="${param.error[0] == 'disabled' ? 'Tài khoản chưa được kích hoạt. Vui lòng kiểm tra email.' : 'Email hoặc mật khẩu không đúng'}"></span>
+        <span>Tài khoản chưa được kích hoạt. Vui lòng kiểm tra email.</span>
+        <a id="btn-resend" th:if="${param.email}" th:href="@{'/resend-verify?email='}" class="btn btn-ghost">Gửi lại mã</a>
+    </div>
+
+    <div th:if="${param.error != null && param.error[0] != 'disabled'}" role="alert" class="alert alert-error my-5">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Email hoặc mật khẩu không đúng</span>
     </div>
 
     <label class="form-control w-full">
@@ -38,5 +44,14 @@
 
     <button class="btn btn-primary block w-full mt-5">Đăng nhập</button>
 </form>
+
+<script>
+    const btnResend = document.getElementById('btn-resend');
+    btnResend.addEventListener('click', (e) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        btnResend.href += email;
+    })
+</script>
 </body>
 </html>

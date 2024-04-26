@@ -28,10 +28,12 @@ import java.util.Objects;
 public class IndexController {
 
     private final UserService userService;
+    private final EmailService emailService;
 
     @Autowired
-    public IndexController(UserService userService) {
+    public IndexController(UserService userService, EmailService emailService) {
         this.userService = userService;
+        this.emailService = emailService;
     }
 
 
@@ -54,7 +56,8 @@ public class IndexController {
     @PostMapping("/register")
     public String register(@Valid User user,
                            BindingResult bindingResult,
-                           @RequestParam("image-file") MultipartFile imageFile) throws IOException {
+                           HttpServletRequest request,
+                           @RequestParam("image-file") MultipartFile imageFile) throws IOException, MessagingException {
         Role customerRole = userService.getRoleByName("Khách hàng");
         user.setId(null);
         user.setRole(customerRole);
@@ -71,7 +74,6 @@ public class IndexController {
             return "auth/register";
         }
 
-
         if (!imageFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(imageFile.getOriginalFilename()));
             user.setImage(fileName);
@@ -80,9 +82,10 @@ public class IndexController {
             FileUploadUtil.removeAllFiles(uploadDir);
             FileUploadUtil.saveFile(uploadDir, fileName, imageFile);
         } else {
-            if (user.getImage().isEmpty()) user.setImage(null);
             userService.save(user);
         }
+
+        sendVerifyMail(request, user);
 
         return "redirect:/register-success";
     }
@@ -101,5 +104,21 @@ public class IndexController {
         } else {
             return "auth/verify_fail";
         }
+    }
+
+    @GetMapping("/resend-verify")
+    public String resendVerify(@RequestParam("email") String email,
+                               HttpServletRequest request) throws MessagingException {
+        User user = userService.findByEmail(email);
+        if (user != null && !user.getEnabled()) {
+            sendVerifyMail(request, user);
+        }
+        return "auth/resend_verify_success";
+    }
+
+    private void sendVerifyMail(HttpServletRequest request, User user) throws MessagingException {
+        String baseUrl = RequestUtil.getBaseUrl(request);
+        String url = baseUrl + "/verify?userId=" + user.getId() + "&code=" + user.getVerificationCode();
+        emailService.sendVerifyMail(user, url);
     }
 }

@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Thành công')}">
+</head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<div class="flex flex-col items-center justify-center mt-20 gap-5">
+    <div class="text-5xl text-center font-bold text-primary">Gửi mã kích hoạt tài khoản thành công</div>
+    <div class="text-2xl text-center font-semibold">Vui lòng kiểm tra email để kích hoạt tài khoản</div>
+    <a th:href="@{/static}" class="btn btn-primary">Về trang chủ</a>
+</div>
+</body>
+</html>
