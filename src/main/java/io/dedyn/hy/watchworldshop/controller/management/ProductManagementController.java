@@ -3,6 +3,7 @@ package io.dedyn.hy.watchworldshop.controller.management;
 import io.dedyn.hy.watchworldshop.entities.Product;
 import io.dedyn.hy.watchworldshop.entities.ProductImage;
 import io.dedyn.hy.watchworldshop.services.BrandService;
+import io.dedyn.hy.watchworldshop.services.CategoryService;
 import io.dedyn.hy.watchworldshop.services.ProductService;
 import io.dedyn.hy.watchworldshop.utils.FileUploadUtil;
 import jakarta.validation.Valid;
@@ -29,11 +30,13 @@ import java.util.Set;
 public class ProductManagementController {
     private final ProductService productService;
     private final BrandService brandService;
+    private final CategoryService categoryService;
 
     @Autowired
-    public ProductManagementController(ProductService productService, BrandService brandService) {
+    public ProductManagementController(ProductService productService, BrandService brandService, CategoryService categoryService) {
         this.productService = productService;
         this.brandService = brandService;
+        this.categoryService = categoryService;
     }
 
 
@@ -49,6 +52,7 @@ public class ProductManagementController {
         Product product = Product.builder().discountPercent(0.0).shippingFee(30000.0).enabled(false).build();
         model.addAttribute("product", product);
         model.addAttribute("brands", brandService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "management/products/product_form";
     }
 
@@ -69,6 +73,7 @@ public class ProductManagementController {
         }
         if (bindingResult.hasErrors()) {
             model.addAttribute("brands", brandService.findAll());
+            model.addAttribute("categories", categoryService.findAll());
             return "management/products/product_form";
         }
 
@@ -86,6 +91,7 @@ public class ProductManagementController {
         Product product = productService.findById(id);
         model.addAttribute("product", product);
         model.addAttribute("brands", brandService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "management/products/product_form";
     }
 
@@ -107,6 +113,7 @@ public class ProductManagementController {
         }
         if (bindingResult.hasErrors()) {
             model.addAttribute("brands", brandService.findAll());
+            model.addAttribute("categories", categoryService.findAll());
             return "management/products/product_form";
         }
 

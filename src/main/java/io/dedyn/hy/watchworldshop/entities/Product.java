@@ -100,7 +100,10 @@ public class Product {
     @OrderBy("id ASC")
     private Set<ProductImage> productImages = new LinkedHashSet<>();
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany
+    @JoinTable(name = "products_categories",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new LinkedHashSet<>();
 
     @Transient
