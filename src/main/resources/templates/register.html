@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Thêm nhân viên mới')}"></head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<form th:action="@{/register}" th:method="post"
+      th:object="${user}" class="max-w-2xl mx-auto p-5 shadow-md rounded mt-10"
+      enctype="multipart/form-data">
+    <h1 class="text-3xl font-semibold text-center">Tạo tài khoản</h1>
+
+    <label class="form-control w-full">
+        <div class="label">
+            <span class="label-text">Họ đệm</span>
+        </div>
+        <input type="text" placeholder="Họ đệm" maxlength="255" required
+               class="input input-bordered w-full" th:field="*{lastName}"/>
+        <div class="label">
+            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('lastName')}"
+                  th:errors="*{lastName}"></span>
+        </div>
+    </label>
+
+    <label class="form-control w-full">
+        <div class="label">
+            <span class="label-text">Tên</span>
+        </div>
+        <input type="text" placeholder="Tên" maxlength="255" required
+               class="input input-bordered w-full" th:field="*{firstName}"/>
+        <div class="label">
+            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('firstName')}"
+                  th:errors="*{firstName}"></span>
+        </div>
+    </label>
+
+    <label class="form-control w-full">
+        <div class="label">
+            <span class="label-text">Email</span>
+        </div>
+        <input type="email" placeholder="Email" maxlength="255" required
+               class="input input-bordered w-full" th:field="*{email}"/>
+        <div class="label">
+            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('email')}"
+                  th:errors="*{email}"></span>
+        </div>
+    </label>
+
+    <label class="form-control w-full">
+        <div class="label">
+            <span class="label-text">Mật khẩu</span>
+        </div>
+        <input type="password" id="password" placeholder="Mật khẩu" minlength="5" maxlength="255" required
+               class="input input-bordered w-full" th:field="*{password}"/>
+        <div class="label">
+            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('password')}"
+                  th:errors="*{password}"></span>
+        </div>
+    </label>
+
+    <label class="form-control w-full">
+        <div class="label">
+            <span class="label-text">Nhập lại mật khẩu</span>
+        </div>
+        <input type="password" id="confirm-password" placeholder="Mật khẩu" required
+               class="input input-bordered w-full"/>
+        <div class="label hidden" id="confim-password-msg">
+            <span class="label-text-alt text-error">Mật khẩu không khớp</span>
+        </div>
+    </label>
+
+    <label>
+        <div class="label">
+            <span class="label-text">Hình đại diện</span>
+        </div>
+        <button class="btn btn-primary" type="button" id="btn-image-file">
+            <i class="fa-solid fa-image"></i>
+            Chọn hình
+        </button>
+        <input type="file" name="image-file" id="image-file" hidden accept="image/jpeg, image/png"/>
+        <div class="label">
+            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('image')}"
+                  th:errors="*{image}"></span>
+        </div>
+
+        <div id="image-preview" class="flex flex-row justify-center">
+            <img th:src="@{${user.imageUrl}}" alt="" class="object-contain">
+        </div>
+
+    </label>
+    <button class="btn btn-primary block w-full mt-5">Tạo tài khoản</button>
+</form>
+
+<script>
+    const btnImageFile = document.getElementById('btn-image-file');
+    const imageFileInput = document.getElementById('image-file');
+    const imagePreview = document.getElementById('image-preview');
+    const password = document.querySelector('#password');
+    const confirmPassword = document.querySelector('#confirm-password');
+    const confirmPasswordMsg = document.querySelector('#confim-password-msg');
+
+    btnImageFile.addEventListener('click', () => {
+        imageFileInput.click();
+    });
+
+    imageFileInput.addEventListener('change', () => {
+        const file = imageFileInput.files[0];
+
+        if (file) {
+            imagePreview.innerHTML = `<img src=${URL.createObjectURL(file)} alt="" class="object-contain">`;
+        }
+    });
+
+    document.querySelector('form').addEventListener('submit', (e) => {
+
+        if (password.value !== confirmPassword.value) {
+            e.preventDefault();
+            confirmPasswordMsg.classList.remove('hidden');
+            confirmPassword.focus();
+        } else {
+            confirmPasswordMsg.classList.add('hidden');
+        }
+    })
+</script>
+</body>
+</html>

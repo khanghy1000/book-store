@@ -46,6 +46,13 @@
                 <li><a th:href="@{/login}">Đăng nhập</a></li>
             </ul>
         </div>
+
+
+        <div class="flex-none" sec:authorize="!isAuthenticated()">
+            <ul class="menu menu-horizontal px-1">
+                <li><a th:href="@{/register}">Tạo tài khoản</a></li>
+            </ul>
+        </div>
     </div>
 </th:block>
 

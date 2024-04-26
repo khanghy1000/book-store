@@ -75,7 +75,6 @@ public class User {
     @OneToMany(mappedBy = "customer")
     private Set<ShippingInfo> shippingInfos = new LinkedHashSet<>();
 
-    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
