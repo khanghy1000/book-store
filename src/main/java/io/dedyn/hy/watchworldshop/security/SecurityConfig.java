@@ -15,15 +15,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
+    public SecurityConfig(CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public CustomAuthenticationFailureHandler customAuthenticationFailureHandler() {
-        return new CustomAuthenticationFailureHandler();
     }
 
     @Bean
@@ -50,7 +50,7 @@ public class SecurityConfig {
                 form
                     .loginPage("/login")
                     .usernameParameter("email")
-                    .failureHandler(customAuthenticationFailureHandler())
+                    .failureHandler(customAuthenticationFailureHandler)
                     .permitAll())
             .logout(logout ->
                 logout
