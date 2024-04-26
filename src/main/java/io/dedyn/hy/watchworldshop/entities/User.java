@@ -86,7 +86,7 @@ public class User {
 
     @Transient
     public String getImageUrl() {
-        if (image == null || id == null) return "/assets/placeholder.png";
+        if (image == null || id == null) return "/assets/avatar-placeholder.png";
 
         return "/users/" + id + "/" + image;
     }
