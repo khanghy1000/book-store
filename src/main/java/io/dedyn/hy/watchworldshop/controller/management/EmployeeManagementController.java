@@ -40,7 +40,7 @@ public class EmployeeManagementController {
     public String create(Model model) {
         Role sellerRole = userService.getRoleByName("Bán hàng");
         User user = new User();
-        user.setRoles(Set.of(sellerRole));
+        user.setRole(sellerRole);
         model.addAttribute("roles", userService.getEmployeeRoles());
         model.addAttribute("user", user);
         return "management/employees/employee_form";
@@ -61,8 +61,6 @@ public class EmployeeManagementController {
             model.addAttribute("roles", userService.getEmployeeRoles());
             return "management/employees/employee_form";
         }
-
-        System.out.println(user.getRoles());
 
         if (!imageFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(imageFile.getOriginalFilename()));

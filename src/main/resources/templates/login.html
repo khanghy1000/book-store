@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      data-theme="light"
+>
+<head th:replace="~{fragments :: header_files('Đăng nhập')}"></head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+
+<form th:action="@{'/login'}" th:method="post" class="max-w-2xl mx-auto p-5 shadow-md rounded mt-10">
+    <h1 class="text-3xl font-semibold text-center">Đăng nhập</h1>
+
+    <div th:if="${param.error}" role="alert" class="alert alert-error my-5">
+        <i class="fa-solid fa-circle-info"></i>
+        <span th:text="${param.error[0] == 'disabled' ? 'Tài khoản chưa được kích hoạt. Vui lòng kiểm tra email.' : 'Email hoặc mật khẩu không đúng'}"></span>
+    </div>
+
+    <label class="form-control w-full">
+        <div class="label">
+            <span class="label-text">Email</span>
+        </div>
+        <input type="email" placeholder="Email" required class="input input-bordered w-full" name="email"/>
+    </label>
+
+    <label class="form-control w-full">
+        <div class="label">
+            <span class="label-text">Mật khẩu</span>
+        </div>
+        <input type="password" placeholder="Mật khẩu" required class="input input-bordered w-full" name="password"/>
+    </label>
+
+    <div class="form-control my-3">
+        <label class="label cursor-pointer justify-end gap-3">
+            <span class="label-text">Ghi nhớ đăng nhập</span>
+            <input type="checkbox" class="checkbox" name="remember-me" />
+        </label>
+    </div>
+
+    <button class="btn btn-primary block w-full mt-5">Đăng nhập</button>
+</form>
+</body>
+</html>
