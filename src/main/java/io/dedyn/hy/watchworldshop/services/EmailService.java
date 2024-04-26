@@ -14,13 +14,11 @@ import org.thymeleaf.context.Context;
 public class EmailService {
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
-    private final UserService userService;
 
     @Autowired
-    public EmailService(JavaMailSender mailSender, TemplateEngine templateEngine, UserService userService) {
+    public EmailService(JavaMailSender mailSender, TemplateEngine templateEngine) {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
-        this.userService = userService;
     }
 
     public void sendVerifyMail(User user, String url) throws MessagingException {
