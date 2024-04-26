@@ -2,9 +2,13 @@ package io.dedyn.hy.watchworldshop.controller;
 
 import io.dedyn.hy.watchworldshop.entities.Role;
 import io.dedyn.hy.watchworldshop.entities.User;
+import io.dedyn.hy.watchworldshop.services.EmailService;
 import io.dedyn.hy.watchworldshop.services.UserService;
 import io.dedyn.hy.watchworldshop.utils.FileUploadUtil;
 import io.dedyn.hy.watchworldshop.utils.RandomStringUtil;
+import io.dedyn.hy.watchworldshop.utils.RequestUtil;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -85,17 +89,17 @@ public class IndexController {
 
     @GetMapping("/register-success")
     public String registerSuccess() {
-        return "auth/register-success";
+        return "auth/register_success";
     }
 
     @GetMapping("/verify")
-    public String verify( @RequestParam("userId") Long userId,
-                          @RequestParam("code") String code ) {
+    public String verify(@RequestParam("userId") Long userId,
+                         @RequestParam("code") String code) {
         boolean verified = userService.verify(userId, code);
         if (verified) {
-            return "auth/verify-success";
+            return "auth/verify_success";
         } else {
-            return "auth/verify-fail";
+            return "auth/verify_fail";
         }
     }
 }
