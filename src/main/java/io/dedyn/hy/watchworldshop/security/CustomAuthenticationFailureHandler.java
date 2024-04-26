@@ -30,7 +30,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
         if (exception.getMessage().equals("User is disabled")) {
             setDefaultFailureUrl(contextPath + "/login?error=disabled&email=" + request.getParameter("email"));
         } else {
-            setDefaultFailureUrl(contextPath + "/login?error");
+            setDefaultFailureUrl(contextPath + "/login?error&email=" + request.getParameter("email"));
         }
 
         super.onAuthenticationFailure(request, response, exception);

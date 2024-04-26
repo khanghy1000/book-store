@@ -13,7 +13,8 @@
     <div th:if="${param.error != null && param.error[0] == 'disabled'}" role="alert" class="alert alert-error my-5">
         <i class="fa-solid fa-circle-info"></i>
         <span>Tài khoản chưa được kích hoạt. Vui lòng kiểm tra email.</span>
-        <a id="btn-resend" th:if="${param.email}" th:href="@{'/resend-verify?email='}" class="btn btn-ghost">Gửi lại mã</a>
+        <a id="btn-resend" th:if="${param.email != null && param.email[0] != ''}" th:href="@{'/resend-verify?email='}"
+           class="btn btn-ghost">Gửi lại mã</a>
     </div>
 
     <div th:if="${param.error != null && param.error[0] != 'disabled'}" role="alert" class="alert alert-error my-5">
@@ -25,7 +26,8 @@
         <div class="label">
             <span class="label-text">Email</span>
         </div>
-        <input type="email" placeholder="Email" required class="input input-bordered w-full" name="email"/>
+        <input type="email" placeholder="Email" required class="input input-bordered w-full" name="email"
+               th:value="${param.email != null ? param.email[0] : ''}"/>
     </label>
 
     <label class="form-control w-full">
@@ -38,7 +40,7 @@
     <div class="form-control my-3">
         <label class="label cursor-pointer justify-end gap-3">
             <span class="label-text">Ghi nhớ đăng nhập</span>
-            <input type="checkbox" class="checkbox" name="remember-me" />
+            <input type="checkbox" class="checkbox" name="remember-me"/>
         </label>
     </div>
 
