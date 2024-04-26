@@ -77,4 +77,16 @@ public class UserService {
         if (user.getId() == null) return false;
         return user.getId().equals(dbuser.getId());
     }
+
+    public Boolean verify(Long userId, String verificationCode) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return false;
+        if (user.getVerificationCode().equals(verificationCode)) {
+            user.setEnabled(true);
+            user.setVerificationCode(null);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
 }

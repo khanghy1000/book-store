@@ -87,4 +87,15 @@ public class IndexController {
     public String registerSuccess() {
         return "register-success";
     }
+
+    @GetMapping("/verify")
+    public String verify( @RequestParam("userId") Long userId,
+                          @RequestParam("code") String code ) {
+        boolean verified = userService.verify(userId, code);
+        if (verified) {
+            return "verify-success";
+        } else {
+            return "verify-fail";
+        }
+    }
 }
