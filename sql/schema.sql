@@ -188,7 +188,7 @@ CREATE TABLE cart_items (
     PRIMARY KEY (customer_id, product_id)
 );
 
-CREATE TYPE STATUS AS ENUM ('Đã đặt', 'Đang giao', 'Đã giao', 'Đã huỷ');
+CREATE TYPE ORDER_STATUS AS ENUM ('ORDERED', 'SHIPPING', 'DELIVERED', 'CANCELLED');
 
 CREATE TABLE orders (
     id            BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -196,7 +196,7 @@ CREATE TABLE orders (
     order_time    TIMESTAMP    NOT NULL,
     shipping_cost FLOAT        NOT NULL,
     total         FLOAT        NOT NULL,
-    status        STATUS       NOT NULL,
+    status        ORDER_STATUS NOT NULL,
     first_name    VARCHAR(255) NOT NULL,
     last_name     VARCHAR(255) NOT NULL,
     phone_number  VARCHAR(15)  NOT NULL,
@@ -218,4 +218,45 @@ CREATE TABLE order_details (
     FOREIGN KEY (order_id) REFERENCES orders (id),
     FOREIGN KEY (product_id) REFERENCES products (id),
     PRIMARY KEY (order_id, product_id)
+);
+
+CREATE TYPE SECTION_TYPE AS ENUM ('PRODUCT', 'CATEGORY', 'BRAND');
+
+CREATE TABLE sections (
+    id      BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    title   VARCHAR(255)          NOT NULL,
+    enabled BOOLEAN DEFAULT FALSE NOT NULL,
+    "order" INT                   NOT NULL,
+    type    SECTION_TYPE          NOT NULL
+
+);
+
+CREATE TABLE sections_products (
+    product_id BIGINT NOT NULL,
+    section_id BIGINT NOT NULL,
+    "order"    INT    NOT NULL,
+
+    FOREIGN KEY (product_id) REFERENCES products (id),
+    FOREIGN KEY (section_id) REFERENCES sections (id),
+    PRIMARY KEY (product_id, section_id)
+);
+
+CREATE TABLE sections_categories (
+    category_id INT    NOT NULL,
+    section_id  BIGINT NOT NULL,
+    "order"     INT    NOT NULL,
+
+    FOREIGN KEY (category_id) REFERENCES categories (id),
+    FOREIGN KEY (section_id) REFERENCES sections (id),
+    PRIMARY KEY (category_id, section_id)
+);
+
+CREATE TABLE sections_brands (
+    brand_id   INT    NOT NULL,
+    section_id BIGINT NOT NULL,
+    "order"    INT    NOT NULL,
+
+    FOREIGN KEY (brand_id) REFERENCES brands (id),
+    FOREIGN KEY (section_id) REFERENCES sections (id),
+    PRIMARY KEY (brand_id, section_id)
 );

@@ -39,9 +39,9 @@ public class Order {
     private Double total;
 
     @NotNull
-    @Pattern(regexp = "^(Đã đặt|Đang giao|Đã giao|Đã huỷ)$")
     @Column(name = "status", nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     @Size(max = 255)
     @NotNull
