@@ -232,31 +232,31 @@ CREATE TABLE sections (
 );
 
 CREATE TABLE sections_products (
+    id      BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     product_id BIGINT NOT NULL,
     section_id BIGINT NOT NULL,
     "order"    INT    NOT NULL,
 
     FOREIGN KEY (product_id) REFERENCES products (id),
-    FOREIGN KEY (section_id) REFERENCES sections (id),
-    PRIMARY KEY (product_id, section_id)
+    FOREIGN KEY (section_id) REFERENCES sections (id)
 );
 
 CREATE TABLE sections_categories (
+    id      BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     category_id INT    NOT NULL,
     section_id  BIGINT NOT NULL,
     "order"     INT    NOT NULL,
 
     FOREIGN KEY (category_id) REFERENCES categories (id),
-    FOREIGN KEY (section_id) REFERENCES sections (id),
-    PRIMARY KEY (category_id, section_id)
+    FOREIGN KEY (section_id) REFERENCES sections (id)
 );
 
 CREATE TABLE sections_brands (
+    id      BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     brand_id   INT    NOT NULL,
     section_id BIGINT NOT NULL,
     "order"    INT    NOT NULL,
 
     FOREIGN KEY (brand_id) REFERENCES brands (id),
-    FOREIGN KEY (section_id) REFERENCES sections (id),
-    PRIMARY KEY (brand_id, section_id)
+    FOREIGN KEY (section_id) REFERENCES sections (id)
 );
