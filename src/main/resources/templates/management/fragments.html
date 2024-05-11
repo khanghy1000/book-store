@@ -20,6 +20,8 @@
                        th:class="${currentPage == 'products' ? 'active' : ''}">Đồng hồ</a></li>
             </ul>
         </li>
+        <li><a th:href="@{/management/sections}"
+               th:class="${currentPage == 'sections' ? 'active' : ''}">Mục trang chủ</a></li>
     </ul>
     <div class="w-72"></div>
 </th:block>

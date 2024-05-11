@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Trang chủ')}">
+</head>
+<body class="flex flex-col">
+<div class="flex flex-row flex-1">
+    <div th:replace="~{management/fragments :: sidebar}"></div>
+    <div class="flex-1">
+        <div th:replace="~{fragments :: navbar}"></div>
+        <div class="p-5">
+
+            <div class="max-w-fit mx-auto my-5">
+                <h1 class="text-3xl font-semibold">Mục</h1>
+            </div>
+
+            <div th:if="${message}" role="alert" class="alert my-5">
+                <i class="fa-solid fa-circle-info"></i>
+                <span th:text="${message}"></span>
+            </div>
+
+            <div class="dropdown dropdown-right dropdown-end">
+                <div tabindex="0" role="button" class="btn m-2 btn-primary">
+                    <i class="fa-solid fa-plus"></i>
+                    Thêm mục
+                </div>
+                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a th:href="@{/management/sections/product/create}">Đồng hồ</a></li>
+                    <li><a th:href="@{/management/sections/brand/create}">Hãng</a></li>
+                    <li><a th:href="@{/management/sections/category/create}">Loại</a></li>
+                </ul>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="table table-zebra">
+                    <!-- head -->
+                    <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Tiêu đề</th>
+                        <th>Loại</th>
+                        <th>Thứ tự</th>
+                        <th>Hiển thị</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- row -->
+                    <tr class="hover" th:each="section : ${sections}">
+                        <th th:text="${section.id}"></th>
+                        <td th:text="${section.title}"></td>
+                        <td th:text="${section.type.displayValue}"></td>
+                        <td th:text="${section.order}"></td>
+                        <!--                        <td th:if="${section.enabled == false}">-->
+                        <!--                            <span class="fa-stack text-xs">-->
+                        <!--                                <i class="fa-regular fa-square fa-stack-2x"></i>-->
+                        <!--                            </span>-->
+                        <!--                        </td>-->
+                        <!--                        <td th:if="${section.enabled == true}">-->
+                        <!--                            <span class="fa-stack text-xs">-->
+                        <!--                                <i class="fa-solid fa-square fa-stack-2x text-primary"></i>-->
+                        <!--                                <i class="fa-solid fa-check fa-stack-1x text-white"></i>-->
+                        <!--                            </span>-->
+                        <!--                        </td>-->
+                        <td>
+                            <form
+                                th:action="@{'/management/sections/enable/' + ${section.id} + ${section.enabled ? '/false' : '/true'}}"
+                                th:method="post"
+                                th:data-id="${section.id}">
+                                <button th:if="${section.enabled == false}">
+                                    <span class="fa-stack text-xs">
+                                        <i class="fa-regular fa-square fa-stack-2x"></i>
+                                    </span>
+                                </button>
+                                <button th:if="${section.enabled == true}">
+                                    <span class="fa-stack text-xs">
+                                        <i class="fa-solid fa-square fa-stack-2x text-primary"></i>
+                                        <i class="fa-solid fa-check fa-stack-1x text-white"></i>
+                                    </span>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <div class="flex flex-row gap-5 justify-end">
+                                <form th:action="@{'/management/sections/moveup/' + ${section.id}}"
+                                      th:method="post"
+                                      class="tooltip"
+                                      data-tip="Di chuyển lên">
+                                    <button>
+                                        <i class="fa-solid fa-angle-up"></i>
+                                    </button>
+                                </form>
+                                <form th:action="@{'/management/sections/movedown/' + ${section.id}}"
+                                      th:method="post"
+                                      class="tooltip"
+                                      data-tip="Di chuyển xuống">
+                                    <button>
+                                        <i class="fa-solid fa-angle-down"></i>
+                                    </button>
+                                </form>
+                                <a th:href="@{'/management/sections/' + ${section.type.path} + '/edit/' + ${section.id}}"
+                                   class="tooltip"
+                                   data-tip="Sửa">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <form th:action="@{'/management/sections/delete/' + ${section.id}}"
+                                      class="tooltip text-error"
+                                      data-tip="Xóa"
+                                      th:method="post"
+                                      th:data-id="${section.id}">
+                                    <button>
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteButtons = document.querySelectorAll('form[data-name]');
+    deleteButtons.forEach(button => {
+        button.addEventListener('submit', function (e) {
+            const id = this.getAttribute('data-id');
+            if (!confirm(`Bạn có chắc chắn muốn xóa mục có id ${id} không?`)) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+</body>
+</html>
