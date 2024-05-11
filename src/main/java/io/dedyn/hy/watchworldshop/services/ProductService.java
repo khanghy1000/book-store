@@ -6,6 +6,7 @@ import io.dedyn.hy.watchworldshop.repositories.ProductRepository;
 import io.dedyn.hy.watchworldshop.utils.SlugifyUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,5 +43,9 @@ public class ProductService {
         if (dbProduct == null) return true;
         if (product.getId() == null) return false;
         return product.getId().equals(dbProduct.getId());
+    }
+
+    public List<Product> findByKeyword(String keyword) {
+        return productRepository.findByKeyword(keyword);
     }
 }
