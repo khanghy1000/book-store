@@ -9,9 +9,13 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ["Inter", ...defaultTheme.fontFamily.sans],
-            }
+            },
+            gridTemplateColumns: {
+                'auto-fill': 'repeat(auto-fill, minmax(200px, 1fr))',
+            },
         },
     },
+
     darkMode: 'selector',
     plugins: [require("daisyui")],
 }

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div th:fragment="brand_section" class="grid grid-cols-auto-fill gap-4">
+    <!--/*@thymesVar id="brand" type="io.dedyn.hy.watchworldshop.entities.Brand"*/-->
+    <a th:each="sectionBrand : ${section.sectionBrands}"
+       th:with="brand = ${sectionBrand.brand}"
+       th:href="@{'/#'}"
+       class="btn btn-ghost ring-1 ring-base-300 overflow-hidden">
+        <span>
+        <img th:src="${brand.logoUrl}" class="h-[40px]">
+
+        </span>
+        <span th:text="${brand.name}"></span>
+    </a>
+</div>
+
+</body>
+</html>

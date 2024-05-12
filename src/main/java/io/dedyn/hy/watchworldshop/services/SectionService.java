@@ -23,6 +23,10 @@ public class SectionService {
         return sectionRepository.findALLOrderByOrderAsc();
     }
 
+    public List<Section> findAllEnabled() {
+        return sectionRepository.findAllEnabledOrderByOrderAsc();
+    }
+
     public void save(Section section) {
         if (section.getId() == null) {
             long newPosition = sectionRepository.count() + 1;

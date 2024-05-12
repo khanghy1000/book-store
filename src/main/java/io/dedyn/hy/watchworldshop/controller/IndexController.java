@@ -3,6 +3,7 @@ package io.dedyn.hy.watchworldshop.controller;
 import io.dedyn.hy.watchworldshop.entities.Role;
 import io.dedyn.hy.watchworldshop.entities.User;
 import io.dedyn.hy.watchworldshop.services.EmailService;
+import io.dedyn.hy.watchworldshop.services.SectionService;
 import io.dedyn.hy.watchworldshop.services.UserService;
 import io.dedyn.hy.watchworldshop.utils.FileUploadUtil;
 import io.dedyn.hy.watchworldshop.utils.RandomStringUtil;
@@ -29,17 +30,20 @@ public class IndexController {
 
     private final UserService userService;
     private final EmailService emailService;
+    private final SectionService sectionService;
 
     @Autowired
-    public IndexController(UserService userService, EmailService emailService) {
+    public IndexController(UserService userService, EmailService emailService, SectionService sectionService) {
         this.userService = userService;
         this.emailService = emailService;
+        this.sectionService = sectionService;
     }
 
 
     @RequestMapping("/")
-    public String index() {
-        return "index";
+    public String index(Model model) {
+        model.addAttribute("sections", sectionService.findAllEnabled());
+        return "homepage/index";
     }
 
     @RequestMapping("/login")

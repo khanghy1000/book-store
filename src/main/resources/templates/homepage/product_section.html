@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div th:fragment="product_section" class="grid grid-cols-auto-fill gap-4">
+    <!--/*@thymesVar id="product" type="io.dedyn.hy.watchworldshop.entities.product.Product"*/-->
+    <a th:each="sectionProduct : ${section.sectionProducts}"
+       th:with="product = ${sectionProduct.product}"
+       th:href="@{'/product/' + ${product.slug}}"
+       class="card card-compact w-full bg-base-100 shadow-lg hover:shadow-2xl hover:cursor-pointer">
+        <figure>
+            <img th:src="${product.mainImageUrl}" class="w-full h-[200px] object-contain"/>
+        </figure>
+        <div class="card-body flex flex-col justify-between tooltip" th:data-tip="${product.name}">
+            <h2 class="card-title text-sm break-words overflow-2-line" th:text="${product.name}">
+                <div class="badge badge-secondary" th:if="${product.discountPercent > 0}"
+                     th:text="${'-' + product.discountPercent}">
+                </div>
+            </h2>
+            <div class="flex flex-col gap-3">
+                <p>
+                    <span class="line-through"
+                          th:text="${'₫' + #numbers.formatDecimal(product.price,0,'COMMA',1,'POINT')}"></span>
+                    <span class="badge badge-primary"
+                          th:text="${'-' + product.discountPercent + '%'}"></span>
+                </p>
+                <p class="font-semibold text-lg btn btn-primary"
+                   th:text="${'₫' + #numbers.formatDecimal(product.price - product.price * (product.discountPercent / 100),0,'COMMA',1,'POINT')}">
+                </p>
+            </div>
+        </div>
+    </a>
+</div>
+
+</body>
+</html>

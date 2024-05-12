@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      data-theme="light"
+>
+<head th:replace="~{fragments :: header_files('Shop Đồng Hồ Nam Nữ Chính Hãng Đẹp & Mới')}"></head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+
+<div class="max-w-7xl mx-auto p-5">
+    <div th:each="section : ${sections}" class="mt-6 mb-14">
+        <h2 th:text="${section.title}" class="font-semibold text-2xl text-center mb-5"></h2>
+
+        <th:block th:if="${section.type.name() == 'PRODUCT'}">
+            <th:block th:replace="~{homepage/product_section :: product_section}"></th:block>
+        </th:block>
+
+        <th:block th:if="${section.type.name() == 'CATEGORY'}">
+            <th:block th:replace="~{homepage/category_section :: category_section}"></th:block>
+        </th:block>
+
+        <th:block th:if="${section.type.name() == 'BRAND'}">
+            <th:block th:replace="~{homepage/brand_section :: brand_section}"></th:block>
+        </th:block>
+    </div>
+</div>
+
+</body>
+</html>
