@@ -39,4 +39,10 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private Set<SectionCategory> sectionsCategories = new LinkedHashSet<>();
 
+    @PreRemove
+    private void preRemove() {
+        for (Product product : products) {
+            product.getCategories().remove(this);
+        }
+    }
 }
