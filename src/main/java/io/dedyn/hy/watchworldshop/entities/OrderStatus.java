@@ -1,5 +1,8 @@
 package io.dedyn.hy.watchworldshop.entities;
 
+import lombok.Getter;
+
+@Getter
 public enum OrderStatus {
     ORDERED("Đã đặt"),
     SHIPPING("Đang giao"),
@@ -12,7 +15,4 @@ private final String displayValue;
         this.displayValue = displayValue;
     }
 
-    public String getDisplayValue() {
-        return displayValue;
-    }
 }
