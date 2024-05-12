@@ -35,11 +35,11 @@ public class Section {
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("order asc")
-    private Set<SectionBrand> sectionsBrands = new LinkedHashSet<>();
+    private Set<SectionBrand> sectionBrands = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("order asc")
-    private Set<SectionCategory> sectionsCategories = new LinkedHashSet<>();
+    private Set<SectionCategory> sectionCategories = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("order asc")
@@ -51,11 +51,11 @@ public class Section {
 
 
     public void addSectionBrand(SectionBrand sectionBrand) {
-        sectionsBrands.add(sectionBrand);
+        sectionBrands.add(sectionBrand);
     }
 
     public void addSectionCategory(SectionCategory sectionCategory) {
-        sectionsCategories.add(sectionCategory);
+        sectionCategories.add(sectionCategory);
     }
 
     public void addSectionProduct(SectionProduct sectionProduct) {
