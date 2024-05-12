@@ -5,6 +5,7 @@ import io.dedyn.hy.watchworldshop.repositories.BrandRepository;
 import io.dedyn.hy.watchworldshop.utils.SlugifyUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class BrandService {
 
 
     public List<Brand> findAll() {
-        return brandRepository.findAll();
+        return brandRepository.findAll(Sort.by("name"));
     }
 
     public Brand findById(Integer id) {

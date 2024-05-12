@@ -5,6 +5,7 @@ import io.dedyn.hy.watchworldshop.repositories.CategoryRepository;
 import io.dedyn.hy.watchworldshop.utils.SlugifyUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class CategoryService {
     }
 
     public List<Category> findAll() {
-        return categoryRepository.findAll();
+        return categoryRepository.findAll(Sort.by("name"));
     }
 
     public Category findById(Integer id) {
