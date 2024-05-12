@@ -1,4 +1,4 @@
-package io.dedyn.hy.watchworldshop.entities;
+package io.dedyn.hy.watchworldshop.entities.order;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

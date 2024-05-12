@@ -1,5 +1,6 @@
-package io.dedyn.hy.watchworldshop.entities;
+package io.dedyn.hy.watchworldshop.entities.section;
 
+import io.dedyn.hy.watchworldshop.entities.Brand;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -8,8 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "sections_products")
-public class SectionProduct {
+@Table(name = "sections_brands")
+public class SectionBrand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -17,8 +18,8 @@ public class SectionProduct {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

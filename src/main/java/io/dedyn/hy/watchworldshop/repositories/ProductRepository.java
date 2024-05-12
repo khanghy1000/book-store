@@ -1,6 +1,6 @@
 package io.dedyn.hy.watchworldshop.repositories;
 
-import io.dedyn.hy.watchworldshop.entities.Product;
+import io.dedyn.hy.watchworldshop.entities.product.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

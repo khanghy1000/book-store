@@ -1,4 +1,4 @@
-package io.dedyn.hy.watchworldshop.entities;
+package io.dedyn.hy.watchworldshop.entities.section;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,6 @@
 package io.dedyn.hy.watchworldshop.services;
 
-import io.dedyn.hy.watchworldshop.entities.Section;
+import io.dedyn.hy.watchworldshop.entities.section.Section;
 import io.dedyn.hy.watchworldshop.exception.SectionNotFoundException;
 import io.dedyn.hy.watchworldshop.exception.SectionUnmoveableException;
 import io.dedyn.hy.watchworldshop.repositories.SectionRepository;

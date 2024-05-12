@@ -1,6 +1,6 @@
 package io.dedyn.hy.watchworldshop.controller;
 
-import io.dedyn.hy.watchworldshop.entities.Product;
+import io.dedyn.hy.watchworldshop.entities.product.Product;
 import io.dedyn.hy.watchworldshop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

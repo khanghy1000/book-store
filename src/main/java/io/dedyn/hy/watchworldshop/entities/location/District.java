@@ -1,5 +1,6 @@
-package io.dedyn.hy.watchworldshop.entities;
+package io.dedyn.hy.watchworldshop.entities.location;
 
+import io.dedyn.hy.watchworldshop.entities.ShippingRate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,8 +13,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "wards")
-public class Ward {
+@Table(name = "districts")
+public class District {
     @Id
     @Size(max = 20)
     @Column(name = "code", nullable = false, length = 20)
@@ -41,14 +42,17 @@ public class Ward {
     private String codeName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "district_code")
-    private District district;
+    @JoinColumn(name = "province_code")
+    private Province province;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "administrative_unit_id")
     private AdministrativeUnit administrativeUnit;
 
-    @OneToMany(mappedBy = "ward")
-    private Set<ShippingInfo> shippingInfos = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "district")
+    private Set<ShippingRate> shippingRates = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "district")
+    private Set<Ward> wards = new LinkedHashSet<>();
 
 }

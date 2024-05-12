@@ -1,5 +1,9 @@
-package io.dedyn.hy.watchworldshop.entities;
+package io.dedyn.hy.watchworldshop.entities.product;
 
+import io.dedyn.hy.watchworldshop.entities.Brand;
+import io.dedyn.hy.watchworldshop.entities.CartItem;
+import io.dedyn.hy.watchworldshop.entities.Category;
+import io.dedyn.hy.watchworldshop.entities.order.OrderDetail;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

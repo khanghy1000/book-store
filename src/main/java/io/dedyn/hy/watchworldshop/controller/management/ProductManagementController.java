@@ -1,7 +1,7 @@
 package io.dedyn.hy.watchworldshop.controller.management;
 
-import io.dedyn.hy.watchworldshop.entities.Product;
-import io.dedyn.hy.watchworldshop.entities.ProductImage;
+import io.dedyn.hy.watchworldshop.entities.product.Product;
+import io.dedyn.hy.watchworldshop.entities.product.ProductImage;
 import io.dedyn.hy.watchworldshop.services.BrandService;
 import io.dedyn.hy.watchworldshop.services.CategoryService;
 import io.dedyn.hy.watchworldshop.services.ProductService;

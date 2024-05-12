@@ -1,9 +1,9 @@
-package io.dedyn.hy.watchworldshop.controller.management;
+package io.dedyn.hy.watchworldshop.controller.management.section;
 
 import io.dedyn.hy.watchworldshop.entities.Category;
-import io.dedyn.hy.watchworldshop.entities.Section;
-import io.dedyn.hy.watchworldshop.entities.SectionCategory;
-import io.dedyn.hy.watchworldshop.entities.SectionType;
+import io.dedyn.hy.watchworldshop.entities.section.Section;
+import io.dedyn.hy.watchworldshop.entities.section.SectionCategory;
+import io.dedyn.hy.watchworldshop.entities.section.SectionType;
 import io.dedyn.hy.watchworldshop.services.CategoryService;
 import io.dedyn.hy.watchworldshop.services.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;

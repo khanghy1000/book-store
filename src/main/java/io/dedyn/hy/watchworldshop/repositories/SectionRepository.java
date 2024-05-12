@@ -1,6 +1,6 @@
 package io.dedyn.hy.watchworldshop.repositories;
 
-import io.dedyn.hy.watchworldshop.entities.Section;
+import io.dedyn.hy.watchworldshop.entities.section.Section;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

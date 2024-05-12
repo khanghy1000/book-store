@@ -1,5 +1,6 @@
 package io.dedyn.hy.watchworldshop.entities;
 
+import io.dedyn.hy.watchworldshop.entities.order.Order;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

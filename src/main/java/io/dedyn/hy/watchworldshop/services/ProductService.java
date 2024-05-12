@@ -1,12 +1,10 @@
 package io.dedyn.hy.watchworldshop.services;
 
-import io.dedyn.hy.watchworldshop.entities.Brand;
-import io.dedyn.hy.watchworldshop.entities.Product;
+import io.dedyn.hy.watchworldshop.entities.product.Product;
 import io.dedyn.hy.watchworldshop.repositories.ProductRepository;
 import io.dedyn.hy.watchworldshop.utils.SlugifyUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

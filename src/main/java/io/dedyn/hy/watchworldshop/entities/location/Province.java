@@ -1,5 +1,8 @@
-package io.dedyn.hy.watchworldshop.entities;
+package io.dedyn.hy.watchworldshop.entities.location;
 
+import io.dedyn.hy.watchworldshop.entities.location.AdministrativeRegion;
+import io.dedyn.hy.watchworldshop.entities.location.AdministrativeUnit;
+import io.dedyn.hy.watchworldshop.entities.location.District;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -12,8 +15,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "districts")
-public class District {
+@Table(name = "provinces")
+public class Province {
     @Id
     @Size(max = 20)
     @Column(name = "code", nullable = false, length = 20)
@@ -29,7 +32,8 @@ public class District {
     private String nameEn;
 
     @Size(max = 255)
-    @Column(name = "full_name")
+    @NotNull
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
     @Size(max = 255)
@@ -41,17 +45,14 @@ public class District {
     private String codeName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "province_code")
-    private Province province;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "administrative_unit_id")
     private AdministrativeUnit administrativeUnit;
 
-    @OneToMany(mappedBy = "district")
-    private Set<ShippingRate> shippingRates = new LinkedHashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "administrative_region_id")
+    private AdministrativeRegion administrativeRegion;
 
-    @OneToMany(mappedBy = "district")
-    private Set<Ward> wards = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "province")
+    private Set<District> districts = new LinkedHashSet<>();
 
 }
