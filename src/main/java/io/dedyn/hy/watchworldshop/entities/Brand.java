@@ -1,6 +1,7 @@
 package io.dedyn.hy.watchworldshop.entities;
 
 import io.dedyn.hy.watchworldshop.entities.product.Product;
+import io.dedyn.hy.watchworldshop.entities.section.SectionBrand;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +38,9 @@ public class Brand {
 
     @OneToMany(mappedBy = "brand")
     private Set<Product> products = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    private Set<SectionBrand> sectionsBrands = new LinkedHashSet<>();
 
     @Transient
     public String getLogoUrl() {

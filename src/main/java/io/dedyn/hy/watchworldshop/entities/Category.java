@@ -1,6 +1,7 @@
 package io.dedyn.hy.watchworldshop.entities;
 
 import io.dedyn.hy.watchworldshop.entities.product.Product;
+import io.dedyn.hy.watchworldshop.entities.section.SectionCategory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,5 +35,8 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private Set<SectionCategory> sectionsCategories = new LinkedHashSet<>();
 
 }

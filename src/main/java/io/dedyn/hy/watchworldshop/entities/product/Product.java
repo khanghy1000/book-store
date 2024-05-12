@@ -4,6 +4,7 @@ import io.dedyn.hy.watchworldshop.entities.Brand;
 import io.dedyn.hy.watchworldshop.entities.CartItem;
 import io.dedyn.hy.watchworldshop.entities.Category;
 import io.dedyn.hy.watchworldshop.entities.order.OrderDetail;
+import io.dedyn.hy.watchworldshop.entities.section.SectionProduct;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -109,6 +110,9 @@ public class Product {
         joinColumns = @JoinColumn(name = "product_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Set<SectionProduct> sectionsProducts = new LinkedHashSet<>();
 
     @Transient
     public String getMainImageUrl() {
