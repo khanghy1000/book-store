@@ -50,17 +50,6 @@
                         <td th:text="${section.title}"></td>
                         <td th:text="${section.type.displayValue}"></td>
                         <td th:text="${section.order}"></td>
-                        <!--                        <td th:if="${section.enabled == false}">-->
-                        <!--                            <span class="fa-stack text-xs">-->
-                        <!--                                <i class="fa-regular fa-square fa-stack-2x"></i>-->
-                        <!--                            </span>-->
-                        <!--                        </td>-->
-                        <!--                        <td th:if="${section.enabled == true}">-->
-                        <!--                            <span class="fa-stack text-xs">-->
-                        <!--                                <i class="fa-solid fa-square fa-stack-2x text-primary"></i>-->
-                        <!--                                <i class="fa-solid fa-check fa-stack-1x text-white"></i>-->
-                        <!--                            </span>-->
-                        <!--                        </td>-->
                         <td>
                             <form
                                 th:action="@{'/management/sections/enable/' + ${section.id} + ${section.enabled ? '/false' : '/true'}}"
