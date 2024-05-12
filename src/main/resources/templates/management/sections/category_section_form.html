@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Thêm mục loại mới')}"></head>
+<body class="flex flex-col" hx-headers='js:{"X-CSRF-TOKEN": token}'>
+<div class="flex flex-row flex-1">
+    <div th:replace="~{management/fragments :: sidebar}"></div>
+    <div class="flex-1">
+        <div th:replace="~{fragments :: navbar}"></div>
+        <form th:action="@{'/management/sections/category/' + ${section.id == null ? 'create' : 'edit'}}"
+              th:method="post"
+              th:object="${section}" class="max-w-4xl mx-auto p-5 shadow-md rounded mt-10"
+              id="category-form"
+        >
+
+            <h1 class="text-3xl font-semibold text-center"
+                th:text="${section.id == null ? 'Thêm mục loại mới' : 'Sửa mục loại'}"></h1>
+
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{type}"/>
+            <input type="hidden" th:field="*{order}"/>
+
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Tiêu đề <span class="text-error">*</span></span>
+                </div>
+                <input type="text" placeholder="Tiêu đề" minlength="3" maxlength="255" required
+                       class="input input-bordered w-full" th:field="*{title}"/>
+                <div class="label">
+                        <span class="label-text-alt text-error" th:if="${#fields.hasErrors('title')}"
+                              th:errors="*{title}"></span>
+                </div>
+            </label>
+
+            <div class="form-control">
+                <label class="label cursor-pointer flex flex-row justify-start gap-5 my-3">
+                    <span class="label-text">Hiển thị </span>
+                    <input type="checkbox" th:field="*{enabled}" class="checkbox checkbox-primary"/>
+                </label>
+            </div>
+
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Chọn loại</span>
+                </div>
+                <select class="select w-full select-bordered p-2" multiple="multiple" id="categories">
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+            </label>
+
+            <button type="button" id="btn-select" class="btn btn-primary my-5">Chọn</button>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Đã chọn</span>
+                </div>
+                <select class="select w-full select-bordered p-2"
+                        multiple="multiple"
+                        id="selected-categories"
+                        name="selectedCategories">
+                    <option th:each="sectionCategory : ${section.sectionCategories}"
+                            th:value="${sectionCategory.category.id} + '-' + ${sectionCategory.id}"
+                            th:text="${sectionCategory.category.name}">
+                    </option>
+                </select>
+            </label>
+
+            <div class="flex flex-row gap-5 justify-start my-5 p-3">
+                <i class="fa-solid fa-trash cursor-pointer" onclick="deleteCategory()"></i>
+                <i class="fa-solid fa-angle-up cursor-pointer" onclick="moveUp()"></i>
+                <i class="fa-solid fa-angle-down cursor-pointer" onclick="moveDown()"></i>
+            </div>
+
+            <button class="btn btn-primary block w-full mt-5"
+                    th:text="${section.id == null ? 'Thêm' : 'Sửa'}"></button>
+        </form>
+
+
+    </div>
+</div>
+
+<script>
+    const brands = document.getElementById('categories');
+    const selectedBrands = document.getElementById('selected-categories');
+    const btnSelect = document.getElementById('btn-select');
+    const form = document.getElementById('category-form');
+
+    form.addEventListener("submit", (e) => {
+        const options = selectedBrands.options;
+        for (let i = 0; i < options.length; i++) {
+            options[i].selected = true;
+        }
+    });
+
+    btnSelect.addEventListener('click', () => {
+        const selectedOptions = brands.selectedOptions;
+
+        for (let i = 0; i < selectedOptions.length; i++) {
+            const selectedOption = selectedOptions[i];
+            const option = document.createElement('option');
+            option.value = `${selectedOption.value}-0`
+            option.text = selectedOption.text;
+            selectedBrands.add(option);
+        }
+    });
+
+    function deleteCategory() {
+        selectedBrands.selectedOptions[0]?.remove();
+    }
+
+    function moveUp() {
+        selectedBrands.selectedOptions[0]?.previousElementSibling?.before(selectedBrands.selectedOptions[0]);
+    }
+
+    function moveDown() {
+        selectedBrands.selectedOptions[0]?.nextElementSibling?.after(selectedBrands.selectedOptions[0]);
+    }
+</script>
+</body>
+</html>
