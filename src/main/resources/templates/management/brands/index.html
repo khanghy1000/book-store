@@ -45,6 +45,7 @@
                                 </a>
                                 <form th:action="@{'/management/brands/delete/' + ${brand.id}}"
                                       th:method="post"
+                                        th:if="${brand.products.size() == 0}"
                                       class="tooltip text-error"
                                       data-tip="Xóa"
                                       th:data-name="${brand.name}">
@@ -52,7 +53,9 @@
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </form>
-
+                                <button th:if="${brand.products.size() > 0}" class="text-neutral-400 cursor-default">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
