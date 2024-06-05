@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      data-theme="light">
+
+<head th:replace="~{fragments :: header_files(${product.name})}"></head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+
+<div class="p-5 flex flex-col gap-20">
+
+    <div class="flex flex-row gap-10">
+
+        <div class="embla flex-1">
+            <div class="embla__viewport">
+                <div class="embla__container">
+                    <div class="embla__slide">
+                        <img th:src="${product.mainImageUrl}" class="w-[300px] h-[300px] object-contain mx-auto">
+                    </div>
+                    <div class="embla__slide" th:each="image: ${product.productImages}">
+                        <img th:src="${image.url}" class="w-[300px] h-[300px] object-contain mx-auto">
+                    </div>
+                </div>
+            </div>
+            <div class="embla__controls">
+                <div class="embla__buttons">
+                    <button class="embla__button embla__button--prev" type="button">
+                        <i class="fa-solid fa-angle-left"></i>
+                    </button>
+
+                    <button class="embla__button embla__button--next" type="button">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </button>
+                </div>
+
+                <div class="embla__dots"></div>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col gap-5">
+            <h1 class="text-3xl font-bold" th:text="${product.name}"></h1>
+            <p class="text-lg" th:utext="${product.shortDescription}"></p>
+
+            <p>
+                <span class="font-semibold">Số hàng còn lại: </span><span th:text="${product.quantity}"></span>
+            </p>
+
+            <div class="flex flex-row gap-3 items-center">
+                <p class="font-bold text-2xl text-red-600"
+                   th:text="${#numbers.formatDecimal(product.price - product.price * (product.discountPercent / 100),0,'COMMA',1,'POINT') + '₫'}">
+                </p>
+                <p class="line-through"
+                   th:text="${#numbers.formatDecimal(product.price,0,'COMMA',1,'POINT') + '₫'}"></p>
+                <span class="badge badge-primary"
+                      th:text="${'-' + product.discountPercent + '%'}"></span>
+            </div>
+
+
+            <button th:if="${product.quantity <= 0}" class="btn">Hết hàng</button>
+
+            <a th:if="${product.quantity > 0}" sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn">Vui
+                lòng đăng nhập để mua</a>
+
+            <form th:action="@{/cart}"
+                  th:method="post"
+                  th:if="${product.quantity > 0}"
+                  sec:authorize="isAuthenticated()"
+                  id="cart">
+                <label class="form-control w-[200px]">
+                    <div class="label">
+                        <span class="label-text">Số lượng <span class="text-error">*</span></span>
+                    </div>
+                    <input type="number" min="0" placeholder="Số lượng" required class="input input-bordered w-full"
+                           name="quantity"/>
+                </label>
+            </form>
+
+            <button th:if="${product.quantity > 0}"
+                    sec:authorize="isAuthenticated()"
+                    form="cart"
+                    class="btn btn-primary">
+                Thêm vào giỏ hàng
+            </button>
+        </div>
+
+    </div>
+
+    <div class="flex flex-row gap-10">
+
+        <div th:utext="${product.fullDescription}" class="flex-1 grow-[3]"></div>
+
+        <div class="overflow-x-auto flex-1 grow-[2]">
+            <table class="table table-zebra">
+                <caption class="font-semibold text-xl mb-4">Thông số</caption>
+                <thead>
+                <tr>
+                    <th>Tên thông số</th>
+                    <th>Giá trị</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="spec : ${product.productSpecs}">
+                    <th th:text="${spec.name}"></th>
+                    <td th:text="${spec.value}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script type="module">
+    import {addPrevNextBtnsClickHandlers} from "/assets/js/embla/arrowBtn.js";
+    import {addDotBtnsAndClickHandlers} from "/assets/js/embla/dotBtn.js";
+
+    const OPTIONS = {loop: true}
+
+    const emblaNode = document.querySelector('.embla')
+    const viewportNode = emblaNode.querySelector('.embla__viewport')
+    const prevBtnNode = emblaNode.querySelector('.embla__button--prev')
+    const nextBtnNode = emblaNode.querySelector('.embla__button--next')
+    const dotsNode = emblaNode.querySelector('.embla__dots')
+
+    const emblaApi = EmblaCarousel(viewportNode, OPTIONS)
+
+    const removePrevNextBtnsClickHandlers = addPrevNextBtnsClickHandlers(
+        emblaApi,
+        prevBtnNode,
+        nextBtnNode
+    )
+    const removeDotBtnsAndClickHandlers = addDotBtnsAndClickHandlers(
+        emblaApi,
+        dotsNode
+    )
+
+    emblaApi.on('destroy', removePrevNextBtnsClickHandlers)
+    emblaApi.on('destroy', removeDotBtnsAndClickHandlers)
+
+</script>
+
+</body>
+</html>

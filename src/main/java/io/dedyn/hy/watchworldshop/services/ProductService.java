@@ -27,6 +27,10 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
+    public Product findBySlug(String slug) {
+        return productRepository.findFirstBySlug(slug);
+    }
+
     public Product save(Product product) {
         product.setSlug(SlugifyUtil.slugify(product.getName()));
         return productRepository.save(product);
