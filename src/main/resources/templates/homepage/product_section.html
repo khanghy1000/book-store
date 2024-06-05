@@ -20,9 +20,6 @@
         </figure>
         <div class="card-body flex flex-col justify-between tooltip" th:data-tip="${product.name}">
             <h2 class="card-title text-sm break-words overflow-2-line" th:text="${product.name}">
-                <div class="badge badge-secondary" th:if="${product.discountPercent > 0}"
-                     th:text="${'-' + product.discountPercent}">
-                </div>
             </h2>
             <div class="flex flex-col gap-3">
                 <p>
