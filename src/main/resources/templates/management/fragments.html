@@ -1,5 +1,8 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <body>
 
 <th:block th:fragment="sidebar">
@@ -24,6 +27,49 @@
                th:class="${currentPage == 'sections' ? 'active' : ''}">Mục trang chủ</a></li>
     </ul>
     <div class="w-72"></div>
+</th:block>
+
+
+<th:block th:fragment="navbar">
+    <div class="navbar bg-base-100 shadow-sm sticky top-0 z-10">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl" th:href="@{/}">Watch World</a>
+        </div>
+
+
+        <div class="dropdown dropdown-end" sec:authorize="isAuthenticated()">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                <div class="w-10 rounded-full">
+                    <img th:src="@{${#authentication.principal.imageUrl}}"/>
+                </div>
+            </div>
+            <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                <li sec:authorize="hasAnyAuthority('Admin', 'Bán hàng')"><a th:href="@{/management}">Quản lý</a></li>
+                <li><a>Settings</a></li>
+                <li>
+                    <form th:action="@{/logout}" th:method="post">
+                        <button>Đăng xuất</button>
+                    </form>
+                </li>
+                <li sec:authentication="principal.fullName"></li>
+                <li sec:authentication="principal.authorities"></li>
+            </ul>
+        </div>
+
+        <div class="flex-none" sec:authorize="!isAuthenticated()">
+            <ul class="menu menu-horizontal px-1">
+                <li><a th:href="@{/login}">Đăng nhập</a></li>
+            </ul>
+        </div>
+
+
+        <div class="flex-none" sec:authorize="!isAuthenticated()">
+            <ul class="menu menu-horizontal px-1">
+                <li><a th:href="@{/register}">Tạo tài khoản</a></li>
+            </ul>
+        </div>
+    </div>
+
 </th:block>
 </body>
 </html>
