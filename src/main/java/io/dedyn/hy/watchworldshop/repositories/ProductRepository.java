@@ -24,9 +24,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("""
         select distinct p from Product p
         left join p.categories c
-        where lower(p.name) like lower(concat('%', concat(?1, '%')))
-        or lower(p.brand.name) like lower(concat('%', concat(?1, '%')))
-        or lower(c.name) like lower(concat('%', concat(?1, '%')))
+        where lower(p.name) like lower(concat( '%', ?1, '%'))
+        or lower(p.brand.name) like lower(concat('%', ?1, '%'))
+        or lower(c.name) like lower(concat('%',?1, '%'))
         """)
     Page<Product> findByKeyword(String keyword, Pageable pageable);
 
@@ -34,9 +34,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         select distinct p from Product p
         left join p.categories c
         where p.enabled = true
-        and (lower(p.name) like lower(concat('%', concat(?1, '%')))
-        or lower(p.brand.name) like lower(concat('%', concat(?1, '%')))
-        or lower(c.name) like lower(concat('%', concat(?1, '%'))))
+        and (lower(p.name) like lower(concat( '%', ?1, '%'))
+        or lower(p.brand.name) like lower(concat('%', ?1, '%'))
+        or lower(c.name) like lower(concat('%',?1, '%')))
         """)
     Page<Product> findEnabledByKeyword(String keyword, Pageable pageable);
 
@@ -45,9 +45,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         left join p.categories c
         where p.enabled = true
         and p.brand.id = ?2
-        and (lower(p.name) like lower(concat('%', concat(?1, '%')))
-        or lower(p.brand.name) like lower(concat('%', concat(?1, '%')))
-        or lower(c.name) like lower(concat('%', concat(?1, '%'))))
+        and (lower(p.name) like lower(concat( '%', ?1, '%'))
+        or lower(p.brand.name) like lower(concat('%', ?1, '%'))
+        or lower(c.name) like lower(concat('%',?1, '%')))
         """)
     Page<Product> findEnabledByKeywordAndBrand(String keyword, Integer brandId, Pageable pageable);
 
@@ -56,9 +56,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         left join p.categories c
         where p.enabled = true
         and c.id = ?2
-        and (lower(p.name) like lower(concat('%', concat(?1, '%')))
-        or lower(p.brand.name) like lower(concat('%', concat(?1, '%')))
-        or lower(c.name) like lower(concat('%', concat(?1, '%'))))
+        and (lower(p.name) like lower(concat( '%', ?1, '%'))
+        or lower(p.brand.name) like lower(concat('%', ?1, '%'))
+        or lower(c.name) like lower(concat('%',?1, '%')))
         """)
     Page<Product> findEnabledByKeywordAndCategory(String keyword, Integer categoryId, Pageable pageable);
 
@@ -68,9 +68,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         where p.enabled = true
         and p.brand.id = ?2
         and c.id = ?3
-        and (lower(p.name) like lower(concat('%', concat(?1, '%')))
-        or lower(p.brand.name) like lower(concat('%', concat(?1, '%')))
-        or lower(c.name) like lower(concat('%', concat(?1, '%'))))
+        and (lower(p.name) like lower(concat( '%', ?1, '%'))
+        or lower(p.brand.name) like lower(concat('%', ?1, '%'))
+        or lower(c.name) like lower(concat('%',?1, '%')))
         """)
     Page<Product> findEnabledByKeywordAndBrandAndCategory(String keyword, Integer brandId, Integer categoryId, Pageable pageable);
 }
