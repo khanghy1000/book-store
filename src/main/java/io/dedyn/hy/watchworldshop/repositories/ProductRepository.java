@@ -24,6 +24,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("""
         select distinct p from Product p
         left join p.categories c
+        where lower(p.name) like lower(concat('%', concat(?1, '%')))
+        or lower(p.brand.name) like lower(concat('%', concat(?1, '%')))
+        or lower(c.name) like lower(concat('%', concat(?1, '%')))
+        """)
+    Page<Product> findByKeyword(String keyword, Pageable pageable);
+
+    @Query("""
+        select distinct p from Product p
+        left join p.categories c
         where p.enabled = true
         and (lower(p.name) like lower(concat('%', concat(?1, '%')))
         or lower(p.brand.name) like lower(concat('%', concat(?1, '%')))

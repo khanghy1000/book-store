@@ -64,6 +64,13 @@ public class ProductService {
         return productRepository.findByKeyword(keyword);
     }
 
+    public Page<Product> findByKeyword(String keyword, Integer page) {
+        if (page > 0) page--;
+        if (page < 0) page = 0;
+
+        return productRepository.findByKeyword(keyword, PageRequest.of(page, PAGE_SIZE, Sort.by("name").ascending()));
+    }
+
     public Page<Product> findEnabledByKeyword(String keyword,
                                               Integer brandId,
                                               Integer categoryId,
