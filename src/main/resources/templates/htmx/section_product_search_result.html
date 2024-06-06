@@ -6,7 +6,7 @@
              th:data-name="${product.name}"
              th:data-url="${product.mainImageUrl}">
             <figure>
-                <img th:src="${product.mainImageUrl}" class="w-[200px] h-[150px] object-contain"/>
+                <img th:src="@{${product.mainImageUrl}}" class="w-[200px] h-[150px] object-contain"/>
             </figure>
             <div class="card-body">
                 <h2 class="card-title text-sm" th:text="${product.name}"></h2>

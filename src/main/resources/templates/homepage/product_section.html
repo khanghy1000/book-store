@@ -16,7 +16,7 @@
        th:href="@{'/product/' + ${product.slug}}"
        class="card card-compact w-full bg-base-100 shadow-lg hover:shadow-2xl hover:cursor-pointer">
         <figure>
-            <img th:src="${product.mainImageUrl}" class="w-full h-[200px] object-contain"/>
+            <img th:src="@{${product.mainImageUrl}}" class="w-full h-[200px] object-contain"/>
         </figure>
         <div class="card-body flex flex-col justify-between tooltip" th:data-tip="${product.name}">
             <h2 class="card-title text-sm break-words overflow-2-line" th:text="${product.name}">
