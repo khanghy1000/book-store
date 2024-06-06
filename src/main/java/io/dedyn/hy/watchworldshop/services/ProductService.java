@@ -17,6 +17,8 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
+    private final int PAGE_SIZE = 10;
+
     @Autowired
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -38,6 +40,10 @@ public class ProductService {
         return productRepository.findFirstBySlug(slug);
     }
 
+    public Long count() {
+        return productRepository.count();
+    }
+
     public Product save(Product product) {
         product.setSlug(SlugifyUtil.slugify(product.getName()));
         return productRepository.save(product);
@@ -57,4 +63,45 @@ public class ProductService {
     public List<Product> findByKeyword(String keyword) {
         return productRepository.findByKeyword(keyword);
     }
+
+    public Page<Product> findEnabledByKeyword(String keyword,
+                                              Integer brandId,
+                                              Integer categoryId,
+                                              Integer page,
+                                              String sortBy,
+                                              String order) {
+        if (page > 0) page--;
+        if (page < 0) page = 0;
+
+        if (brandId != null && brandId != 0 && categoryId != null && categoryId != 0) {
+            if (order.equals("desc")) {
+                return productRepository.findEnabledByKeywordAndBrandAndCategory(keyword, brandId, categoryId, PageRequest.of(page, PAGE_SIZE, Sort.by(sortBy).descending()));
+            } else {
+                return productRepository.findEnabledByKeywordAndBrandAndCategory(keyword, brandId, categoryId, PageRequest.of(page, PAGE_SIZE, Sort.by(sortBy).ascending()));
+            }
+        }
+
+        if (brandId != null && brandId != 0) {
+            if (order.equals("desc")) {
+                return productRepository.findEnabledByKeywordAndBrand(keyword, brandId, PageRequest.of(page, PAGE_SIZE, Sort.by(sortBy).descending()));
+            } else {
+                return productRepository.findEnabledByKeywordAndBrand(keyword, brandId, PageRequest.of(page, PAGE_SIZE, Sort.by(sortBy).ascending()));
+            }
+        }
+
+        if (categoryId != null && categoryId != 0) {
+            if (order.equals("desc")) {
+                return productRepository.findEnabledByKeywordAndCategory(keyword, categoryId, PageRequest.of(page, PAGE_SIZE, Sort.by(sortBy).descending()));
+            } else {
+                return productRepository.findEnabledByKeywordAndCategory(keyword, categoryId, PageRequest.of(page, PAGE_SIZE, Sort.by(sortBy).ascending()));
+            }
+        }
+
+        if (order.equals("desc")) {
+            return productRepository.findEnabledByKeyword(keyword, PageRequest.of(page, PAGE_SIZE, Sort.by(sortBy).descending()));
+        } else {
+            return productRepository.findEnabledByKeyword(keyword, PageRequest.of(page, PAGE_SIZE, Sort.by(sortBy).ascending()));
+        }
+    }
+
 }

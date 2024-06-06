@@ -8,8 +8,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title th:text="${title}"></title>
     <link rel="shortcut icon" th:href="@{/assets/favicon.ico}">
     <link rel="stylesheet" th:href="@{/assets/css/output.css}">
@@ -27,9 +27,18 @@
 <body>
 <th:block th:fragment="navbar">
     <div class="navbar bg-base-100 shadow-sm sticky top-0 z-10">
-        <div class="flex-1">
+        <div class="flex-1 flex flex-row items-center gap-5">
             <a class="btn btn-ghost text-xl" th:href="@{/}">Watch World</a>
+            <div class="form-control flex flex-row gap-3 items-center">
+                <input id="keyword-input"
+                       th:value="${keyword != null ? keyword : ''}"
+                       type="text"
+                       placeholder="Tìm đồng hồ"
+                       class="input input-bordered w-24 md:w-auto"/>
+                <button id="btn-search" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
         </div>
+
 
         <div class="dropdown dropdown-end" sec:authorize="isAuthenticated()">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
@@ -63,6 +72,30 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        const contextPath = /*[[@{/}]]*/ "/";
+        const searchUrl = window.location.origin + contextPath + "product/search";
+
+        function search() {
+            const keyword = document.getElementById("keyword-input").value;
+            if (window.location.href.includes(searchUrl)) {
+                const url = new URL(window.location.href);
+                url.searchParams.set("keyword", keyword);
+                window.location.href = url;
+            } else {
+                window.location.href = searchUrl + '?keyword=' + keyword;
+            }
+        }
+
+        document.getElementById("btn-search").addEventListener("click", search);
+        document.getElementById("keyword-input").addEventListener("keyup", function (event) {
+            if (event.key === "Enter") {
+                search();
+            }
+        });
+
+    </script>
 </th:block>
 
 </body>
