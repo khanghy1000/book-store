@@ -1,6 +1,5 @@
 package io.dedyn.hy.watchworldshop.entities.location;
 
-import io.dedyn.hy.watchworldshop.entities.ShippingRate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -48,9 +47,6 @@ public class District {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "administrative_unit_id")
     private AdministrativeUnit administrativeUnit;
-
-    @OneToMany(mappedBy = "district")
-    private Set<ShippingRate> shippingRates = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "district")
     private Set<Ward> wards = new LinkedHashSet<>();

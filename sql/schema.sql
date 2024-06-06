@@ -156,14 +156,6 @@ CREATE TABLE product_specs (
     FOREIGN KEY (product_id) REFERENCES products (id)
 );
 
-CREATE TABLE shipping_rates (
-    id            INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    district_code VARCHAR(20) NOT NULL,
-    rate          FLOAT       NOT NULL,
-
-    FOREIGN KEY (district_code) REFERENCES districts (code)
-);
-
 CREATE TABLE shipping_info (
     id           BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     first_name   VARCHAR(255) NOT NULL,
