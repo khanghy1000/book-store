@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Thêm khách hàng mới')}"></head>
+<body class="flex flex-col">
+<div class="flex flex-row flex-1">
+    <div th:replace="~{management/fragments :: sidebar}"></div>
+    <div class="flex-1">
+        <div th:replace="~{management/fragments :: navbar}"></div>
+        <form th:action="@{'/management/customers/' + ${user.id == null ? 'create' : 'edit'}}" th:method="post"
+              th:object="${user}" class="max-w-2xl mx-auto p-5 shadow-md rounded mt-10"
+              enctype="multipart/form-data">
+            <h1 class="text-3xl font-semibold text-center"
+                th:text="${user.id == null ? 'Thêm khách hàng mới' : 'Chỉnh sửa khách hàng (mã: ' + user.id + ')'}"></h1>
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{image}">
+            <input type="hidden" th:field="*{createdAt}">
+            <input type="hidden" th:field="*{role}">
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Họ đệm</span>
+                </div>
+                <input type="text" placeholder="Họ đệm" maxlength="255" required
+                       class="input input-bordered w-full" th:field="*{lastName}"/>
+                <div class="label">
+                    <span class="label-text-alt text-error" th:if="${#fields.hasErrors('lastName')}"
+                          th:errors="*{lastName}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Tên</span>
+                </div>
+                <input type="text" placeholder="Tên" maxlength="255" required
+                       class="input input-bordered w-full" th:field="*{firstName}"/>
+                <div class="label">
+                    <span class="label-text-alt text-error" th:if="${#fields.hasErrors('firstName')}"
+                          th:errors="*{firstName}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Email</span>
+                </div>
+                <input type="email" placeholder="Email" maxlength="255" required
+                       class="input input-bordered w-full" th:field="*{email}"/>
+                <div class="label">
+                    <span class="label-text-alt text-error" th:if="${#fields.hasErrors('email')}"
+                          th:errors="*{email}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Mật khẩu </span>
+                    <span class="text-sm text-error" th:if="${user.id != null}">(Để trống nếu không đổi mật khẩu)</span>
+                </div>
+                <input type="password" placeholder="Mật khẩu" maxlength="255"
+                       class="input input-bordered w-full" th:field="*{password}"/>
+                <div class="label">
+                    <span class="label-text-alt text-error" th:if="${#fields.hasErrors('password')}"
+                          th:errors="*{password}"></span>
+                </div>
+            </label>
+
+            <div class="form-control">
+                <label class="label cursor-pointer flex flex-row justify-start gap-5 my-3">
+                    <span class="label-text">Kích hoạt </span>
+                    <input type="checkbox" th:field="*{enabled}" class="checkbox checkbox-primary"/>
+                </label>
+            </div>
+
+            <label>
+                <div class="label">
+                    <span class="label-text">Hình đại diện</span>
+                </div>
+                <button class="btn btn-primary" type="button" id="btn-image-file">
+                    <i class="fa-solid fa-image"></i>
+                    Chọn hình
+                </button>
+                <input type="file" name="image-file" id="image-file" hidden accept="image/jpeg, image/png"/>
+                <div class="label">
+                    <span class="label-text-alt text-error" th:if="${#fields.hasErrors('image')}"
+                          th:errors="*{image}"></span>
+                </div>
+
+                <div id="image-preview" class="flex flex-row justify-center">
+                    <img th:src="@{${user.imageUrl}}" alt="" class="object-contain">
+                </div>
+
+            </label>
+            <button class="btn btn-primary block w-full mt-5"
+                    th:text="${user.id == null ? 'Thêm' : 'Sửa'}"></button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const btnImageFile = document.getElementById('btn-image-file');
+    const imageFileInput = document.getElementById('image-file');
+    const imagePreview = document.getElementById('image-preview');
+
+    btnImageFile.addEventListener('click', () => {
+        imageFileInput.click();
+    });
+
+    imageFileInput.addEventListener('change', () => {
+        const file = imageFileInput.files[0];
+
+        if (file) {
+            imagePreview.innerHTML = `<img src=${URL.createObjectURL(file)} alt="" class="object-contain">`;
+        }
+    });
+</script>
+</body>
+</html>
