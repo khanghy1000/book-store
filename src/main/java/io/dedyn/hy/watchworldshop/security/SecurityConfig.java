@@ -46,6 +46,8 @@ public class SecurityConfig {
                     .hasAnyAuthority("Admin", "Bán hàng")
                     .requestMatchers("/cart/**", "/orders/**")
                     .hasAnyAuthority("Khách hàng")
+                    .requestMatchers("/profile/**")
+                    .authenticated()
                     .anyRequest()
                     .permitAll())
             .formLogin(form ->

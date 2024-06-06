@@ -90,6 +90,21 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User updateProfile(Long userId, User formUser) {
+        User dbUser = userRepository.findById(userId).orElse(null);
+        if (dbUser == null) return null;
+
+        dbUser.setLastName(formUser.getLastName());
+        dbUser.setFirstName(formUser.getFirstName());
+        dbUser.setImage(formUser.getImage());
+
+        if (!formUser.getPassword().isEmpty()) {
+            dbUser.setPassword(passwordEncoder.encode(formUser.getPassword()));
+        }
+
+        return userRepository.save(dbUser);
+    }
+
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }

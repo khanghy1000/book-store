@@ -65,4 +65,10 @@ public class UserDetailsImpl implements UserDetails {
     public String getImageUrl() {
         return user.getImageUrl();
     }
+
+    public void setUser(User user) {
+        this.user.setLastName(user.getLastName());
+        this.user.setFirstName(user.getFirstName());
+        this.user.setImage(user.getImage());
+    }
 }
