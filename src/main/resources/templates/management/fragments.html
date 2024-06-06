@@ -8,11 +8,14 @@
 <th:block th:fragment="sidebar">
     <ul class="menu bg-base-100 w-72 rounded-none items-stretch fixed">
         <li class="menu-title text-xl">Quản lý</li>
-        <li><a th:href="@{/management/employees}" th:class="${currentTab == 'employees' ? 'active' : ''}">Nhân viên</a>
+        <li sec:authorize="hasAuthority('Admin')">
+            <a th:href="@{/management/employees}" th:class="${currentTab == 'employees' ? 'active' : ''}">Nhân viên</a>
         </li>
-        <li><a th:href="@{/management/customers}" th:class="${currentTab == 'customers' ? 'active' : ''}">Khách
-            hàng</a></li>
-        <li><a th:href="@{/management/orders}" th:class="${currentTab == 'orders' ? 'active' : ''}">Đơn đặt hàng</a>
+        <li sec:authorize="hasAuthority('Admin')">
+            <a th:href="@{/management/customers}" th:class="${currentTab == 'customers' ? 'active' : ''}">Khách hàng</a>
+        </li>
+        <li>
+            <a th:href="@{/management/orders}" th:class="${currentTab == 'orders' ? 'active' : ''}">Đơn đặt hàng</a>
         </li>
         <li>
             <p>Đồng hồ</p>
@@ -38,7 +41,7 @@
             <a class="btn btn-ghost text-xl" th:href="@{/}">Watch World</a>
         </div>
 
-        <form id="logout" th:action="@{/logout}" th:method="post"> </form>
+        <form id="logout" th:action="@{/logout}" th:method="post"></form>
 
         <div class="dropdown dropdown-end" sec:authorize="isAuthenticated()">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">

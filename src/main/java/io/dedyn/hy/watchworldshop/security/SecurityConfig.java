@@ -42,6 +42,8 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth ->
                 auth
+                    .requestMatchers("/management/employees/**", "management/customers/**")
+                    .hasAuthority("Admin")
                     .requestMatchers("/management/**")
                     .hasAnyAuthority("Admin", "Bán hàng")
                     .requestMatchers("/cart/**", "/orders/**")
