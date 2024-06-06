@@ -146,8 +146,8 @@ public class ProductManagementController {
         return "redirect:/management/products";
     }
 
-    @ModelAttribute("currentPage")
-    public String currentPage() {
+    @ModelAttribute("currentTab")
+    public String currentTab() {
         return "products";
     }
 

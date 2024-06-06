@@ -137,8 +137,8 @@ public class EmployeeManagementController {
         return "redirect:/management/employees";
     }
 
-    @ModelAttribute("currentPage")
-    public String currentPage() {
+    @ModelAttribute("currentTab")
+    public String currentTab() {
         return "employees";
     }
 }

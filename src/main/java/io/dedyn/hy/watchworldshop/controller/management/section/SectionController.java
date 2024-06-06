@@ -75,8 +75,8 @@ public class SectionController {
         return "redirect:/management/sections";
     }
 
-    @ModelAttribute("currentPage")
-    public String currentPage() {
+    @ModelAttribute("currentTab")
+    public String currentTab() {
         return "sections";
     }
 }

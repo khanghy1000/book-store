@@ -83,8 +83,8 @@ public class CategoryManagementController {
         return "redirect:/management/categories";
     }
 
-    @ModelAttribute("currentPage")
-    public String currentPage() {
+    @ModelAttribute("currentTab")
+    public String currentTab() {
         return "categories";
     }
 }

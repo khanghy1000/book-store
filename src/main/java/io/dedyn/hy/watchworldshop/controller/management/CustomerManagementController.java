@@ -139,8 +139,8 @@ public class CustomerManagementController {
         return "redirect:/management/customers";
     }
 
-    @ModelAttribute("currentPage")
-    public String currentPage() {
+    @ModelAttribute("currentTab")
+    public String currentTab() {
         return "customers";
     }
 }

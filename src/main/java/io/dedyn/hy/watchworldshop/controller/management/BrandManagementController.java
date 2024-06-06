@@ -117,8 +117,8 @@ public class BrandManagementController {
         return "redirect:/management/brands";
     }
 
-    @ModelAttribute("currentPage")
-    public String currentPage() {
+    @ModelAttribute("currentTab")
+    public String currentTab() {
         return "brands";
     }
 }
