@@ -5,6 +5,9 @@ import io.dedyn.hy.watchworldshop.repositories.ProductRepository;
 import io.dedyn.hy.watchworldshop.utils.SlugifyUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,10 @@ public class ProductService {
 
     public List<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    public List<Product> findAll(Sort sort) {
+        return productRepository.findAll(sort);
     }
 
     public Product findById(Long id) {

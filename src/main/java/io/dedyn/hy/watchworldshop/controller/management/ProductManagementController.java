@@ -8,6 +8,7 @@ import io.dedyn.hy.watchworldshop.services.ProductService;
 import io.dedyn.hy.watchworldshop.utils.FileUploadUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -42,7 +43,7 @@ public class ProductManagementController {
 
     @RequestMapping("")
     public String index(Model model) {
-        List<Product> products = productService.findAll();
+        List<Product> products = productService.findAll(Sort.by("name").ascending());
         model.addAttribute("products", products);
         return "management/products/index";
     }
