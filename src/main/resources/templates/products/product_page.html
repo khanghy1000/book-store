@@ -65,7 +65,7 @@
             <form th:action="@{/cart}"
                   th:method="post"
                   th:if="${product.quantity > 0}"
-                  sec:authorize="isAuthenticated()"
+                  sec:authorize="hasAuthority('Khách hàng')"
                   id="cart">
                 <p class="mb-2 text-sm">Số lượng <span class="text-error">*</span></p>
                 <div class="flex flex-row items-center gap-2">
@@ -84,7 +84,7 @@
             </form>
 
             <button th:if="${product.quantity > 0}"
-                    sec:authorize="isAuthenticated()"
+                    sec:authorize="hasAuthority('Khách hàng')"
                     form="cart"
                     class="btn btn-primary">
                 Thêm vào giỏ hàng
