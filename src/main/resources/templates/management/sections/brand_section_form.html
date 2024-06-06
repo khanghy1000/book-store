@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
-<head th:replace="~{fragments :: header_files('Thêm mục hãng mới')}"></head>
+<head th:replace="~{fragments :: header_files(${section.id == null ? 'Thêm mục hãng mới' : 'Sửa mục hãng'})}"></head>
 <body class="flex flex-col" hx-headers='js:{"X-CSRF-TOKEN": token}'>
 <div class="flex flex-row flex-1">
     <div th:replace="~{management/fragments :: sidebar}"></div>

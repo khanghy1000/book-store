@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
-<head th:replace="~{fragments :: header_files('Thêm đồng hồ mới')}"></head>
+<head th:replace="~{fragments :: header_files(${product.id == null ? 'Thêm đồng hồ mới' : 'Chỉnh sửa đồng hồ'})}"></head>
 <body class="flex flex-col">
 <div class="flex flex-row flex-1">
     <div th:replace="~{management/fragments :: sidebar}"></div>
