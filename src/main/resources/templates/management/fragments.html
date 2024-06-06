@@ -10,8 +10,10 @@
         <li class="menu-title text-xl">Quản lý</li>
         <li><a th:href="@{/management/employees}" th:class="${currentPage == 'employees' ? 'active' : ''}">Nhân viên</a>
         </li>
-        <li><a th:href="@{/management/customers}">Khách hàng</a></li>
-        <li><a th:href="@{/management/orders}">Đơn đặt hàng</a></li>
+        <li><a th:href="@{/management/customers}" th:class="${currentPage == 'customers' ? 'active' : ''}">Khách
+            hàng</a></li>
+        <li><a th:href="@{/management/orders}" th:class="${currentPage == 'orders' ? 'active' : ''}">Đơn đặt hàng</a>
+        </li>
         <li>
             <p>Đồng hồ</p>
             <ul>

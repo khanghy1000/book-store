@@ -6,6 +6,7 @@ import io.dedyn.hy.watchworldshop.services.UserService;
 import io.dedyn.hy.watchworldshop.utils.FileUploadUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -15,9 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/management/employees")
@@ -30,8 +29,16 @@ public class EmployeeManagementController {
     }
 
     @GetMapping("")
-    public String index(Model model) {
-        model.addAttribute("employees", userService.findAllEmployee());
+    public String index(@RequestParam(defaultValue = "1") Integer page,
+                        @RequestParam(defaultValue = "") String keyword,
+                        Model model) {
+
+        Page<User> employees = userService.findEmployeeByKeyword(keyword, page);
+
+        model.addAttribute("employees", employees);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", employees.getTotalPages());
         return "management/employees/index";
     }
 
@@ -57,6 +64,11 @@ public class EmployeeManagementController {
         if (!isUniqueEmail) {
             bindingResult.rejectValue("email", "error.user", "Email đã tồn tại");
         }
+
+        if (user.getPassword().length() < 5) {
+            bindingResult.rejectValue("password", "error.user", "Mật khẩu phải chứa ít nhất 5 ký tự");
+        }
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", userService.getEmployeeRoles());
             return "management/employees/employee_form";

@@ -6,6 +6,9 @@ import io.dedyn.hy.watchworldshop.repositories.RoleRepository;
 import io.dedyn.hy.watchworldshop.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final Integer PAGE_SIZE = 10;
 
     @Autowired
     public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
@@ -54,6 +59,20 @@ public class UserService {
         return userRepository.findAllCustomer();
     }
 
+    public Page<User> findEmployeeByKeyword(String keyword, Integer page) {
+        if (page > 0) page--;
+        if (page < 0) page = 0;
+
+        return userRepository.findEmployeeByKeyword(keyword, PageRequest.of(page, PAGE_SIZE, Sort.by("id").descending()));
+    }
+
+    public Page<User> findCustomerByKeyword(String keyword, Integer page) {
+        if (page > 0) page--;
+        if (page < 0) page = 0;
+
+        return userRepository.findCustomerByKeyword(keyword, PageRequest.of(page, PAGE_SIZE, Sort.by("id").descending()));
+    }
+
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -63,7 +82,11 @@ public class UserService {
     }
 
     public User save(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (!user.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            userRepository.findById(user.getId()).ifPresent(dbUser -> user.setPassword(dbUser.getPassword()));
+        }
         return userRepository.save(user);
     }
 

@@ -53,9 +53,10 @@
 
             <label class="form-control w-full">
                 <div class="label">
-                    <span class="label-text">Mật khẩu</span>
+                    <span class="label-text">Mật khẩu </span>
+                    <span class="text-sm text-error" th:if="${user.id != null}">(Để trống nếu không đổi mật khẩu)</span>
                 </div>
-                <input type="password" placeholder="Mật khẩu" minlength="5" maxlength="255" required
+                <input type="password" placeholder="Mật khẩu" maxlength="255"
                        class="input input-bordered w-full" th:field="*{password}"/>
                 <div class="label">
                     <span class="label-text-alt text-error" th:if="${#fields.hasErrors('password')}"

@@ -15,67 +15,104 @@
                 <i class="fa-solid fa-circle-info"></i>
                 <span th:text="${message}"></span>
             </div>
+
+            <div class="form-control flex flex-row gap-3 items-center">
+                <input id="keyword-input"
+                       th:value="${keyword != null ? keyword : ''}"
+                       type="text"
+                       placeholder="Tìm nhân viên"
+                       class="input input-bordered w-24 md:w-auto"/>
+                <button id="btn-search" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+
             <a th:href="@{/management/employees/create}" class="btn btn-primary my-5">
                 <i class="fa-solid fa-plus"></i>
                 Thêm
             </a>
-            <div class="overflow-x-auto">
-                <table class="table table-zebra">
-                    <!-- head -->
-                    <thead>
-                    <tr>
-                        <th>Mã</th>
-                        <th>Ảnh đại diện</th>
-                        <th>Họ đệm</th>
-                        <th>Tên</th>
-                        <th>Vai trò</th>
-                        <th>Kích hoạt</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- row -->
-                    <tr class="hover" th:each="employee : ${employees}">
-                        <th th:text="${employee.id}"></th>
-                        <td class="h-[70px] w-[100px]">
-                            <img th:src="@{${employee.imageUrl}}" alt="" class="object-contain">
-                        </td>
-                        <td th:text="${employee.lastName}"></td>
-                        <td th:text="${employee.firstName}"></td>
 
-                        <td th:text="${employee.role}"></td>
-                        <td th:if="${employee.enabled == true}">
+            <h1 th:if="${employees.isEmpty()}" class="text-2xl font-semibold text-center">Không tìm thấy nhân viên
+                nào.</h1>
+
+            <th:block th:if="${!employees.isEmpty()}">
+
+                <div class="overflow-x-auto">
+                    <table class="table table-zebra">
+                        <!-- head -->
+                        <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Ảnh đại diện</th>
+                            <th>Họ đệm</th>
+                            <th>Tên</th>
+                            <th>Vai trò</th>
+                            <th>Kích hoạt</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- row -->
+                        <tr class="hover" th:each="employee : ${employees}">
+                            <th th:text="${employee.id}"></th>
+                            <td class="h-[70px] w-[100px]">
+                                <img th:src="@{${employee.imageUrl}}" alt="" class="object-contain">
+                            </td>
+                            <td th:text="${employee.lastName}"></td>
+                            <td th:text="${employee.firstName}"></td>
+
+                            <td th:text="${employee.role}"></td>
+                            <td th:if="${employee.enabled == true}">
                             <span class="fa-stack text-xs">
                                 <i class="fa-solid fa-square fa-stack-2x text-primary"></i>
                                 <i class="fa-solid fa-check fa-stack-1x text-white"></i>
                             </span>
-                        </td>
-                        <td th:if="${employee.enabled != true}">
+                            </td>
+                            <td th:if="${employee.enabled != true}">
                             <span class="fa-stack text-xs">
                                 <i class="fa-regular fa-square fa-stack-2x"></i>
                             </span>
-                        </td>
-                        <td>
-                            <div class="flex flex-row gap-5 justify-end">
-                                <a th:href="@{'/management/employees/edit/' + ${employee.id}}" class="tooltip" data-tip="Sửa">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                <form th:action="@{'/management/employees/delete/' + ${employee.id}}"
-                                      th:method="post"
-                                      class="tooltip text-error"
-                                      data-tip="Xóa"
-                                      th:data-name="${employee.fullName}">
-                                    <button>
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
+                            </td>
+                            <td>
+                                <div class="flex flex-row gap-5 justify-end">
+                                    <a th:href="@{'/management/employees/edit/' + ${employee.id}}" class="tooltip"
+                                       data-tip="Sửa">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <form th:action="@{'/management/employees/delete/' + ${employee.id}}"
+                                          th:method="post"
+                                          class="tooltip text-error"
+                                          data-tip="Xóa"
+                                          th:data-name="${employee.fullName}">
+                                        <button>
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
 
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="flex flex-col max-w-2xl mx-auto items-center gap-3 mt-4">
+                    <div class="join mt-5 max-w-2xl mx-auto flex justify-center">
+                        <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
+                            <button
+                                th:if="${i == currentPage || i == 1 || i == totalPages || (i <= currentPage + 2 && i >= currentPage - 2)}"
+                                th:data-page="${i}"
+                                class="join-item btn"
+                                th:classappend="${currentPage == i} ? 'btn-primary' : ''"
+                                th:text="${i}"></button>
+                            <button th:if="${!(i == currentPage || i == 1 || i == totalPages || (i <= currentPage + 2 && i >= currentPage - 2)) &&
+                (i == currentPage + 3 || i == currentPage - 3)}"
+                                    class="btn btn-disabled">...
+                            </button>
+                        </th:block>
+                    </div>
+                </div>
+
+            </th:block>
         </div>
     </div>
 </div>
@@ -88,6 +125,34 @@
             if (!confirm(`Bạn có chắc chắn muốn xóa nhân viên "${name}" không?`)) {
                 e.preventDefault();
             }
+        });
+    });
+
+    const contextPath = /*[[@{/}]]*/ "/";
+    const baseUrl = window.location.origin + contextPath + "management/products";
+
+    function search() {
+        const keyword = document.getElementById("keyword-input").value;
+        const url = new URL(window.location.href);
+        url.searchParams.set("keyword", keyword);
+        window.location.href = url;
+    }
+
+    document.getElementById("btn-search").addEventListener("click", search);
+    document.getElementById("keyword-input").addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+            search();
+        }
+    });
+
+    const pageBtns = document.querySelectorAll("button[data-page]");
+
+    pageBtns.forEach(btn => {
+        btn.addEventListener("click", function () {
+            const page = this.getAttribute("data-page");
+            const url = new URL(window.location.href);
+            url.searchParams.set("page", page);
+            window.location.href = url.toString();
         });
     });
 </script>

@@ -44,7 +44,6 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Size(message = "Tổi thiểu 5 ký tự", min = 5, max = 255)
     @NotNull
     @Column(name = "password", nullable = false, length = 68)
     private String password;
