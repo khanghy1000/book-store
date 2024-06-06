@@ -67,13 +67,20 @@
                   th:if="${product.quantity > 0}"
                   sec:authorize="isAuthenticated()"
                   id="cart">
-                <label class="form-control w-[200px]">
-                    <div class="label">
-                        <span class="label-text">Số lượng <span class="text-error">*</span></span>
-                    </div>
-                    <input type="number" min="0" placeholder="Số lượng" required class="input input-bordered w-full"
+                <p class="mb-2 text-sm">Số lượng <span class="text-error">*</span></p>
+                <div class="flex flex-row items-center gap-2">
+                    <button type="button" class="btn btn-ghost" id="btn-decrease">-</button>
+                    <input type="number"
+                           min="1"
+                           th:max="${product.quantity}"
+                           value="1"
+                           placeholder="Số lượng"
+                           required
+                           onkeydown="return false;"
+                           class="input input-bordered max-w-[100px]"
                            name="quantity"/>
-                </label>
+                    <button type="button" class="btn btn-ghost" id="btn-increase">+</button>
+                </div>
             </form>
 
             <button th:if="${product.quantity > 0}"
@@ -139,6 +146,25 @@
 
     emblaApi.on('destroy', removePrevNextBtnsClickHandlers)
     emblaApi.on('destroy', removeDotBtnsAndClickHandlers)
+
+    const btnIncrease = document.getElementById('btn-increase');
+    const btnDecrease = document.getElementById('btn-decrease');
+    const maxQuantity = parseInt(document.querySelector('input[name="quantity"]').max);
+
+    btnIncrease.addEventListener('click', () => {
+        const quantity = document.querySelector('input[name="quantity"]');
+        if (parseInt(quantity.value) >= maxQuantity) {
+            return;
+        }
+        quantity.value = parseInt(quantity.value) + 1;
+    });
+
+    btnDecrease.addEventListener('click', () => {
+        const quantity = document.querySelector('input[name="quantity"]');
+        if (parseInt(quantity.value) > 1) {
+            quantity.value = parseInt(quantity.value) - 1;
+        }
+    });
 
 </script>
 
