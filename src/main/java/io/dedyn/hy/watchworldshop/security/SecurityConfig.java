@@ -50,6 +50,8 @@ public class SecurityConfig {
                     .hasAnyAuthority("Khách hàng")
                     .requestMatchers("/profile/**")
                     .authenticated()
+                    .requestMatchers("/assets/**", "brands/**", "products/**", "users/**")
+                    .permitAll()
                     .anyRequest()
                     .permitAll())
             .formLogin(form ->
@@ -69,8 +71,4 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/assets/**", "brands/**", "products/**", "users/**");
-    }
 }
