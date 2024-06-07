@@ -76,6 +76,7 @@
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
                                     <form th:action="@{'/management/products/delete/' + ${product.id}}"
+                                          th:if="${product.orderDetails.size() == 0}"
                                           class="tooltip text-error"
                                           data-tip="Xóa"
                                           th:method="post"
@@ -84,6 +85,9 @@
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form>
+                                    <button th:if="${product.orderDetails.size() > 0}" class="text-neutral-400 cursor-default">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
