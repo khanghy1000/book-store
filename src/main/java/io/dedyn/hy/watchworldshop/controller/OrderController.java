@@ -2,6 +2,7 @@ package io.dedyn.hy.watchworldshop.controller;
 
 import io.dedyn.hy.watchworldshop.entities.User;
 import io.dedyn.hy.watchworldshop.entities.order.Order;
+import io.dedyn.hy.watchworldshop.entities.order.OrderDetail;
 import io.dedyn.hy.watchworldshop.entities.order.OrderStatus;
 import io.dedyn.hy.watchworldshop.security.UserDetailsImpl;
 import io.dedyn.hy.watchworldshop.services.OrderService;
@@ -100,8 +101,15 @@ public class OrderController {
         }
 
         order.setStatus(status);
+
         if (order.getStatus() == OrderStatus.DELIVERED) {
             order.setDeliverTime(LocalDateTime.now());
+        }
+
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            for (OrderDetail orderDetail : order.getOrderDetails()) {
+                orderDetail.getProduct().setQuantity(orderDetail.getProduct().getQuantity() + orderDetail.getQuantity());
+            }
         }
 
         orderService.save(order);

@@ -134,6 +134,9 @@ public class CheckoutController {
             orderDetail.setQuantity(cartItem.getQuantity());
             orderDetail.setUnitPrice(cartItem.getProduct().getPrice());
             order.addOrderDetail(orderDetail);
+
+            Integer newQuantity = cartItem.getProduct().getQuantity() - cartItem.getQuantity();
+            cartItem.getProduct().setQuantity(newQuantity >= 0 ? newQuantity : 0);
         }
 
         orderService.save(order);
