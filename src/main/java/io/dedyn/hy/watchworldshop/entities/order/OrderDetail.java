@@ -26,7 +26,7 @@ public class OrderDetail {
 
     @NotNull
     @Column(name = "quantity", nullable = false)
-    private Short quantity;
+    private Integer quantity;
 
     @NotNull
     @Column(name = "unit_price", nullable = false)

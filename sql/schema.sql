@@ -171,9 +171,9 @@ CREATE TABLE shipping_info (
 );
 
 CREATE TABLE cart_items (
-    customer_id BIGINT   NOT NULL,
-    product_id  BIGINT   NOT NULL,
-    quantity    SMALLINT NOT NULL,
+    customer_id BIGINT NOT NULL,
+    product_id  BIGINT NOT NULL,
+    quantity    INT    NOT NULL,
 
     FOREIGN KEY (customer_id) REFERENCES users (id),
     FOREIGN KEY (product_id) REFERENCES products (id),
@@ -202,10 +202,10 @@ CREATE TABLE orders (
 );
 
 CREATE TABLE order_details (
-    order_id   BIGINT   NOT NULL,
-    product_id BIGINT   NOT NULL,
-    quantity   SMALLINT NOT NULL,
-    unit_price FLOAT    NOT NULL,
+    order_id   BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    quantity   INT    NOT NULL,
+    unit_price FLOAT  NOT NULL,
 
     FOREIGN KEY (order_id) REFERENCES orders (id),
     FOREIGN KEY (product_id) REFERENCES products (id),
@@ -224,7 +224,7 @@ CREATE TABLE sections (
 );
 
 CREATE TABLE sections_products (
-    id      BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    id         BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     product_id BIGINT NOT NULL,
     section_id BIGINT NOT NULL,
     "order"    INT    NOT NULL,
@@ -234,7 +234,7 @@ CREATE TABLE sections_products (
 );
 
 CREATE TABLE sections_categories (
-    id      BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    id          BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     category_id INT    NOT NULL,
     section_id  BIGINT NOT NULL,
     "order"     INT    NOT NULL,
@@ -244,7 +244,7 @@ CREATE TABLE sections_categories (
 );
 
 CREATE TABLE sections_brands (
-    id      BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    id         BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     brand_id   INT    NOT NULL,
     section_id BIGINT NOT NULL,
     "order"    INT    NOT NULL,

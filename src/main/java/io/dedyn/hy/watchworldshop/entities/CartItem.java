@@ -26,6 +26,6 @@ public class CartItem {
 
     @NotNull
     @Column(name = "quantity", nullable = false)
-    private Short quantity;
+    private Integer quantity;
 
 }
