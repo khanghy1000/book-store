@@ -5,6 +5,7 @@
 <div th:replace="~{fragments :: navbar}"></div>
 <form th:action="@{/register}" th:method="post"
       th:object="${user}" class="max-w-2xl mx-auto p-5 shadow-md rounded mt-10"
+      id="register"
       enctype="multipart/form-data">
     <h1 class="text-3xl font-semibold text-center">Tạo tài khoản</h1>
 
@@ -109,7 +110,7 @@
         }
     });
 
-    document.querySelector('form').addEventListener('submit', (e) => {
+    document.querySelector('form#register').addEventListener('submit', (e) => {
 
         if (password.value !== confirmPassword.value) {
             e.preventDefault();
