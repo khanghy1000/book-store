@@ -29,6 +29,15 @@ public class ShoppingCartService {
         return cartItemRepository.findByCustomer(user);
     }
 
+    public CartItem saveCartItem(CartItem cartItem) {
+        return cartItemRepository.save(cartItem);
+    }
+
+    public List<CartItem> saveCartItems(List<CartItem> cartItems) {
+        return cartItemRepository.saveAll(cartItems);
+    }
+
+
     public void addProduct(Long productId, Short quantity, User user) {
         Product product = productRepository.findById(productId).orElse(null);
         if (product == null) {
@@ -101,6 +110,10 @@ public class ShoppingCartService {
 
     public void removeProduct(Long productId, User user) {
         cartItemRepository.deleteByCustomerIdAndProductId(user.getId(), productId);
+    }
+
+    public void deleteCartItem(CartItem cartItem) {
+        cartItemRepository.delete(cartItem);
     }
 
     public Double getTotalPrice(User user) {

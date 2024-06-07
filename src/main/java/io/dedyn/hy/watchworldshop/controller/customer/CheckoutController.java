@@ -102,6 +102,19 @@ public class CheckoutController {
             return "customer/checkout_form";
         }
 
+        if (!validateShoppingCart(cartItems)) {
+            List<Province> provinces = locationService.findAllProvince();
+
+            model.addAttribute("cartItems", cartItems);
+            model.addAttribute("ItemsPrice", itemsPrice);
+            model.addAttribute("ShippingPrice", shippingPrice);
+            model.addAttribute("order", order);
+            model.addAttribute("provinces", provinces);
+            model.addAttribute("message", "Giỏ hàng của bạn đã thay đổi vì sản phẩm không còn hoặc số lượng không đủ! Vui lòng kiểm tra lại giỏ hàng!");
+
+            return "customer/checkout_form";
+        }
+
         order.setCustomer(user);
         order.setItemsPrice(itemsPrice);
         order.setShippingCost(shippingPrice);
@@ -129,5 +142,22 @@ public class CheckoutController {
         redirectAttributes.addFlashAttribute("message", "Đặt hàng thành công");
 
         return "redirect:/customer/orders";
+    }
+
+    private Boolean validateShoppingCart(List<CartItem> cartItems) {
+        boolean result = true;
+        for (CartItem cartItem : cartItems) {
+            if (cartItem.getQuantity() > cartItem.getProduct().getQuantity()) {
+                cartItem.setQuantity(cartItem.getProduct().getQuantity());
+                shoppingCartService.saveCartItem(cartItem);
+                result = false;
+            }
+
+            if (!cartItem.getProduct().getEnabled()) {
+                shoppingCartService.deleteCartItem(cartItem);
+            }
+        }
+
+        return result;
     }
 }
