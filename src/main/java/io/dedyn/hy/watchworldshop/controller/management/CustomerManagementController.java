@@ -54,8 +54,8 @@ public class CustomerManagementController {
 
     @PostMapping("/create")
     public String create(@Valid User user,
-                         Model model,
                          BindingResult bindingResult,
+                         Model model,
                          RedirectAttributes redirectAttributes,
                          @RequestParam("image-file") MultipartFile imageFile) throws IOException {
         user.setId(null);
@@ -99,8 +99,8 @@ public class CustomerManagementController {
 
     @PostMapping("/edit")
     public String edit(@Valid User user,
-                       Model model,
                        BindingResult bindingResult,
+                       Model model,
                        RedirectAttributes redirectAttributes,
                        @RequestParam("image-file") MultipartFile imageFile) throws IOException {
         Role customerRole = userService.getRoleByName("Khách hàng");

@@ -67,13 +67,13 @@ public class ProductManagementController {
 
     @PostMapping("/create")
     public String create(@Valid Product product,
+                         BindingResult bindingResult,
                          @RequestParam("main-image") MultipartFile mainImage,
                          @RequestParam("images") MultipartFile[] images,
                          @RequestParam(name = "specIds", required = false) Long[] specIds,
                          @RequestParam(name = "specNames", required = false) String[] specNames,
                          @RequestParam(name = "specValues", required = false) String[] specValues,
                          Model model,
-                         BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) throws IOException {
         product.setId(null);
         boolean isUniqueName = productService.isUniqueName(product);
@@ -106,6 +106,7 @@ public class ProductManagementController {
 
     @PostMapping("/edit")
     public String edit(@Valid Product product,
+                       BindingResult bindingResult,
                        @RequestParam("main-image") MultipartFile mainImage,
                        @RequestParam("images") MultipartFile[] images,
                        @RequestParam(name = "savedImageIds", required = false) Long[] savedImageIds,
@@ -114,7 +115,6 @@ public class ProductManagementController {
                        @RequestParam(name = "specNames", required = false) String[] specNames,
                        @RequestParam(name = "specValues", required = false) String[] specValues,
                        Model model,
-                       BindingResult bindingResult,
                        RedirectAttributes redirectAttributes) throws IOException {
         boolean isUniqueName = productService.isUniqueName(product);
         if (!isUniqueName) {

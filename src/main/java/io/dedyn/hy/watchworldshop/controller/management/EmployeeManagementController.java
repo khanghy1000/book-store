@@ -55,8 +55,8 @@ public class EmployeeManagementController {
 
     @PostMapping("/create")
     public String create(@Valid User user,
-                         Model model,
                          BindingResult bindingResult,
+                         Model model,
                          RedirectAttributes redirectAttributes,
                          @RequestParam("image-file") MultipartFile imageFile) throws IOException {
         user.setId(null);
@@ -99,8 +99,8 @@ public class EmployeeManagementController {
 
     @PostMapping("/edit")
     public String edit(@Valid User user,
-                       Model model,
                        BindingResult bindingResult,
+                       Model model,
                        RedirectAttributes redirectAttributes,
                        @RequestParam("image-file") MultipartFile imageFile) throws IOException {
         boolean isUniqueEmail = userService.isUniqueEmail(user);

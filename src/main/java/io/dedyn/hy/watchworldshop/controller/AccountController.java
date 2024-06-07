@@ -39,8 +39,8 @@ public class AccountController {
     @PostMapping("/profile/update")
     public String updateProfile(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                 @Valid User formUser,
-                                @RequestParam("image-file") MultipartFile imageFile,
                                 BindingResult bindingResult,
+                                @RequestParam("image-file") MultipartFile imageFile,
                                 RedirectAttributes redirectAttributes
     ) throws IOException {
 
