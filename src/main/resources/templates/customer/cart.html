@@ -5,8 +5,15 @@
 <div th:replace="~{fragments :: navbar}"></div>
 <div class="p-10">
 
-    <div class="max-w-fit mx-auto my-5">
+    <div class="max-w-fit mx-auto">
         <h1 class="text-3xl font-semibold">Giỏ hàng</h1>
+    </div>
+
+    <div class="flex flex-col items-center justify-center my-5">
+        <a th:href="@{/product/search}" class="btn btn-primary">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Tiếp tục mua sắm
+        </a>
     </div>
 
     <div th:if="${message}" role="alert" class="alert my-5">
@@ -87,7 +94,8 @@
 
         <div th:if="${!cartItems.isEmpty()}" class="overflow-x-auto flex-1 grow-[2] flex flex-col gap-4">
             <h1 class="text-2xl font-semibold text-center">Tổng tiền</h1>
-            <h2 class="text-xl text-error font-semibold text-center" th:text="${#numbers.formatDecimal(totalPrice,0,'COMMA',1,'POINT') + '₫'}"></h2>
+            <h2 class="text-xl text-error font-semibold text-center"
+                th:text="${#numbers.formatDecimal(totalPrice,0,'COMMA',1,'POINT') + '₫'}"></h2>
             <a th:href="@{/checkout}" class="btn btn-primary">Đặt hàng</a>
         </div>
 
