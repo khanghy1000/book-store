@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
 <head th:replace="~{fragments :: header_files('Thông tin cá nhân')}"></head>
 <body class="flex flex-col">
-    <div th:replace="~{management/fragments :: navbar}"></div>
+    <div th:replace="~{fragments :: navbar}"></div>
     <form th:action="@{'/profile/update'}" th:method="post"
           id="profile-form"
           th:object="${user}" class="max-w-2xl mx-auto p-5 shadow-md rounded mt-10"
