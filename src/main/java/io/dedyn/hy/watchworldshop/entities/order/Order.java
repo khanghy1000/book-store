@@ -45,13 +45,8 @@ public class Order {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    @Column(name = "full_name", nullable = false)
+    private String fullName;
 
     @Size(max = 15)
     @NotNull

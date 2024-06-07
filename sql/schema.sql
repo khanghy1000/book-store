@@ -156,20 +156,6 @@ CREATE TABLE product_specs (
     FOREIGN KEY (product_id) REFERENCES products (id)
 );
 
-CREATE TABLE shipping_info (
-    id           BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    first_name   VARCHAR(255) NOT NULL,
-    last_name    VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(15)  NOT NULL,
-    address_line VARCHAR(255) NOT NULL,
-    ward_code    VARCHAR(20)  NOT NULL,
-    customer_id  BIGINT       NOT NULL,
-    is_default   BOOLEAN      NOT NULL,
-
-    FOREIGN KEY (ward_code) REFERENCES wards (code),
-    FOREIGN KEY (customer_id) REFERENCES users (id)
-);
-
 CREATE TABLE cart_items (
     customer_id BIGINT NOT NULL,
     product_id  BIGINT NOT NULL,
@@ -189,8 +175,7 @@ CREATE TABLE orders (
     shipping_cost FLOAT        NOT NULL,
     total         FLOAT        NOT NULL,
     status        ORDER_STATUS NOT NULL,
-    first_name    VARCHAR(255) NOT NULL,
-    last_name     VARCHAR(255) NOT NULL,
+    full_name     VARCHAR(255) NOT NULL,
     phone_number  VARCHAR(15)  NOT NULL,
     address_line  VARCHAR(255) NOT NULL,
     ward          VARCHAR(255) NOT NULL,
