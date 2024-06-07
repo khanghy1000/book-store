@@ -62,11 +62,12 @@
             <a th:if="${product.quantity > 0}" sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn">Vui
                 lòng đăng nhập để mua</a>
 
-            <form th:action="@{/cart}"
+            <form th:action="@{/cart/add}"
                   th:method="post"
                   th:if="${product.quantity > 0}"
                   sec:authorize="hasAuthority('Khách hàng')"
                   id="cart">
+                <input type="hidden" name="productId" th:value="${product.id}">
                 <p class="mb-2 text-sm">Số lượng <span class="text-error">*</span></p>
                 <div class="flex flex-row items-center gap-2">
                     <button type="button" class="btn btn-ghost" id="btn-decrease">-</button>
@@ -95,7 +96,8 @@
 
     <div class="flex flex-row gap-10">
 
-        <div th:utext="${product.fullDescription}" class="flex-1 grow-[3] prose prose-ul:list-disc prose-ol:list-decimal"></div>
+        <div th:utext="${product.fullDescription}"
+             class="flex-1 grow-[3] prose prose-ul:list-disc prose-ol:list-decimal"></div>
 
         <div class="overflow-x-auto flex-1 grow-[2]">
             <table class="table table-zebra">

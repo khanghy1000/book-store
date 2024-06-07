@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Giỏ hàng')}"></head>
+<body class="flex flex-col">
+<div th:replace="~{fragments :: navbar}"></div>
+<div class="p-10">
+
+    <div class="max-w-fit mx-auto my-5">
+        <h1 class="text-3xl font-semibold">Giỏ hàng</h1>
+    </div>
+
+    <div th:if="${message}" role="alert" class="alert my-5">
+        <i class="fa-solid fa-circle-info"></i>
+        <span th:text="${message}"></span>
+    </div>
+
+    <div class="flex flex-row gap-10">
+
+        <div class="flex-1 grow-[4]">
+
+            <h1 th:if="${cartItems.isEmpty()}" class="text-2xl font-semibold text-center">Giỏ hàng trống</h1>
+
+            <th:block th:if="${!cartItems.isEmpty()}">
+                <div class="overflow-x-auto">
+                    <table class="table text-center">
+                        <!-- head -->
+                        <thead>
+                        <tr>
+                            <th>Hình</th>
+                            <th>Tên</th>
+                            <th>Đơn giá</th>
+                            <th>Số lượng</th>
+                            <th>Số tiền</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${cartItems}" th:with="product = ${item.product}">
+                            <td class="h-[70px] w-[100px]">
+                                <img th:src="@{${product.mainImageUrl}}" alt="" class="object-contain">
+                            </td>
+
+                            <td th:text="${product.name}"></td>
+
+                            <td th:text="${#numbers.formatDecimal(product.price - product.price * (product.discountPercent / 100),0,'COMMA',1,'POINT') + '₫'}"></td>
+
+                            <td>
+                                <div class="flex flex-row items-center gap-2">
+                                    <form th:action="@{${'/cart/decrease/' + product.id}}"
+                                          th:method="post">
+                                        <button class="btn btn-ghost" id="btn-decrease">-</button>
+                                    </form>
+
+                                    <input type="number"
+                                           th:value="${item.quantity}"
+                                           onkeydown="return false;"
+                                           class="input input-bordered max-w-[100px]"
+                                    />
+                                    <form th:action="@{${'/cart/increase/' + product.id}}"
+                                          th:method="post">
+                                        <button class="btn btn-ghost" id="btn-increase">+</button>
+                                    </form>
+                                </div>
+                            </td>
+
+                            <td th:text="${#numbers.formatDecimal((product.price - product.price * (product.discountPercent / 100)) * item.quantity,0,'COMMA',1,'POINT') + '₫'}"></td>
+
+                            <td>
+                                <form th:action="@{'/cart/remove/' + ${product.id}}"
+                                      class="tooltip text-error"
+                                      data-tip="Xóa"
+                                      th:method="post"
+                                      th:data-name="${product.name}">
+                                    <button>
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
+        </div>
+
+        <div class="overflow-x-auto flex-1 grow-[2] flex flex-col gap-4">
+            <h1 class="text-2xl font-semibold text-center">Tổng tiền</h1>
+            <h2 class="text-xl text-error font-semibold text-center" th:text="${#numbers.formatDecimal(totalPrice,0,'COMMA',1,'POINT') + '₫'}"></h2>
+            <a th:href="@{/checkout}" class="btn btn-primary">Đặt hàng</a>
+        </div>
+
+    </div>
+
+    <script>
+        const deleteButtons = document.querySelectorAll('form[data-name]');
+        deleteButtons.forEach(button => {
+            button.addEventListener('submit', function (e) {
+                const name = this.getAttribute('data-name');
+                if (!confirm(`Bạn có chắc chắn muốn xóa đồng hồ "${name}" khỏi giỏ hàng không?`)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</div>
+</body>
+</html>
+
