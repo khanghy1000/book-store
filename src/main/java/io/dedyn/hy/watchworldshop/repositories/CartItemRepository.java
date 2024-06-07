@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CartItemRepository extends JpaRepository<CartItem, CartItemId> {
-    public List<CartItem> findByCustomer(User customer);
+    public List<CartItem> findByCustomerOrderByProductName(User customer);
 
     public CartItem findByCustomerAndProduct(User customer, Product product);
 

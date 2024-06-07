@@ -26,7 +26,7 @@ public class ShoppingCartService {
     }
 
     public List<CartItem> getCartItems(User user) {
-        return cartItemRepository.findByCustomer(user);
+        return cartItemRepository.findByCustomerOrderByProductName(user);
     }
 
     public CartItem saveCartItem(CartItem cartItem) {
@@ -117,7 +117,7 @@ public class ShoppingCartService {
     }
 
     public Double getTotalPrice(User user) {
-        List<CartItem> cartItems = cartItemRepository.findByCustomer(user);
+        List<CartItem> cartItems = cartItemRepository.findByCustomerOrderByProductName(user);
 
         // total price = (product.price - product.price * (product.discountPercent / 100)) * item.quantity
         return cartItems
@@ -128,7 +128,7 @@ public class ShoppingCartService {
     }
 
     public Double getShippingPrice(User user) {
-        List<CartItem> cartItems = cartItemRepository.findByCustomer(user);
+        List<CartItem> cartItems = cartItemRepository.findByCustomerOrderByProductName(user);
 
         return cartItems
             .stream()
