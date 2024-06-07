@@ -13,7 +13,7 @@
     <!--/*@thymesVar id="brand" type="io.dedyn.hy.watchworldshop.entities.Brand"*/-->
     <a th:each="sectionBrand : ${section.sectionBrands}"
        th:with="brand = ${sectionBrand.brand}"
-       th:href="@{'/#'}"
+       th:href="@{${'/product/search?brandId=' + brand.id}}"
        class="btn btn-ghost ring-1 ring-base-300 overflow-hidden">
         <span>
         <img th:src="@{${brand.logoUrl}}" class="h-[40px] w-[75px] object-contain">

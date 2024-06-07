@@ -13,7 +13,7 @@
     <!--/*@thymesVar id="category" type="io.dedyn.hy.watchworldshop.entities.Category"*/-->
     <a th:each="sectionCategory : ${section.sectionCategories}"
        th:with="category = ${sectionCategory.category}"
-       th:href="@{'/#'}"
+       th:href="@{${'/product/search?categoryId=' + category.id}}"
        th:text="${category.name}"
        class="btn btn-ghost ring-1 ring-base-300 overflow-hidden">
     </a>
