@@ -2,13 +2,15 @@ package io.dedyn.hy.watchworldshop.entities.order;
 
 import io.dedyn.hy.watchworldshop.entities.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -31,7 +33,7 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(name = "order_time", nullable = false)
-    private Date orderTime;
+    private LocalDateTime orderTime;
 
     @Column(name = "items_price", nullable = false)
     private Double itemsPrice;
@@ -72,7 +74,7 @@ public class Order {
     @Column(name = "deliver_time")
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    private Date deliverTime;
+    private LocalDateTime deliverTime;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
