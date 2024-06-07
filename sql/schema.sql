@@ -172,6 +172,7 @@ CREATE TABLE orders (
     id            BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     customer_id   BIGINT       NOT NULL,
     order_time    TIMESTAMP    NOT NULL,
+    items_price   FLOAT        NOT NULL,
     shipping_cost FLOAT        NOT NULL,
     total         FLOAT        NOT NULL,
     status        ORDER_STATUS NOT NULL,

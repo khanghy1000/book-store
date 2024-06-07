@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Giỏ hàng')}"></head>
+<body class="flex flex-col">
+<div th:replace="~{fragments :: navbar}"></div>
+<div class="p-10">
+
+    <div class="max-w-fit mx-auto my-5">
+        <h1 class="text-3xl font-semibold">Xác nhận đơn hàng</h1>
+    </div>
+
+    <div th:if="${message}" role="alert" class="alert alert-error my-5">
+        <i class="fa-solid fa-circle-info"></i>
+        <span th:text="${message}"></span>
+    </div>
+
+    <div class="flex flex-row gap-32">
+
+        <div class="flex-1">
+            <form id="checkout" th:action="@{/checkout}" th:method="post" th:object="${order}">
+                <h1 class="text-2xl font-semibold text-center">Thông tin giao hàng</h1>
+
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">Họ và tên <span class="text-error">*</span></span>
+                    </div>
+                    <input type="text" placeholder="Họ và tên" minlength="4" maxlength="255" required
+                           class="input input-bordered w-full" th:field="*{fullName}"/>
+                    <div class="label">
+                        <span class="label-text-alt text-error" th:if="${#fields.hasErrors('fullName')}"
+                              th:errors="*{fullName}"></span>
+                    </div>
+                </label>
+
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">Số điện thoại <span class="text-error">*</span></span>
+                    </div>
+                    <input type="number" placeholder="Số điện thoại" minlength="8" maxlength="15" required
+                           class="input input-bordered w-full" th:field="*{phoneNumber}"/>
+                    <div class="label">
+                        <span class="label-text-alt text-error" th:if="${#fields.hasErrors('phoneNumber')}"
+                              th:errors="*{phoneNumber}"></span>
+                    </div>
+                </label>
+
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
+                        <span class="label-text">Tỉnh <span class="text-error">*</span></span>
+                    </div>
+                    <select id="province-dropdown"
+                            name="provinceCode"
+                            hx-get="/htmx/location/districts/search"
+                            hx-target="#district-dropdown"
+                            hx-swap="outerHTML"
+                            class="select select-bordered w-full max-w-xs">
+                        <option disabled selected value="0">Chọn tỉnh</option>
+                        <option th:each="province : ${provinces}" th:value="${province.code}"
+                                th:text="${province.fullName}"></option>
+                    </select>
+                    <div class="label">
+                        <span class="label-text-alt text-error" th:if="${#fields.hasErrors('province')}"
+                              th:errors="*{province}"></span>
+                    </div>
+                </label>
+
+
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
+                        <span class="label-text">Quận/huyện <span class="text-error">*</span></span>
+                    </div>
+                    <select id="district-dropdown"
+                            name="districtCode"
+                            hx-get="/htmx/location/wards/search"
+                            hx-target="#ward-dropdown"
+                            hx-swap="outerHTML"
+                            class="select select-bordered w-full max-w-xs">
+                        <option disabled selected value="0">Chọn quận/huyện</option>
+                    </select>
+                    <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('district')}"
+                                  th:errors="*{district}"></span>
+                    </div>
+                </label>
+
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
+                        <span class="label-text">Phường/xã <span class="text-error">*</span></span>
+                    </div>
+                    <select id="ward-dropdown"
+                            name="wardCode"
+                            class="select select-bordered w-full max-w-xs">
+                        <option disabled selected value="0">Chọn phường/xã</option>
+                    </select>
+                    <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('ward')}"
+                                  th:errors="*{ward}"></span>
+                    </div>
+                </label>
+
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">Số nhà, tên đường <span class="text-error">*</span></span>
+                    </div>
+                    <input type="text" placeholder="21 Lê Thành Phương" minlength="10" required
+                           class="input input-bordered w-full" th:field="*{addressLine}"/>
+                    <div class="label">
+                        <span class="label-text-alt text-error" th:if="${#fields.hasErrors('addressLine')}"
+                              th:errors="*{addressLine}"></span>
+                    </div>
+                </label>
+            </form>
+        </div>
+
+        <div class="overflow-x-auto flex-1 flex flex-col gap-10">
+            <div class="max-h-96 overflow-y-auto overflow-x-auto">
+                <table class="table text-center">
+                    <caption class="text-xl font-semibold">Sản phẩm</caption>
+                    <thead>
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${cartItems}" th:with="product = ${item.product}">
+                        <th th:text="${product.name}"></th>
+                        <td th:text="${item.quantity}"></td>
+                        <td th:text="${#numbers.formatDecimal((product.price - product.price * (product.discountPercent / 100)) * item.quantity,0,'COMMA',1,'POINT') + '₫'}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <p>
+                    <span class="font-semibold">Tổng tiền sản phẩm: </span>
+                    <span th:text="${#numbers.formatDecimal(ItemsPrice,0,'COMMA',1,'POINT') + '₫'}"></span>
+                </p>
+                <p>
+                    <span class="font-semibold">Phí vận chuyển: </span>
+                    <span th:text="${#numbers.formatDecimal(ShippingPrice,0,'COMMA',1,'POINT') + '₫'}"></span>
+                </p>
+                <p class="text-2xl">
+                    <span class="font-semibold">Tổng tiền: </span>
+                    <span class="text-error font-semibold"
+                          th:text="${#numbers.formatDecimal(ItemsPrice + ShippingPrice,0,'COMMA',1,'POINT') + '₫'}"></span>
+                </p>
+            </div>
+            <button form="checkout" class="btn btn-primary">Xác nhận đặt hàng</button>
+        </div>
+
+    </div>
+
+    <script th:inline="javascript">
+        let htmxContextPath = /*[[@{/}]]*/ "/";
+        htmxContextPath = htmxContextPath.slice(0, -1);
+
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.path = htmxContextPath + event.detail.path;
+        })
+
+        const provinceDropdown = document.getElementById('province-dropdown');
+        provinceDropdown.addEventListener("change", (e) => {
+            const wardDropdown = document.getElementById('ward-dropdown');
+            wardDropdown.outerHTML = `
+                <select id="ward-dropdown"
+                    name="wardCode"
+                    class="select select-bordered w-full max-w-xs">
+                    <option disabled selected value="0">Chọn phường/xã</option>
+                </select>
+            `
+
+        })
+
+    </script>
+</div>
+</body>
+</html>
+

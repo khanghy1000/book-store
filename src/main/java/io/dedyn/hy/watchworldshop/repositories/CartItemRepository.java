@@ -21,4 +21,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, CartItemId> 
 
     @Modifying
     public void deleteByCustomerIdAndProductId(Long customerId, Long productId);
+
+    @Modifying
+    public void deleteAllByCustomerId(Long customerId);
 }

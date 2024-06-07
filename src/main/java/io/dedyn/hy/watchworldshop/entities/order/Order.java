@@ -2,12 +2,14 @@ package io.dedyn.hy.watchworldshop.entities.order;
 
 import io.dedyn.hy.watchworldshop.entities.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -21,62 +23,62 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     private User customer;
 
-    @NotNull
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(name = "order_time", nullable = false)
-    private Instant orderTime;
+    private Date orderTime;
 
-    @NotNull
+    @Column(name = "items_price", nullable = false)
+    private Double itemsPrice;
+
     @Column(name = "shipping_cost", nullable = false)
     private Double shippingCost;
 
-    @NotNull
     @Column(name = "total", nullable = false)
     private Double total;
 
-    @NotNull
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @Size(max = 255)
+    @Size(message = "Phải có ít nhất 4 ký tự và tối đa 255 ký tự", min = 4, max = 255)
     @NotNull
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Size(max = 15)
+    @Size(message = "Phải có ít nhất 8 ký tự và tối đa 15 ký tự", min = 8, max = 15)
     @NotNull
     @Column(name = "phone_number", nullable = false, length = 15)
     private String phoneNumber;
 
-    @Size(max = 255)
-    @NotNull
+    @Size(message = "Phải có ít nhất 10 ký tự", min = 10)
     @Column(name = "address_line", nullable = false)
     private String addressLine;
 
-    @Size(max = 255)
-    @NotNull
     @Column(name = "ward", nullable = false)
     private String ward;
 
-    @Size(max = 255)
-    @NotNull
     @Column(name = "district", nullable = false)
     private String district;
 
-    @Size(max = 255)
-    @NotNull
     @Column(name = "province", nullable = false)
     private String province;
 
     @Column(name = "deliver_time")
-    private Instant deliverTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    private Date deliverTime;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
+
+    public void addOrderDetail(OrderDetail orderDetail) {
+        orderDetails.add(orderDetail);
+    }
 
 }

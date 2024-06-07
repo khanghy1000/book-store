@@ -1,0 +1,7 @@
+<select id="ward-dropdown"
+        name="wardCode"
+        class="select select-bordered w-full max-w-xs">
+    <option disabled selected value="0">Chọn phường/xã</option>
+    <option th:each="ward : ${wards}" th:value="${ward.code}"
+            th:text="${ward.fullName}"></option>
+</select>

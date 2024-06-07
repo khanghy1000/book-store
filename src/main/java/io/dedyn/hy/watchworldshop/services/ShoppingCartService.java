@@ -113,4 +113,17 @@ public class ShoppingCartService {
                 (cartItem.getProduct().getPrice() - cartItem.getProduct().getPrice() * (cartItem.getProduct().getDiscountPercent() / 100)) * cartItem.getQuantity())
             .sum();
     }
+
+    public Double getShippingPrice(User user) {
+        List<CartItem> cartItems = cartItemRepository.findByCustomer(user);
+
+        return cartItems
+            .stream()
+            .mapToDouble(cartItem -> cartItem.getProduct().getShippingFee() * cartItem.getQuantity())
+            .sum();
+    }
+
+    public void clearCart(User user) {
+        cartItemRepository.deleteAllByCustomerId(user.getId());
+    }
 }

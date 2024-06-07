@@ -1,0 +1,10 @@
+<select id="district-dropdown"
+        name="districtCode"
+        hx-get="/htmx/location/wards/search"
+        hx-target="#ward-dropdown"
+        hx-swap="outerHTML"
+        class="select select-bordered w-full max-w-xs">
+    <option disabled selected value="0">Chọn quận/huyện</option>
+    <option th:each="district : ${districts}" th:value="${district.code}"
+            th:text="${district.fullName}"></option>
+</select>
