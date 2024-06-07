@@ -58,6 +58,7 @@
                     <li class="p-2 text-center font-semibold" sec:authentication="principal.fullName"></li>
                     <li sec:authorize="hasAnyAuthority('Admin', 'Bán hàng')"><a th:href="@{/management}">Quản lý</a>
                     </li>
+                    <li sec:authorize="hasAuthority('Khách hàng')"><a th:href="@{/customer/orders}">Đơn hàng của tôi</a></li>
                     <li><a th:href="@{/profile}">Thông tin cá nhân</a></li>
                     <li>
                         <button form="logout">Đăng xuất</button>
