@@ -21,7 +21,7 @@
             <div class="label">
                 <span class="label-text">Mã tài khoản</span>
             </div>
-            <input type="text" class="input input-bordered w-full" th:field="*{id}" readonly/>
+            <input type="text" class="input input-bordered w-full bg-base-200 cursor-default" th:field="*{id}" readonly/>
         </label>
 
         <label class="form-control w-full">
@@ -52,7 +52,7 @@
             <div class="label">
                 <span class="label-text">Email</span>
             </div>
-            <input type="email" class="input input-bordered w-full" th:field="*{email}" readonly/>
+            <input type="email" class="input input-bordered w-full bg-base-200 cursor-default" th:field="*{email}" readonly/>
             <div class="label">
                     <span class="label-text-alt text-error" th:if="${#fields.hasErrors('email')}"
                           th:errors="*{email}"></span>
@@ -63,7 +63,7 @@
             <div class="label">
                 <span class="label-text">Vai trò</span>
             </div>
-            <input type="text" class="input input-bordered w-full" th:value="${user.role.name}" readonly/>
+            <input type="text" class="input input-bordered w-full bg-base-200 cursor-default" th:value="${user.role.name}" readonly/>
         </label>
 
         <label class="form-control w-full">
