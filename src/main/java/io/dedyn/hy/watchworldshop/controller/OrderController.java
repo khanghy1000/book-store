@@ -10,6 +10,7 @@ import io.dedyn.hy.watchworldshop.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +29,14 @@ public class OrderController {
         this.userService = userService;
     }
 
-    @RequestMapping("/{orderId}")
+    @GetMapping("/{orderId}")
     public String getOrder(@PathVariable Long orderId,
                            @AuthenticationPrincipal UserDetailsImpl userDetails,
                            Model model) {
 
         Order order = orderService.findById(orderId);
         if (order == null) {
-            return "redirect:/";
+            return "error/404";
         }
 
         User user = userService.findByEmail(userDetails.getUsername());
@@ -44,7 +45,7 @@ public class OrderController {
         }
 
         if (user.getRole().getName().equals("Khách hàng") && !order.getCustomer().getId().equals(user.getId())) {
-            return "redirect:/customer/orders";
+            return "error/403";
         }
 
         model.addAttribute("order", order);
@@ -59,7 +60,7 @@ public class OrderController {
                                RedirectAttributes redirectAttributes) {
         Order order = orderService.findById(orderId);
         if (order == null) {
-            return "redirect:/";
+            return "error/404";
         }
 
         User user = userService.findByEmail(userDetails.getUsername());
