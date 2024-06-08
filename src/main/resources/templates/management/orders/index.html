@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files('Nhân viên')}">
+</head>
+<body class="flex flex-col">
+<div class="flex flex-row flex-1">
+    <div th:replace="~{management/fragments :: sidebar}"></div>
+    <div class="flex-1">
+        <div th:replace="~{management/fragments :: navbar}"></div>
+
+        <div class="p-10 flex flex-col gap-5">
+            <h1 class="text-2xl font-semibold text-center">Đơn hàng</h1>
+
+            <div th:if="${message}" role="alert" class="alert my-5">
+                <i class="fa-solid fa-circle-info"></i>
+                <span th:text="${message}"></span>
+            </div>
+
+            <div class="form-control flex flex-row gap-3 items-center">
+                <input id="order-keyword-input"
+                       th:value="${orderKeyword != null ? orderKeyword : ''}"
+                       type="text"
+                       placeholder="Tìm đơn hàng"
+                       class="input input-bordered w-24 md:w-auto"/>
+                <button id="btn-search-order" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <div role="tablist" class="tabs tabs-bordered">
+                <a th:href="@{'/management/orders'}" role="tab" class="tab"
+                   th:classappend="${param.status == null || param.status.getFirst() == '' ? 'tab-active' : ''}">Tất
+                    cả</a>
+                <a th:href="@{'/management/orders?status=ORDERED'}" role="tab" class="tab"
+                   th:classappend="${param.status?.getFirst() == 'ORDERED' ? 'tab-active' : ''}">Đã đặt</a>
+                <a th:href="@{'/management/orders?status=SHIPPING'}" role="tab" class="tab"
+                   th:classappend="${param.status?.getFirst() == 'SHIPPING' ? 'tab-active' : ''}">Đang giao</a>
+                <a th:href="@{'/management/orders?status=DELIVERED'}" role="tab" class="tab"
+                   th:classappend="${param.status?.getFirst() == 'DELIVERED' ? 'tab-active' : ''}">Đã giao</a>
+                <a th:href="@{'/management/orders?status=CANCELLED'}" role="tab" class="tab"
+                   th:classappend="${param.status?.getFirst() == 'CANCELLED' ? 'tab-active' : ''}">Đã hủy</a>
+            </div>
+
+            <h1 th:if="${orders.isEmpty()}" class="text-center text-2xl font-semibold my-10">Không có đơn hàng nào</h1>
+
+            <th:block th:if="${!orders.isEmpty()}">
+
+                <div class="overflow-x-auto">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Ngày đặt</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Phường/xã</th>
+                            <th>Quận/huyện</th>
+                            <th>Tỉnh</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order : ${orders}" class="hover cursor-pointer" th:data-order-id="${order.id}">
+                            <th th:text="${order.id}"></th>
+                            <td th:text="${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"></td>
+                            <td th:text="${#numbers.formatDecimal(order.total,0,'COMMA',1,'POINT') + '₫'}"></td>
+                            <td th:text="${order.status.displayValue}"></td>
+                            <td th:text="${order.ward}"></td>
+                            <td th:text="${order.district}"></td>
+                            <td th:text="${order.province}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex flex-col max-w-2xl mx-auto items-center gap-3 mt-4">
+                    <div class="join mt-5 max-w-2xl mx-auto flex justify-center">
+                        <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
+                            <button
+                                th:if="${i == currentPage || i == 1 || i == totalPages || (i <= currentPage + 2 && i >= currentPage - 2)}"
+                                th:data-page="${i}"
+                                class="join-item btn"
+                                th:classappend="${currentPage == i} ? 'btn-primary' : ''"
+                                th:text="${i}"></button>
+                            <button th:if="${!(i == currentPage || i == 1 || i == totalPages || (i <= currentPage + 2 && i >= currentPage - 2)) &&
+                (i == currentPage + 3 || i == currentPage - 3)}"
+                                    class="btn btn-disabled">...
+                            </button>
+                        </th:block>
+                    </div>
+                </div>
+
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+    let contextPth = /*[[@{/}]]*/ "/";
+    contextPth = contextPth.slice(0, -1)
+
+    function search() {
+        const keyword = document.getElementById("order-keyword-input").value;
+        const url = new URL(window.location.href);
+        url.searchParams.set("keyword", keyword);
+        url.searchParams.set("page", 1);
+        window.location.href = url;
+    }
+
+    document.getElementById("btn-search-order").addEventListener("click", search);
+    document.getElementById("order-keyword-input").addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+            search();
+        }
+    });
+
+    const pageBtns = document.querySelectorAll("button[data-page]");
+
+    pageBtns.forEach(btn => {
+        btn.addEventListener("click", function () {
+            const page = this.getAttribute("data-page");
+            const url = new URL(window.location.href);
+            url.searchParams.set("page", page);
+            window.location.href = url.toString();
+        });
+    });
+
+    const orderRows = document.querySelectorAll("tr[data-order-id]");
+    orderRows.forEach(row => {
+        row.addEventListener("click", function () {
+            const orderId = row.getAttribute("data-order-id");
+            window.location.href = window.location.origin + contextPth + "/orders/" + orderId;
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -40,4 +40,15 @@ public class OrderService {
 
         return orderRepository.findAllByKeywordAndCustomerIdAndStatus(keyword, customerId, status, PageRequest.of(page, PAGE_SIZE, Sort.by("orderTime").descending()));
     }
+
+    public Page<Order> findAllByKeywordAndStatus(String keyword, OrderStatus status, Integer page) {
+        if (page > 0) page--;
+        if (page < 0) page = 0;
+
+        if (status == null) {
+            return orderRepository.findAllByKeyword(keyword, PageRequest.of(page, PAGE_SIZE, Sort.by("orderTime").descending()));
+        }
+
+        return orderRepository.findAllByKeywordAndStatus(keyword, status, PageRequest.of(page, PAGE_SIZE, Sort.by("orderTime").descending()));
+    }
 }
