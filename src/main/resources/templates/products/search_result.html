@@ -12,7 +12,8 @@
     <div class="flex flex-row gap-5 items-center flex-wrap">
         <details class="dropdown" id="brand-dropdown">
             <summary class="m-1 btn" th:if="${selectedBrand == null}">Chọn hãng</summary>
-            <summary class="m-1 btn btn-primary" th:if="${selectedBrand != null}" th:text="${'Hãng: ' + selectedBrand.name}"></summary>
+            <summary class="m-1 btn btn-primary" th:if="${selectedBrand != null}"
+                     th:text="${'Hãng: ' + selectedBrand.name}"></summary>
             <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
                 <div class="overflow-y-auto max-h-96">
                     <li>
@@ -26,8 +27,9 @@
         </details>
 
         <details class="dropdown" id="category-dropdown">
-            <summary class="m-1 btn" th:if="${selectedBrand == null}">Chọn loại</summary>
-            <summary class="m-1 btn btn-primary" th:if="${selectedCategory != null}" th:text="${'Loại: ' + selectedCategory.name}"></summary>
+            <summary class="m-1 btn" th:if="${selectedCategory == null}">Chọn loại</summary>
+            <summary class="m-1 btn btn-primary" th:if="${selectedCategory != null}"
+                     th:text="${'Loại: ' + selectedCategory.name}"></summary>
             <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
                 <div class="overflow-y-auto max-h-96">
                     <li>
@@ -191,6 +193,15 @@
 
     categoryDropdown.addEventListener("click", function (event) {
         brandDropdown.removeAttribute("open");
+    });
+
+    window.addEventListener("click", function (e) {
+        if (!brandDropdown.contains(e.target)) {
+            brandDropdown.open = false;
+        }
+        if (!categoryDropdown.contains(e.target)) {
+            categoryDropdown.open = false;
+        }
     });
 
 </script>
