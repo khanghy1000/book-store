@@ -126,9 +126,16 @@
 
     const orderRows = document.querySelectorAll("tr[data-order-id]");
     orderRows.forEach(row => {
-        row.addEventListener("click", function () {
+        row.addEventListener("click", function (e) {
             const orderId = row.getAttribute("data-order-id");
-            window.location.href = window.location.origin + contextPth + "/orders/" + orderId;
+            const orderDetailsUrl = window.location.origin + contextPth + "/orders/" + orderId;
+
+            if (e.ctrlKey) {
+                window.open(orderDetailsUrl, "_blank");
+                return;
+            }
+
+            window.location.href = orderDetailsUrl;
         });
     });
 
