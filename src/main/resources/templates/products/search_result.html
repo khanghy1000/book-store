@@ -11,7 +11,8 @@
 
     <div class="flex flex-row gap-5 items-center flex-wrap">
         <details class="dropdown" id="brand-dropdown">
-            <summary class="m-1 btn">Chọn hãng</summary>
+            <summary class="m-1 btn" th:if="${selectedBrand == null}">Chọn hãng</summary>
+            <summary class="m-1 btn btn-primary" th:if="${selectedBrand != null}" th:text="${'Hãng: ' + selectedBrand.name}"></summary>
             <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
                 <div class="overflow-y-auto max-h-96">
                     <li>
@@ -25,7 +26,8 @@
         </details>
 
         <details class="dropdown" id="category-dropdown">
-            <summary class="m-1 btn">Chọn loại</summary>
+            <summary class="m-1 btn" th:if="${selectedBrand == null}">Chọn loại</summary>
+            <summary class="m-1 btn btn-primary" th:if="${selectedCategory != null}" th:text="${'Loại: ' + selectedCategory.name}"></summary>
             <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
                 <div class="overflow-y-auto max-h-96">
                     <li>
@@ -60,15 +62,6 @@
             <i class="fa-solid fa-xmark"></i>
             Xoá bộ lọc
         </a>
-    </div>
-
-    <div class="flex flex-row gap-5">
-        <button th:if="${selectedBrand != null}"
-                th:text="${'Hãng đã chọn: ' + selectedBrand.name}"
-                class="btn btn-outline btn-primary"></button>
-        <button th:if="${selectedCategory != null}"
-                th:text="${'Loại đã chọn: ' + selectedCategory.name}"
-                class="btn btn-outline btn-primary"></button>
     </div>
 
     <h1 th:if="${products.isEmpty()}" class="text-2xl font-semibold text-center">Không tìm thấy sản phẩm nào.</h1>
@@ -199,7 +192,6 @@
     categoryDropdown.addEventListener("click", function (event) {
         brandDropdown.removeAttribute("open");
     });
-
 
 </script>
 
