@@ -36,8 +36,8 @@ public class ProductController {
     public String showProduct(@PathVariable String slug, Model model) {
         Product product = productService.findBySlug(slug);
 
-        if (product == null || !product.getEnabled()) {
-            return "redirect:/";
+        if (product == null) {
+            return "error/404";
         }
 
         model.addAttribute("product", product);
