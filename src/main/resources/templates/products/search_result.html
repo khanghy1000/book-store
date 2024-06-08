@@ -146,6 +146,7 @@
         const url = new URL(window.location.href);
         url.searchParams.set("sortBy", "name");
         url.searchParams.set("order", "asc");
+        url.searchParams.delete("page");
         window.location.href = url;
     });
 
@@ -153,6 +154,7 @@
         const url = new URL(window.location.href);
         url.searchParams.set("sortBy", "price");
         url.searchParams.set("order", "asc");
+        url.searchParams.delete("page");
         window.location.href = url;
     });
 
@@ -160,6 +162,7 @@
         const url = new URL(window.location.href);
         url.searchParams.set("sortBy", "price");
         url.searchParams.set("order", "desc");
+        url.searchParams.delete("page");
         window.location.href = url;
     });
 
@@ -171,6 +174,7 @@
             const brandId = this.getAttribute("data-brand-id");
             const url = new URL(window.location.href);
             url.searchParams.set("brandId", brandId);
+            url.searchParams.delete("page");
             window.location.href = url;
         });
     });
@@ -180,6 +184,7 @@
             const categoryId = this.getAttribute("data-category-id");
             const url = new URL(window.location.href);
             url.searchParams.set("categoryId", categoryId);
+            url.searchParams.delete("page");
             window.location.href = url;
         });
     });
