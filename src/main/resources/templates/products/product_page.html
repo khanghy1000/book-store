@@ -8,7 +8,7 @@
 <body>
 <div th:replace="~{fragments :: navbar}"></div>
 
-<div class="p-5 flex flex-col gap-20">
+<div class="p-5 flex flex-col gap-20 max-w-screen-2xl mx-auto">
 
     <div class="flex flex-row gap-10">
 
@@ -107,14 +107,31 @@
 
         <div class="overflow-x-auto flex-1 grow-[2]">
             <table class="table table-zebra">
-                <caption class="font-semibold text-xl mb-4">Thông số</caption>
                 <thead>
                 <tr>
-                    <th>Tên thông số</th>
-                    <th>Giá trị</th>
+                    <th colspan="2" class="font-semibold text-xl text-center">Thông tin sản phẩm</th>
                 </tr>
                 </thead>
                 <tbody>
+                <tr>
+                    <th>Hãng</th>
+                    <td>
+                        <a class="text-primary" th:href="@{${'/product/search?brandId=' + product.brand.id}}"
+                           th:text="${product.brand.name}">
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Loại</th>
+                    <td>
+                        <ul class="list-disc text-primary">
+                            <li th:each="category : ${product.categories}">
+                                <a th:href="@{${'/product/search?categoryId=' + category.id}}"
+                                   th:text="${category.name}"></a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
                 <tr th:each="spec : ${product.productSpecs}">
                     <th th:text="${spec.name}"></th>
                     <td th:text="${spec.value}"></td>
