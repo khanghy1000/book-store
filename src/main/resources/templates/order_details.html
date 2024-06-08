@@ -88,7 +88,13 @@
                     </thead>
                     <tbody>
                     <tr th:each="detail : ${order.orderDetails}" th:with="product = ${detail.product}">
-                        <th th:text="${product.name}"></th>
+                        <th>
+                            <a th:href="@{${'/product/' + product.slug}}"
+                               th:text="${product.name}"
+                               target="_blank"
+                               class="font-semibold"></a>
+                        </th>
+
                         <td th:text="${detail.quantity}"></td>
                         <td th:text="${#numbers.formatDecimal(detail.unitPrice * detail.quantity,0,'COMMA',1,'POINT') + '₫'}"></td>
                     </tr>

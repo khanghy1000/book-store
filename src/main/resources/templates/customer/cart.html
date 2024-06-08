@@ -47,7 +47,12 @@
                                 <img th:src="@{${product.mainImageUrl}}" alt="" class="object-contain">
                             </td>
 
-                            <td th:text="${product.name}"></td>
+                            <td>
+                                <a th:href="@{${'/product/' + product.slug}}"
+                                   th:text="${product.name}"
+                                   target="_blank"
+                                   class="font-semibold"></a>
+                            </td>
 
                             <td th:text="${#numbers.formatDecimal(product.price - product.price * (product.discountPercent / 100),0,'COMMA',1,'POINT') + '₫'}"></td>
 

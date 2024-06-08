@@ -125,7 +125,12 @@
                     </thead>
                     <tbody>
                     <tr th:each="item : ${cartItems}" th:with="product = ${item.product}">
-                        <th th:text="${product.name}"></th>
+                        <th>
+                            <a th:href="@{${'/product/' + product.slug}}"
+                               th:text="${product.name}"
+                               target="_blank"
+                               class="font-semibold"></a>
+                        </th>
                         <td th:text="${item.quantity}"></td>
                         <td th:text="${#numbers.formatDecimal((product.price - product.price * (product.discountPercent / 100)) * item.quantity,0,'COMMA',1,'POINT') + '₫'}"></td>
                     </tr>
