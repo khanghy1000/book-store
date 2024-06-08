@@ -1,8 +1,5 @@
 package io.dedyn.hy.watchworldshop.entities.location;
 
-import io.dedyn.hy.watchworldshop.entities.location.AdministrativeRegion;
-import io.dedyn.hy.watchworldshop.entities.location.AdministrativeUnit;
-import io.dedyn.hy.watchworldshop.entities.location.District;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -43,14 +40,6 @@ public class Province {
     @Size(max = 255)
     @Column(name = "code_name")
     private String codeName;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "administrative_unit_id")
-    private AdministrativeUnit administrativeUnit;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "administrative_region_id")
-    private AdministrativeRegion administrativeRegion;
 
     @OneToMany(mappedBy = "province")
     private Set<District> districts = new LinkedHashSet<>();

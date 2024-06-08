@@ -1,23 +1,3 @@
-CREATE TABLE administrative_regions (
-    id           INTEGER      NOT NULL,
-    "name"       VARCHAR(255) NOT NULL,
-    name_en      VARCHAR(255) NOT NULL,
-    code_name    VARCHAR(255) NULL,
-    code_name_en VARCHAR(255) NULL,
-    CONSTRAINT administrative_regions_pkey PRIMARY KEY (id)
-);
-
-CREATE TABLE administrative_units (
-    id            INTEGER      NOT NULL,
-    full_name     VARCHAR(255) NULL,
-    full_name_en  VARCHAR(255) NULL,
-    short_name    VARCHAR(255) NULL,
-    short_name_en VARCHAR(255) NULL,
-    code_name     VARCHAR(255) NULL,
-    code_name_en  VARCHAR(255) NULL,
-    CONSTRAINT administrative_units_pkey PRIMARY KEY (id)
-);
-
 CREATE TABLE provinces (
     code                     VARCHAR(20)  NOT NULL,
     "name"                   VARCHAR(255) NOT NULL,
@@ -25,18 +5,8 @@ CREATE TABLE provinces (
     full_name                VARCHAR(255) NOT NULL,
     full_name_en             VARCHAR(255) NULL,
     code_name                VARCHAR(255) NULL,
-    administrative_unit_id   INTEGER      NULL,
-    administrative_region_id INTEGER      NULL,
     CONSTRAINT provinces_pkey PRIMARY KEY (code)
 );
-
-ALTER TABLE provinces
-    ADD CONSTRAINT provinces_administrative_region_id_fkey FOREIGN KEY (administrative_region_id) REFERENCES administrative_regions (id);
-ALTER TABLE provinces
-    ADD CONSTRAINT provinces_administrative_unit_id_fkey FOREIGN KEY (administrative_unit_id) REFERENCES administrative_units (id);
-
-CREATE INDEX idx_provinces_region ON provinces (administrative_region_id);
-CREATE INDEX idx_provinces_unit ON provinces (administrative_unit_id);
 
 CREATE TABLE districts (
     code                   VARCHAR(20)  NOT NULL,
@@ -46,17 +16,13 @@ CREATE TABLE districts (
     full_name_en           VARCHAR(255) NULL,
     code_name              VARCHAR(255) NULL,
     province_code          VARCHAR(20)  NULL,
-    administrative_unit_id INTEGER      NULL,
     CONSTRAINT districts_pkey PRIMARY KEY (code)
 );
 
 ALTER TABLE districts
-    ADD CONSTRAINT districts_administrative_unit_id_fkey FOREIGN KEY (administrative_unit_id) REFERENCES administrative_units (id);
-ALTER TABLE districts
     ADD CONSTRAINT districts_province_code_fkey FOREIGN KEY (province_code) REFERENCES provinces (code);
 
 CREATE INDEX idx_districts_province ON districts (province_code);
-CREATE INDEX idx_districts_unit ON districts (administrative_unit_id);
 
 CREATE TABLE wards (
     code                   VARCHAR(20)  NOT NULL,
@@ -66,17 +32,13 @@ CREATE TABLE wards (
     full_name_en           VARCHAR(255) NULL,
     code_name              VARCHAR(255) NULL,
     district_code          VARCHAR(20)  NULL,
-    administrative_unit_id INTEGER      NULL,
     CONSTRAINT wards_pkey PRIMARY KEY (code)
 );
 
 ALTER TABLE wards
-    ADD CONSTRAINT wards_administrative_unit_id_fkey FOREIGN KEY (administrative_unit_id) REFERENCES administrative_units (id);
-ALTER TABLE wards
     ADD CONSTRAINT wards_district_code_fkey FOREIGN KEY (district_code) REFERENCES districts (code);
 
 CREATE INDEX idx_wards_district ON wards (district_code);
-CREATE INDEX idx_wards_unit ON wards (administrative_unit_id);
 
 CREATE TABLE roles (
     id   SMALLINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,

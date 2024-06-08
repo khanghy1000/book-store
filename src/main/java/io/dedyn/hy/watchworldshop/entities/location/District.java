@@ -44,10 +44,6 @@ public class District {
     @JoinColumn(name = "province_code")
     private Province province;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "administrative_unit_id")
-    private AdministrativeUnit administrativeUnit;
-
     @OneToMany(mappedBy = "district")
     private Set<Ward> wards = new LinkedHashSet<>();
 
