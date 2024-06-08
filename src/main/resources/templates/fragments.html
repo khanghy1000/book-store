@@ -92,6 +92,7 @@
             if (window.location.href.includes(searchUrl)) {
                 const url = new URL(window.location.href);
                 url.searchParams.set("keyword", keyword);
+                url.searchParams.delete("page");
                 window.location.href = url;
             } else {
                 window.location.href = searchUrl + '?keyword=' + keyword;

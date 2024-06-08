@@ -102,7 +102,7 @@
         const keyword = document.getElementById("order-keyword-input").value;
         const url = new URL(window.location.href);
         url.searchParams.set("keyword", keyword);
-        url.searchParams.set("page", 1);
+        url.searchParams.delete("page");
         window.location.href = url;
     }
 
