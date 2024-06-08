@@ -8,7 +8,6 @@
           th:object="${user}" class="max-w-2xl mx-auto p-5 shadow-md rounded mt-10"
           enctype="multipart/form-data">
         <h1 class="text-3xl font-semibold text-center">Chỉnh sửa thông tin cá nhân</h1>
-        <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{image}">
         <input type="hidden" th:field="*{createdAt}">
         <input type="hidden" th:field="*{role}">
@@ -17,6 +16,13 @@
             <i class="fa-solid fa-circle-info"></i>
             <span th:text="${message}"></span>
         </div>
+
+        <label class="form-control w-full">
+            <div class="label">
+                <span class="label-text">Mã tài khoản</span>
+            </div>
+            <input type="text" class="input input-bordered w-full" th:field="*{id}" readonly/>
+        </label>
 
         <label class="form-control w-full">
             <div class="label">
@@ -52,7 +58,6 @@
                           th:errors="*{email}"></span>
             </div>
         </label>
-
 
         <label class="form-control w-full">
             <div class="label">
