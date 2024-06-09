@@ -43,7 +43,7 @@
 
         <div class="flex-none" sec:authorize="isAuthenticated()">
 
-            <a th:href="@{/cart}" class="btn btn-ghost btn-circle">
+            <a sec:authorize="hasAuthority('Khách hàng')" th:href="@{/cart}" class="btn btn-ghost btn-circle">
                 <i class="fa-solid fa-cart-shopping"></i>
             </a>
 
