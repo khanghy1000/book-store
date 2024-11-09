@@ -10,7 +10,7 @@
     </div>
 
     <div class="flex flex-col items-center justify-center my-5">
-        <a th:href="@{/product/search}" class="btn btn-primary">
+        <a th:href="@{/book/search}" class="btn btn-primary">
             <i class="fa-solid fa-cart-shopping"></i>
             Tiếp tục mua sắm
         </a>
@@ -42,23 +42,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="item : ${cartItems}" th:with="product = ${item.product}">
+                        <tr th:each="item : ${cartItems}" th:with="book = ${item.book}">
                             <td class="h-[70px] w-[100px]">
-                                <img th:src="@{${product.mainImageUrl}}" alt="" class="object-contain">
+                                <img th:src="@{${book.mainImageUrl}}" alt="" class="object-contain">
                             </td>
 
                             <td>
-                                <a th:href="@{${'/product/' + product.slug}}"
-                                   th:text="${product.name}"
+                                <a th:href="@{${'/book/' + book.slug}}"
+                                   th:text="${book.name}"
                                    target="_blank"
                                    class="font-semibold"></a>
                             </td>
 
-                            <td th:text="${#numbers.formatDecimal(product.price - product.price * (product.discountPercent / 100),0,'COMMA',1,'POINT') + '₫'}"></td>
+                            <td th:text="${#numbers.formatDecimal(book.price - book.price * (book.discountPercent / 100),0,'COMMA',1,'POINT') + '₫'}"></td>
 
                             <td>
                                 <div class="flex flex-row items-center gap-2">
-                                    <form th:action="@{${'/cart/decrease/' + product.id}}"
+                                    <form th:action="@{${'/cart/decrease/' + book.id}}"
                                           th:method="post">
                                         <button class="btn btn-ghost" id="btn-decrease">-</button>
                                     </form>
@@ -68,21 +68,21 @@
                                            onkeydown="return false;"
                                            class="input input-bordered max-w-[100px]"
                                     />
-                                    <form th:action="@{${'/cart/increase/' + product.id}}"
+                                    <form th:action="@{${'/cart/increase/' + book.id}}"
                                           th:method="post">
                                         <button class="btn btn-ghost" id="btn-increase">+</button>
                                     </form>
                                 </div>
                             </td>
 
-                            <td th:text="${#numbers.formatDecimal((product.price - product.price * (product.discountPercent / 100)) * item.quantity,0,'COMMA',1,'POINT') + '₫'}"></td>
+                            <td th:text="${#numbers.formatDecimal((book.price - book.price * (book.discountPercent / 100)) * item.quantity,0,'COMMA',1,'POINT') + '₫'}"></td>
 
                             <td>
-                                <form th:action="@{'/cart/remove/' + ${product.id}}"
+                                <form th:action="@{'/cart/remove/' + ${book.id}}"
                                       class="tooltip text-error"
                                       data-tip="Xóa"
                                       th:method="post"
-                                      th:data-name="${product.name}">
+                                      th:data-name="${book.name}">
                                     <button>
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
@@ -111,7 +111,7 @@
         deleteButtons.forEach(button => {
             button.addEventListener('submit', function (e) {
                 const name = this.getAttribute('data-name');
-                if (!confirm(`Bạn có chắc chắn muốn xóa đồng hồ "${name}" khỏi giỏ hàng không?`)) {
+                if (!confirm(`Bạn có chắc chắn muốn xóa sách "${name}" khỏi giỏ hàng không?`)) {
                     e.preventDefault();
                 }
             });

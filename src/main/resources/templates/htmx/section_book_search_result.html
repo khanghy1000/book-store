@@ -1,0 +1,17 @@
+<div class="flex flex-row overflow-x-auto gap-2 p-3 z-10">
+    <th:block th:each="book : ${books}">
+        <div class="card card-compact flex-none w-[200px] bg-base-100 shadow cursor-pointer"
+             onclick="addBook(this)"
+             th:data-id="${book.id}"
+             th:data-name="${book.name}"
+             th:data-url="${book.mainImageUrl}">
+            <figure>
+                <img th:src="@{${book.mainImageUrl}}" class="w-[200px] h-[150px] object-contain"/>
+            </figure>
+            <div class="card-body">
+                <h2 class="card-title text-sm" th:text="${book.name}"></h2>
+            </div>
+        </div>
+    </th:block>
+    <p th:if="${books.isEmpty()}" class="font-semibold">Không tìm thấy kết quả.</p>
+</div>

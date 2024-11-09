@@ -18,14 +18,14 @@
             <a th:href="@{/management/orders}" th:class="${currentTab == 'orders' ? 'active' : ''}">Đơn đặt hàng</a>
         </li>
         <li>
-            <p>Đồng hồ</p>
+            <p>Sách</p>
             <ul>
-                <li><a th:href="@{/management/brands}"
-                       th:class="${currentTab == 'brands' ? 'active' : ''}">Hãng đồng hồ</a></li>
+                <li><a th:href="@{/management/publishers}"
+                       th:class="${currentTab == 'publishers' ? 'active' : ''}">Nhà xuất bản</a></li>
                 <li><a th:href="@{/management/categories}"
-                       th:class="${currentTab == 'categories' ? 'active' : ''}">Loại đồng hồ</a></li>
-                <li><a th:href="@{/management/products}"
-                       th:class="${currentTab == 'products' ? 'active' : ''}">Đồng hồ</a></li>
+                       th:class="${currentTab == 'categories' ? 'active' : ''}">Thể loại</a></li>
+                <li><a th:href="@{/management/books}"
+                       th:class="${currentTab == 'books' ? 'active' : ''}">Sách</a></li>
             </ul>
         </li>
         <li><a th:href="@{/management/sections}"
@@ -38,7 +38,7 @@
 <th:block th:fragment="navbar">
     <div class="navbar bg-base-100 shadow-sm sticky top-0 z-10">
         <div class="flex-1">
-            <a class="btn btn-ghost text-xl" th:href="@{/}">Watch World</a>
+            <a class="btn btn-ghost text-xl" th:href="@{/}">Book Store</a>
         </div>
 
         <form id="logout" th:action="@{/logout}" th:method="post"></form>

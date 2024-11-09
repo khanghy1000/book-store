@@ -10,10 +10,10 @@
 <body>
 
 <div th:fragment="category_section" class="grid grid-cols-auto-fill gap-4">
-    <!--/*@thymesVar id="category" type="io.dedyn.hy.watchworldshop.entities.Category"*/-->
+    <!--/*@thymesVar id="category" type="io.dedyn.hy.bookstore.entities.Category"*/-->
     <a th:each="sectionCategory : ${section.sectionCategories}"
        th:with="category = ${sectionCategory.category}"
-       th:href="@{${'/product/search?categoryId=' + category.id}}"
+       th:href="@{${'/book/search?categoryId=' + category.id}}"
        th:text="${category.name}"
        class="btn btn-ghost ring-1 ring-base-300 overflow-hidden">
     </a>

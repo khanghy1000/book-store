@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      data-theme="light">
+
+<head th:replace="~{fragments :: header_files(${book.name})}"></head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+
+<div class="p-5 flex flex-col gap-20 max-w-screen-2xl mx-auto">
+
+    <div class="flex flex-row gap-10">
+
+        <div class="embla flex-1">
+            <div class="embla__viewport">
+                <div class="embla__container">
+                    <div class="embla__slide">
+                        <img th:src="@{${book.mainImageUrl}}" class="w-[300px] h-[300px] object-contain mx-auto">
+                    </div>
+                    <div class="embla__slide" th:each="image: ${book.bookImages}">
+                        <img th:src="${image.url}" class="w-[300px] h-[300px] object-contain mx-auto">
+                    </div>
+                </div>
+            </div>
+            <div class="embla__controls">
+                <div class="embla__buttons">
+                    <button class="embla__button embla__button--prev" type="button">
+                        <i class="fa-solid fa-angle-left"></i>
+                    </button>
+
+                    <button class="embla__button embla__button--next" type="button">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </button>
+                </div>
+
+                <div class="embla__dots"></div>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col gap-5">
+            <h1 class="text-3xl font-bold" th:text="${book.name}"></h1>
+            <div class="prose prose-ul:list-disc prose-ol:list-decimal" th:utext="${book.shortDescription}"></div>
+
+            <p>
+                <span class="font-semibold">Số hàng còn lại: </span><span th:text="${book.quantity}"></span>
+            </p>
+
+            <div class="flex flex-row gap-3 items-center">
+                <p class="font-bold text-2xl text-red-600"
+                   th:text="${#numbers.formatDecimal(book.price - book.price * (book.discountPercent / 100),0,'COMMA',1,'POINT') + '₫'}">
+                </p>
+                <p class="line-through"
+                   th:text="${#numbers.formatDecimal(book.price,0,'COMMA',1,'POINT') + '₫'}"></p>
+                <span class="badge badge-primary"
+                      th:text="${'-' + book.discountPercent + '%'}"></span>
+            </div>
+
+            <th:block th:if="${book.enabled}">
+
+                <button th:if="${book.quantity <= 0}" class="btn">Hết hàng</button>
+
+                <a th:if="${book.quantity > 0}" sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn">Vui
+                    lòng đăng nhập để mua</a>
+
+                <form th:action="@{/cart/add}"
+                      th:method="post"
+                      th:if="${book.quantity > 0}"
+                      sec:authorize="hasAuthority('Khách hàng')"
+                      id="cart">
+                    <input type="hidden" name="bookId" th:value="${book.id}">
+                    <p class="mb-2 text-sm">Số lượng <span class="text-error">*</span></p>
+                    <div class="flex flex-row items-center gap-2">
+                        <button type="button" class="btn btn-ghost" id="btn-decrease">-</button>
+                        <input type="number"
+                               min="1"
+                               th:max="${book.quantity}"
+                               value="1"
+                               placeholder="Số lượng"
+                               required
+                               onkeydown="return false;"
+                               class="input input-bordered max-w-[100px]"
+                               name="quantity"/>
+                        <button type="button" class="btn btn-ghost" id="btn-increase">+</button>
+                    </div>
+                </form>
+
+                <button th:if="${book.quantity > 0}"
+                        sec:authorize="hasAuthority('Khách hàng')"
+                        form="cart"
+                        class="btn btn-primary">
+                    Thêm vào giỏ hàng
+                </button>
+
+            </th:block>
+
+            <button th:if="${!book.enabled}" class="btn">Ngừng kinh doanh</button>
+
+        </div>
+
+    </div>
+
+    <div class="flex flex-row gap-10">
+
+        <div th:utext="${book.fullDescription}"
+             class="flex-1 grow-[3] prose prose-ul:list-disc prose-ol:list-decimal"></div>
+
+        <div class="overflow-x-auto flex-1 grow-[2]">
+            <table class="table table-zebra">
+                <thead>
+                <tr>
+                    <th colspan="2" class="font-semibold text-xl text-center">Thông tin sản phẩm</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>Nhà xuất bản</th>
+                    <td>
+                        <a class="text-primary" th:href="@{${'/book/search?publisherId=' + book.publisher.id}}"
+                           th:text="${book.publisher.name}">
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Thể loại</th>
+                    <td>
+                        <ul class="list-disc text-primary">
+                            <li th:each="category : ${book.categories}">
+                                <a th:href="@{${'/book/search?categoryId=' + category.id}}"
+                                   th:text="${category.name}"></a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Tác giả</th>
+                    <td>
+                        <ul class="list-disc text-primary">
+                            <li th:each="author : ${book.bookAuthors}">
+                                <a th:href="@{${'/book/search?keyword=' + author.authorName}}"
+                                   th:text="${author.authorName}"></a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr th:each="spec : ${book.bookSpecs}">
+                    <th th:text="${spec.name}"></th>
+                    <td th:text="${spec.value}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script type="module">
+    import {addPrevNextBtnsClickHandlers} from "/assets/js/embla/arrowBtn.js";
+    import {addDotBtnsAndClickHandlers} from "/assets/js/embla/dotBtn.js";
+
+    const OPTIONS = {loop: true}
+
+    const emblaNode = document.querySelector('.embla')
+    const viewportNode = emblaNode.querySelector('.embla__viewport')
+    const prevBtnNode = emblaNode.querySelector('.embla__button--prev')
+    const nextBtnNode = emblaNode.querySelector('.embla__button--next')
+    const dotsNode = emblaNode.querySelector('.embla__dots')
+
+    const emblaApi = EmblaCarousel(viewportNode, OPTIONS)
+
+    const removePrevNextBtnsClickHandlers = addPrevNextBtnsClickHandlers(
+        emblaApi,
+        prevBtnNode,
+        nextBtnNode
+    )
+    const removeDotBtnsAndClickHandlers = addDotBtnsAndClickHandlers(
+        emblaApi,
+        dotsNode
+    )
+
+    emblaApi.on('destroy', removePrevNextBtnsClickHandlers)
+    emblaApi.on('destroy', removeDotBtnsAndClickHandlers)
+
+    const btnIncrease = document.getElementById('btn-increase');
+    const btnDecrease = document.getElementById('btn-decrease');
+    const maxQuantity = parseInt(document.querySelector('input[name="quantity"]').max);
+
+    btnIncrease.addEventListener('click', () => {
+        const quantity = document.querySelector('input[name="quantity"]');
+        if (parseInt(quantity.value) >= maxQuantity) {
+            return;
+        }
+        quantity.value = parseInt(quantity.value) + 1;
+    });
+
+    btnDecrease.addEventListener('click', () => {
+        const quantity = document.querySelector('input[name="quantity"]');
+        if (parseInt(quantity.value) > 1) {
+            quantity.value = parseInt(quantity.value) - 1;
+        }
+    });
+
+</script>
+
+</body>
+</html>

@@ -87,10 +87,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="detail : ${order.orderDetails}" th:with="product = ${detail.product}">
+                    <tr th:each="detail : ${order.orderDetails}" th:with="book = ${detail.book}">
                         <th>
-                            <a th:href="@{${'/product/' + product.slug}}"
-                               th:text="${product.name}"
+                            <a th:href="@{${'/book/' + book.slug}}"
+                               th:text="${book.name}"
                                target="_blank"
                                class="font-semibold"></a>
                         </th>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<head th:replace="~{fragments :: header_files(${book.id == null ? 'Thêm sách mới' : 'Chỉnh sửa sách'})}"></head>
+<body class="flex flex-col">
+<div class="flex flex-row flex-1">
+    <div th:replace="~{management/fragments :: sidebar}"></div>
+    <div class="flex-1">
+        <div th:replace="~{management/fragments :: navbar}"></div>
+        <form th:action="@{'/management/books/' + ${book.id == null ? 'create' : 'edit'}}" th:method="post"
+              th:object="${book}" class="p-5 shadow-md rounded mt-10 max-w-4xl mx-auto"
+              enctype="multipart/form-data">
+            <h1 class="text-3xl font-semibold text-center mb-4"
+                th:text="${book.id == null ? 'Thêm sách mới' : 'Chỉnh sửa sách (mã: ' + book.id + ')'}"></h1>
+
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{createdAt}">
+            <input type="hidden" th:field="*{mainImage}">
+
+            <div role="tablist" class="tabs tabs-lifted ">
+
+                <div th:replace="~{management/books/general_form :: general}"></div>
+                <div th:replace="~{management/books/author_form :: authors}"></div>
+                <div th:replace="~{management/books/category_form :: categories}"></div>
+                <div th:replace="~{management/books/description_form :: description}"></div>
+                <div th:replace="~{management/books/image_form :: images}"></div>
+                <div th:replace="~{management/books/spec_form :: specs}"></div>
+
+            </div>
+
+            <button id="submit" class="btn btn-primary block w-full mt-5"
+                    th:text="${book.id == null ? 'Thêm' : 'Sửa'}"></button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const form = document.querySelector('form')
+
+    form.addEventListener('invalid', (e) => {
+        document.querySelector('input[aria-label="Tổng quát"]').click();
+        alert('Vui lòng điền đầy đủ thông tin!');
+    }, true);
+
+    form.addEventListener('submit', (event) => {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            document.querySelector('input[aria-label="Tổng quát"]').click();
+            alert('Vui lòng điền đầy đủ thông tin!');
+        }
+    });
+</script>
+</body>
+</html>

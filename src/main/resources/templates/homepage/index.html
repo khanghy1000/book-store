@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       data-theme="light"
 >
-<head th:replace="~{fragments :: header_files('Shop Đồng Hồ Nam Nữ Chính Hãng Đẹp & Mới')}"></head>
+<head th:replace="~{fragments :: header_files('Nhà Sách Trực Tuyến Hàng Đầu Việt Nam')}"></head>
 <body>
 <div th:replace="~{fragments :: navbar}"></div>
 
@@ -11,16 +11,16 @@
     <div th:each="section : ${sections}" class="mt-6 mb-14">
         <h2 th:text="${section.title}" class="font-semibold text-2xl text-center mb-5"></h2>
 
-        <th:block th:if="${section.type.name() == 'PRODUCT'}">
-            <th:block th:replace="~{homepage/product_section :: product_section}"></th:block>
+        <th:block th:if="${section.type.name() == 'BOOK'}">
+            <th:block th:replace="~{homepage/book_section :: book_section}"></th:block>
         </th:block>
 
         <th:block th:if="${section.type.name() == 'CATEGORY'}">
             <th:block th:replace="~{homepage/category_section :: category_section}"></th:block>
         </th:block>
 
-        <th:block th:if="${section.type.name() == 'BRAND'}">
-            <th:block th:replace="~{homepage/brand_section :: brand_section}"></th:block>
+        <th:block th:if="${section.type.name() == 'PUBLISHER'}">
+            <th:block th:replace="~{homepage/publisher_section :: publisher_section}"></th:block>
         </th:block>
     </div>
 </div>

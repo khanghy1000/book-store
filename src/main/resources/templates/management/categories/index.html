@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" data-theme="light">
-<head th:replace="~{fragments :: header_files('Loại Đồng Hồ')}">
+<head th:replace="~{fragments :: header_files('Loại Sách')}">
 </head>
 <body class="flex flex-col">
 <div class="flex flex-row flex-1">
@@ -9,7 +9,7 @@
         <div th:replace="~{management/fragments :: navbar}"></div>
         <div class="p-5">
             <div class="max-w-fit mx-auto my-5">
-                <h1 class="text-3xl font-semibold">Loại đồng hồ</h1>
+                <h1 class="text-3xl font-semibold">Thể loại sách</h1>
             </div>
             <div th:if="${message}" role="alert" class="alert my-5">
                 <i class="fa-solid fa-circle-info"></i>
@@ -62,7 +62,7 @@
     deleteButtons.forEach(button => {
         button.addEventListener('submit', function (e) {
             const name = this.getAttribute('data-name');
-            if (!confirm(`Bạn có chắc chắn muốn xóa loại đồng hồ "${name}" không?`)) {
+            if (!confirm(`Bạn có chắc chắn muốn xóa loại sách "${name}" không?`)) {
                 e.preventDefault();
             }
         });

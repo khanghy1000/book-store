@@ -28,12 +28,12 @@
 <th:block th:fragment="navbar">
     <div class="navbar bg-base-100 shadow-sm sticky top-0 z-10">
         <div class="flex-1 flex flex-row items-center gap-5">
-            <a class="btn btn-ghost text-xl" th:href="@{/}">Watch World</a>
+            <a class="btn btn-ghost text-xl" th:href="@{/}">Book Store</a>
             <div class="form-control flex flex-row gap-3 items-center">
                 <input id="keyword-input"
                        th:value="${keyword != null ? keyword : ''}"
                        type="text"
-                       placeholder="Tìm đồng hồ"
+                       placeholder="Tìm sách"
                        class="input input-bordered w-24 md:w-auto"/>
                 <button id="btn-search" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
@@ -85,7 +85,7 @@
 
     <script th:inline="javascript">
         const contextPath = /*[[@{/}]]*/ "/";
-        const searchUrl = window.location.origin + contextPath + "product/search";
+        const searchUrl = window.location.origin + contextPath + "book/search";
 
         function search() {
             const keyword = document.getElementById("keyword-input").value;

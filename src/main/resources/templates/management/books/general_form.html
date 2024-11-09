@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+
+<!--/*@thymesVar id="book" type="io.dedyn.hy.bookstore.entities.book.Book"*/-->
+    <th:block th:fragment="general" th:object="${book}">
+
+        <input type="radio" name="my_tabs_2" role="tab" class="tab whitespace-nowrap" aria-label="Tổng quát" checked/>
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Tên sách <span class="text-error">*</span></span>
+                </div>
+                <input type="text" placeholder="Tên sách" minlength="3" maxlength="255" required
+                       class="input input-bordered w-full" th:field="*{name}"/>
+                <div class="label">
+                        <span class="label-text-alt text-error" th:if="${#fields.hasErrors('name')}"
+                              th:errors="*{name}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Nhà xuất bản <span class="text-error">*</span></span>
+                </div>
+                <select th:field="*{publisher}" class="select select-bordered">
+                    <!--/*@thymesVar id="publisher" type="io.dedyn.hy.bookstore.entities.Publisher"*/-->
+                    <th:block th:each="publisher : ${publishers}">
+                        <option th:value="${publisher.id}" th:text="${publisher.name}"></option>
+                    </th:block>
+                </select>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('publisher')}"
+                                  th:errors="*{publisher}"></span>
+                </div>
+            </label>
+
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Độ tuổi <span class="text-error">*</span></span>
+                </div>
+                <input type="number" min="0" placeholder="Độ tuổi" required class="input input-bordered w-full"
+                       th:field="*{ageLimit}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('ageLimit')}"
+                                  th:errors="*{ageLimit}"></span>
+                </div>
+            </label>
+
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Số trang <span class="text-error">*</span></span>
+                </div>
+                <input type="number" min="0" placeholder="Số trang" required class="input input-bordered w-full"
+                       th:field="*{pageCount}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('pageCount')}"
+                                  th:errors="*{pageCount}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Ngày xuất bản <span class="text-error">*</span></span>
+                </div>
+                <input type="date" required class="input input-bordered w-full"
+                       th:field="*{publishedAt}"
+                />
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('publishedAt')}"
+                                  th:errors="*{publishedAt}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Ngôn ngữ <span class="text-error">*</span></span>
+                </div>
+                <input type="text" placeholder="Ngôn ngữ" required class="input input-bordered w-full"
+                       th:field="*{language}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('language')}"
+                                  th:errors="*{language}"></span>
+                </div>
+            </label>
+
+            <div class="form-control">
+                <label class="label cursor-pointer flex flex-row justify-start gap-5 my-3">
+                    <span class="label-text">Niên yết </span>
+                    <input type="checkbox" th:field="*{enabled}" class="checkbox checkbox-primary"/>
+                </label>
+            </div>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Số lượng <span class="text-error">*</span></span>
+                </div>
+                <input type="number" min="0" placeholder="Số lượng" required class="input input-bordered w-full"
+                       th:field="*{quantity}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('quantity')}"
+                                  th:errors="*{quantity}"></span>
+                </div>
+            </label>
+
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Giá (VNĐ) <span class="text-error">*</span></span>
+                </div>
+                <input type="number" min="0" placeholder="Giá" required class="input input-bordered w-full"
+                       th:field="*{price}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('price')}"
+                                  th:errors="*{price}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Giảm giá (%) <span class="text-error">*</span></span>
+                </div>
+                <input type="number" min="0" placeholder="Giảm giá" required class="input input-bordered w-full"
+                       th:field="*{discountPercent}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('discountPercent')}"
+                                  th:errors="*{discountPercent}"></span>
+                </div>
+            </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Tiền ship (VNĐ) <span class="text-error">*</span></span>
+                </div>
+                <input type="number" min="0" placeholder="Tiền ship" required class="input input-bordered w-full"
+                       th:field="*{shippingFee}"/>
+                <div class="label">
+                            <span class="label-text-alt text-error" th:if="${#fields.hasErrors('shippingFee')}"
+                                  th:errors="*{shippingFee}"></span>
+                </div>
+            </label>
+
+        </div>
+    </th:block>
+
+
+</body>
+</html>

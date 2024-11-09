@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div th:fragment="publisher_section" class="grid grid-cols-auto-fill gap-4">
+    <!--/*@thymesVar id="publisher" type="io.dedyn.hy.bookstore.entities.Publisher"*/-->
+    <a th:each="sectionPublisher : ${section.sectionPublishers}"
+       th:with="publisher = ${sectionPublisher.publisher}"
+       th:href="@{${'/book/search?publisherId=' + publisher.id}}"
+       class="btn btn-ghost ring-1 ring-base-300 overflow-hidden">
+        <span>
+        <img th:src="@{${publisher.logoUrl}}" class="h-[40px] w-[75px] object-contain">
+
+        </span>
+        <span th:text="${publisher.name}"></span>
+    </a>
+</div>
+
+</body>
+</html>

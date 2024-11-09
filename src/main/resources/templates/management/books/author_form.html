@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="book" type="io.dedyn.hy.bookstore.entities.book.Book"*/-->
+<th:block th:fragment="authors" th:object="${book}">
+    <input type="radio" name="my_tabs_2" role="tab" class="tab whitespace-nowrap" aria-label="Tác giả"/>
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+
+        <button type="button" class="btn btn-primary mb-5" id="btn-new-author">
+            <i class="fa-solid fa-plus"></i>
+            Thêm
+        </button>
+
+        <div id="authors" class="flex flex-col gap-5">
+            <div th:each="author : ${book.bookAuthors}" class="w-full flex flex-row gap-5">
+                <input type="hidden" name="authorIds" th:value="${author.id}">
+                <input name="authorNames" th:value="${author.authorName}" type="text" placeholder="Tên tác giả" class="input input-bordered w-full" required/>
+<!--                <input name="specValues" th:value="${author.value}" type="text" placeholder="Giá trị" class="input input-bordered w-full" required/>-->
+                <span class="cursor-pointer flex items-center btn-delete-author">
+                    <span class="fa-stack">
+                        <i class="fa-solid fa-circle fa-stack-2x text-error"></i>
+                        <i class="fa-solid fa-xmark fa-stack-1x text-white"></i>
+                    </span>
+                </span>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        const btnNewAuthor = document.getElementById('btn-new-author');
+        const authorsDiv = document.getElementById('authors');
+        const btnDeleteAuthors = document.querySelectorAll('.btn-delete-author');
+
+        btnDeleteAuthors.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.parentElement.remove();
+            });
+        });
+
+        btnNewAuthor.addEventListener('click', () => {
+            const newAuthor = document.createElement('div');
+            newAuthor.classList.add('w-full', 'flex', 'flex-row', 'gap-5');
+            newAuthor.innerHTML = `
+                <input type="hidden" name="authorIds" value="0">
+                <input name="authorNames" type="text" placeholder="Tên tác giả" class="input input-bordered w-full" required/>
+                <span class="cursor-pointer flex items-center btn-delete-author">
+                    <span class="fa-stack">
+                        <i class="fa-solid fa-circle fa-stack-2x text-error"></i>
+                        <i class="fa-solid fa-xmark fa-stack-1x text-white"></i>
+                    </span>
+                </span>
+            `;
+            newAuthor.querySelector('.btn-delete-author').addEventListener('click', () => {
+                newAuthor.remove();
+            });
+            authorsDiv.appendChild(newAuthor);
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

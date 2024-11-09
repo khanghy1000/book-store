@@ -81,40 +81,40 @@
 </div>
 
 <script>
-    const brands = document.getElementById('categories');
-    const selectedBrands = document.getElementById('selected-categories');
+    const publishers = document.getElementById('categories');
+    const selectedPublishers = document.getElementById('selected-categories');
     const btnSelect = document.getElementById('btn-select');
     const form = document.getElementById('category-form');
 
     form.addEventListener("submit", (e) => {
-        const options = selectedBrands.options;
+        const options = selectedPublishers.options;
         for (let i = 0; i < options.length; i++) {
             options[i].selected = true;
         }
     });
 
     btnSelect.addEventListener('click', () => {
-        const selectedOptions = brands.selectedOptions;
+        const selectedOptions = publishers.selectedOptions;
 
         for (let i = 0; i < selectedOptions.length; i++) {
             const selectedOption = selectedOptions[i];
             const option = document.createElement('option');
             option.value = `${selectedOption.value}-0`
             option.text = selectedOption.text;
-            selectedBrands.add(option);
+            selectedPublishers.add(option);
         }
     });
 
     function deleteCategory() {
-        selectedBrands.selectedOptions[0]?.remove();
+        selectedPublishers.selectedOptions[0]?.remove();
     }
 
     function moveUp() {
-        selectedBrands.selectedOptions[0]?.previousElementSibling?.before(selectedBrands.selectedOptions[0]);
+        selectedPublishers.selectedOptions[0]?.previousElementSibling?.before(selectedPublishers.selectedOptions[0]);
     }
 
     function moveDown() {
-        selectedBrands.selectedOptions[0]?.nextElementSibling?.after(selectedBrands.selectedOptions[0]);
+        selectedPublishers.selectedOptions[0]?.nextElementSibling?.after(selectedPublishers.selectedOptions[0]);
     }
 </script>
 </body>
