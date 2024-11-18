@@ -1,6 +1,7 @@
 import warnings
 import tensorflow as tf
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from libreco.algorithms import TwoTower
 from libreco.data import DataInfo
 
@@ -17,6 +18,14 @@ def convert_np_val(data):
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/recommend")
 def rec(user_id: int, n: int = 6):
@@ -27,4 +36,4 @@ def rec(user_id: int, n: int = 6):
 @app.get("/recommend-knn")
 def rec(item_id: int, n: int = 6):
     data = loaded_model.search_knn_items(item=item_id, k=n)
-    return convert_np_val(data)
+    return [int(x) for x in data]

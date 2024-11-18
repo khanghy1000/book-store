@@ -36,6 +36,10 @@ public class BookService {
         return bookRepository.findById(id).orElse(null);
     }
 
+    public List<Book> findAllEnabledByIds(List<Long> ids) {
+        return bookRepository.findAllByIdInAndEnabled(ids, true);
+    }
+
     public Book findBySlug(String slug) {
         return bookRepository.findFirstBySlug(slug);
     }

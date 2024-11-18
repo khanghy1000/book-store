@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum SectionType {
     BOOK("Sách", "book"),
     PUBLISHER("Nhà xuất bản", "publisher"),
-    CATEGORY("Loại", "category");
+    CATEGORY("Loại", "category"),
+    RECOMMENDATION("Đề xuất", "recommendation");
 
     private final String displayValue;
     private final String path;

@@ -11,6 +11,8 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
     Book findFirstBySlug(String slug);
 
+    List<Book> findAllByIdInAndEnabled(List<Long> ids, boolean enabled);
+
     @Query("""
         select distinct b from Book b
         left join b.categories c

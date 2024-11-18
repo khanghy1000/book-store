@@ -2,6 +2,7 @@ package io.dedyn.hy.bookstore.controller;
 
 import io.dedyn.hy.bookstore.entities.Role;
 import io.dedyn.hy.bookstore.entities.User;
+import io.dedyn.hy.bookstore.security.UserDetailsImpl;
 import io.dedyn.hy.bookstore.services.EmailService;
 import io.dedyn.hy.bookstore.services.SectionService;
 import io.dedyn.hy.bookstore.services.UserService;
@@ -12,6 +13,7 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -41,8 +43,11 @@ public class IndexController {
 
 
     @RequestMapping("/")
-    public String index(Model model) {
+    public String index(Model model,
+                        @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
         model.addAttribute("sections", sectionService.findAllEnabled());
+        model.addAttribute("userId", userDetails != null ? userService.findByEmail(userDetails.getUsername()).getId() : null);
         return "homepage/index";
     }
 
