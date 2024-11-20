@@ -2,14 +2,14 @@ import warnings
 import tensorflow as tf
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from libreco.algorithms import TwoTower
+from libreco.algorithms import WideDeep
 from libreco.data import DataInfo
 
 warnings.filterwarnings("ignore")
 tf.compat.v1.reset_default_graph()
 
-loaded_data_info = DataInfo.load("models", model_name="two_tower")
-loaded_model = TwoTower.load("models", model_name="two_tower", data_info=loaded_data_info)
+loaded_data_info = DataInfo.load("models", model_name="wide_deep")
+loaded_model = WideDeep.load("models", model_name="wide_deep", data_info=loaded_data_info)
 
 
 def convert_np_val(data):
