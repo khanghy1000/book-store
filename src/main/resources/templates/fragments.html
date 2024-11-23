@@ -29,14 +29,17 @@
     <div class="navbar bg-base-100 shadow-sm sticky top-0 z-10">
         <div class="flex-1 flex flex-row items-center gap-5">
             <a class="btn btn-ghost text-xl" th:href="@{/}">Book Store</a>
-            <div class="form-control flex flex-row gap-3 items-center">
+            <div class="form-control flex flex-row gap-3 items-center w-1/2">
                 <input id="keyword-input"
                        th:value="${keyword != null ? keyword : ''}"
                        type="text"
                        placeholder="Tìm sách"
-                       class="input input-bordered w-24 md:w-auto"/>
-                <button id="btn-search" class="btn btn-ghost"><i class="fa-solid fa-magnifying-glass"></i></button>
+                       class="input input-bordered w-24 w-full"/>
             </div>
+            <label class="label cursor-pointer flex flex-row gap-3">
+                <span class="label-text">Tìm kiếm thông minh</span>
+                <input type="checkbox" class="toggle" th:checked="${smart}" id="smart-toggle"/>
+            </label>
         </div>
 
         <form id="logout" th:action="@{/logout}" th:method="post"></form>
@@ -58,7 +61,8 @@
                     <li class="p-2 text-center font-semibold" sec:authentication="principal.fullName"></li>
                     <li sec:authorize="hasAnyAuthority('Admin', 'Bán hàng')"><a th:href="@{/management}">Quản lý</a>
                     </li>
-                    <li sec:authorize="hasAuthority('Khách hàng')"><a th:href="@{/customer/orders}">Đơn hàng của tôi</a></li>
+                    <li sec:authorize="hasAuthority('Khách hàng')"><a th:href="@{/customer/orders}">Đơn hàng của tôi</a>
+                    </li>
                     <li><a th:href="@{/profile}">Thông tin cá nhân</a></li>
                     <li>
                         <button form="logout">Đăng xuất</button>
@@ -87,24 +91,38 @@
         const contextPath = /*[[@{/}]]*/ "/";
         const searchUrl = window.location.origin + contextPath + "book/search";
 
+        const smartToggle = document.querySelector("#smart-toggle");
+
         function search() {
             const keyword = document.getElementById("keyword-input").value;
+
+            if (smartToggle.checked) {
+                window.location.href = searchUrl + '?keyword=' + keyword + '&smart=true';
+                return;
+            }
+
             if (window.location.href.includes(searchUrl)) {
                 const url = new URL(window.location.href);
                 url.searchParams.set("keyword", keyword);
                 url.searchParams.delete("page");
+                url.searchParams.delete("smart");
                 window.location.href = url;
             } else {
                 window.location.href = searchUrl + '?keyword=' + keyword;
             }
         }
 
-        document.getElementById("btn-search").addEventListener("click", search);
         document.getElementById("keyword-input").addEventListener("keyup", function (event) {
             if (event.key === "Enter") {
                 search();
             }
         });
+
+        if (window.location.href.includes(searchUrl)) {
+            smartToggle.addEventListener("change", function () {
+                search();
+            });
+        }
 
     </script>
 </th:block>

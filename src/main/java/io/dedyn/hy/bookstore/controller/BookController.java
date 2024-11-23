@@ -1,11 +1,11 @@
 package io.dedyn.hy.bookstore.controller;
 
-import io.dedyn.hy.bookstore.entities.Publisher;
 import io.dedyn.hy.bookstore.entities.Category;
+import io.dedyn.hy.bookstore.entities.Publisher;
 import io.dedyn.hy.bookstore.entities.book.Book;
-import io.dedyn.hy.bookstore.services.PublisherService;
-import io.dedyn.hy.bookstore.services.CategoryService;
 import io.dedyn.hy.bookstore.services.BookService;
+import io.dedyn.hy.bookstore.services.CategoryService;
+import io.dedyn.hy.bookstore.services.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -50,14 +50,22 @@ public class BookController {
                              @RequestParam(defaultValue = "name") String sortBy,
                              @RequestParam(defaultValue = "asc") String order,
                              @RequestParam(defaultValue = "1") Integer page,
+                             @RequestParam(defaultValue = "false") Boolean smart,
                              Model model) {
+
+        model.addAttribute("smart", smart);
+        model.addAttribute("keyword", keyword);
+
+        if (smart) {
+            return "books/smart_search_result";
+        }
+
         Page<Book> books = bookService.findEnabledByKeyword(keyword, publisherId, categoryId, page, sortBy, order);
 
         Publisher publisher = publisherService.findById(publisherId);
         Category category = categoryService.findById(categoryId);
 
         model.addAttribute("books", books);
-        model.addAttribute("keyword", keyword);
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("order", order);
         model.addAttribute("currentPage", page);

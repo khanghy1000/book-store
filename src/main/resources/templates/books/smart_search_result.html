@@ -1,43 +1,31 @@
 <!doctype html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      data-theme="light"
->
-<head th:replace="~{fragments :: header_files('Nhà Sách Trực Tuyến Hàng Đầu Việt Nam')}"></head>
+      data-theme="light">
+
+<head th:replace="~{fragments :: header_files('Kết quả tìm kiếm')}"></head>
 <body>
 <div th:replace="~{fragments :: navbar}"></div>
 
-<div class="max-w-7xl mx-auto p-5">
-    <div th:each="section : ${sections}" class="mt-6 mb-14">
-        <h2 th:text="${section.title}" class="font-semibold text-2xl text-center mb-5"></h2>
 
-        <th:block th:if="${section.type.name() == 'BOOK'}">
-            <th:block th:replace="~{homepage/book_section :: book_section}"></th:block>
-        </th:block>
+<h1 class="text-2xl font-semibold text-center mt-10 mb-10">Kết quả tìm kiếm</h1>
 
-        <th:block th:if="${section.type.name() == 'CATEGORY'}">
-            <th:block th:replace="~{homepage/category_section :: category_section}"></th:block>
-        </th:block>
-
-        <th:block th:if="${section.type.name() == 'PUBLISHER'}">
-            <th:block th:replace="~{homepage/publisher_section :: publisher_section}"></th:block>
-        </th:block>
-
-    </div>
+<div id="books" class="grid grid-cols-auto-fill gap-4">
 
 </div>
+
 <script type="module" th:inline="javascript">
-    const recommenderUrl = "http://localhost:8000";
+    const contextPath = /*[[@{/}]]*/ "/";
     const csrfToken = document.head.querySelector("[name=_csrf]").content;
-    let userId = /*[[${userId}]]*/ null;
 
-    if (userId === null) {
-        userId = "-1";
-    }
+    const smartSearchUrl = "http://localhost:8000/recommend";
+    const searchKeyword = document.getElementById("keyword-input").value;
 
-    let res = await fetch(`${recommenderUrl}/recommend?n=10&user_id=${userId}`);
-    let data = await res.json();
-    const itemIds = data[userId]
+    let res = await fetch(`${smartSearchUrl}?keyword=${searchKeyword}`);
+    const books = await res.json()
+    console.log(books);
+
+    const ids = books.map(book => book.id);
 
     res = await fetch(`${contextPath}api/book/get-by-ids`, {
         method: "POST",
@@ -46,13 +34,12 @@
             "X-CSRF-Token": csrfToken,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(itemIds)
+        body: JSON.stringify(ids)
     });
 
-    data = await res.json();
+    const bookData = await res.json();
 
-    const recommendSection = document.querySelectorAll(".recommend-section");
-    const recommendDivs = document.querySelectorAll(".recommend")
+    const booksDiv = document.querySelector("#books");
 
     const priceFormatter = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
@@ -61,7 +48,7 @@
         maximumFractionDigits: 1,
     })
 
-    data.forEach(book => {
+    bookData.forEach(book => {
         const card = document.createElement("a");
         card.href = `${contextPath}book/${book.slug}`;
         card.className = "card card-compact w-full bg-base-100 shadow-lg hover:shadow-2xl hover:cursor-pointer";
@@ -80,15 +67,10 @@
                 </div>
             </div>`
 
-        recommendDivs.forEach(div => {
-            div.appendChild(card);
-        })
+        booksDiv.appendChild(card);
     });
 
-    recommendSection.forEach(section => {
-        section.classList.remove("hidden");
-    })
-
 </script>
+
 </body>
 </html>

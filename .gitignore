@@ -36,5 +36,5 @@ node_modules/
 secret.properties
 output.css
 file_upload/
-recommender/models
+models/
 .env

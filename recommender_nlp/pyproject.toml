@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "recommender-nlp"
+version = "0.1.0"
+description = ""
+authors = ["khanghy1000 <46063255+khanghy1000@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+numpy = ">=2.0.0,<2.1.0"
+pandas = "^2.2.3"
+sqlalchemy = "^2.0.36"
+psycopg2-binary = "^2.9.10"
+python-dotenv = "^1.0.1"
+scikit-learn = "^1.5.2"
+spacy = "^3.8.2"
+pyvi = "^0.1.1"
+joblib = "^1.4.2"
+fastapi = {extras = ["standard"], version = "^0.115.5"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

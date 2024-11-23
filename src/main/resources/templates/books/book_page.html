@@ -153,17 +153,8 @@
 
     </div>
 
-    <div class="hidden recommend-section">
-        <h2 class="font-semibold text-2xl text-center mb-5">Đề xuất cho bạn</h2>
-        <div class="grid grid-cols-auto-fill gap-4 recommend"></div>
-    </div>
-
-    <div class="hidden recommend-similar-section">
-        <h2 class="font-semibold text-2xl text-center mb-5">Sản phẩm tương tự</h2>
-        <div class="grid grid-cols-auto-fill gap-4 recommend-similar"></div>
-    </div>
-
 </div>
+<div class="h-[50px] bg-primary"></div>
 
 <script type="module" th:inline="javascript">
     import {addPrevNextBtnsClickHandlers} from "/assets/js/embla/arrowBtn.js";
@@ -210,138 +201,6 @@
             quantity.value = parseInt(quantity.value) - 1;
         }
     });
-
-    async function recommendItems() {
-        const recommenderUrl = "http://localhost:8000";
-        const csrfToken = document.head.querySelector("[name=_csrf]").content;
-        let userId = /*[[${userId}]]*/ null;
-
-        if (userId === null) {
-            userId = "-1";
-        }
-
-        let res = await fetch(`${recommenderUrl}/recommend?n=10&user_id=${userId}`);
-        let data = await res.json();
-        const itemIds = data[userId]
-
-        res = await fetch(`${contextPath}api/book/get-by-ids`, {
-            method: "POST",
-            credentials: "same-origin",
-            headers: {
-                "X-CSRF-Token": csrfToken,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(itemIds)
-        });
-
-        data = await res.json();
-
-        const recommendSection = document.querySelectorAll(".recommend-section");
-        const recommendDivs = document.querySelectorAll(".recommend")
-
-        const priceFormatter = new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-            minimumFractionDigits: 1,
-            maximumFractionDigits: 1,
-        })
-
-        data.forEach(book => {
-            const card = document.createElement("a");
-            card.href = `${contextPath}book/${book.slug}`;
-            card.className = "card card-compact w-full bg-base-100 shadow-lg hover:shadow-2xl hover:cursor-pointer";
-            card.innerHTML = `
-            <figure>
-                <img src="${contextPath}books/${book.id}/${book.mainImage}" class="w-full h-[200px] object-contain"/>
-            </figure>
-            <div class="card-body flex flex-col justify-between tooltip" data-tip="${book.name}">
-                <h2 class="card-title text-sm break-words overflow-2-line">${book.name}</h2>
-                <div class="flex flex-col gap-3">
-                    <p>
-                        <span class="line-through" >${priceFormatter.format(book.price)}</span>
-                        <span class="badge badge-primary">-${book.discountPercent}%</span>
-                    </p>
-                    <p class="font-semibold text-lg btn btn-primary">₫${priceFormatter.format(book.price - book.price * (book.discountPercent / 100))} </p>
-                </div>
-            </div>`
-
-            recommendDivs.forEach(div => {
-                div.appendChild(card);
-            })
-        });
-
-        recommendSection.forEach(section => {
-            section.classList.remove("hidden");
-        })
-    }
-
-    async function recommendSimilar() {
-
-        const recommenderUrl = "http://localhost:8000";
-        const csrfToken = document.head.querySelector("[name=_csrf]").content;
-        const itemId = /*[[${book.id}]]*/ null;
-        let userId = /*[[${userId}]]*/ null;
-
-        if (userId === null) {
-            userId = "-1";
-        }
-
-        let res = await fetch(`${recommenderUrl}/recommend-knn?n=6&item_id=${itemId}`);
-        let data = await res.json();
-
-        res = await fetch(`${contextPath}api/book/get-by-ids`, {
-            method: "POST",
-            credentials: "same-origin",
-            headers: {
-                "X-CSRF-Token": csrfToken,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        });
-
-        data = await res.json();
-
-        const recommendSection = document.querySelectorAll(".recommend-similar-section");
-        const recommendDivs = document.querySelectorAll(".recommend-similar")
-
-        const priceFormatter = new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-            minimumFractionDigits: 1,
-            maximumFractionDigits: 1,
-        })
-
-        data.forEach(book => {
-            const card = document.createElement("a");
-            card.href = `${contextPath}book/${book.slug}`;
-            card.className = "card card-compact w-full bg-base-100 shadow-lg hover:shadow-2xl hover:cursor-pointer";
-            card.innerHTML = `
-            <figure>
-                <img src="${contextPath}books/${book.id}/${book.mainImage}" class="w-full h-[200px] object-contain"/>
-            </figure>
-            <div class="card-body flex flex-col justify-between tooltip" data-tip="${book.name}">
-                <h2 class="card-title text-sm break-words overflow-2-line">${book.name}</h2>
-                <div class="flex flex-col gap-3">
-                    <p>
-                        <span class="line-through" >${priceFormatter.format(book.price)}</span>
-                        <span class="badge badge-primary">-${book.discountPercent}%</span>
-                    </p>
-                    <p class="font-semibold text-lg btn btn-primary">₫${priceFormatter.format(book.price - book.price * (book.discountPercent / 100))} </p>
-                </div>
-            </div>`
-
-            recommendDivs.forEach(div => {
-                div.appendChild(card);
-            })
-        });
-
-        recommendSection.forEach(section => {
-            section.classList.remove("hidden");
-        })
-    }
-
-    recommendItems()
-    // recommendSimilar()
 
 </script>
 
