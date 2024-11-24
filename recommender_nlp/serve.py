@@ -9,13 +9,7 @@ warnings.filterwarnings("ignore")
 
 knn_model = KnnModel()
 knn_model.train_model("./models/knn.model")
-
 knn_model.load_model("./models/knn.model")
-
-
-def convert_np_val(data):
-    return {int(key): value.tolist() for key, value in data.items()}
-
 
 app = FastAPI()
 
@@ -31,5 +25,4 @@ app.add_middleware(
 @app.get("/recommend")
 def rec(keyword: str, k: int = 5):
     data = knn_model.recommend(keyword, k)
-    # return convert_np_val(data)
     return data
