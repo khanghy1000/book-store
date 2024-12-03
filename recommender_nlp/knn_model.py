@@ -54,9 +54,7 @@ class KnnModel:
                 self.data["category_2"] + " " +
                 self.data["category_3"] + " " +
                 self.data["author_1"] + " " +
-                self.data["author_2"] + " " +
-                self.data["short_description"] + " " +
-                self.data["full_description"] + " "
+                self.data["author_2"]
 
         )
         self.nlp.Defaults.stop_words.add("sách")
